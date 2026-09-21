@@ -1,4 +1,4 @@
-## 研究方向
+## 内容
 
 图像生成 + Diffusion Model + VAE + Latent Space
 
