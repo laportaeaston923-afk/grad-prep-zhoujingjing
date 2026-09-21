@@ -1,5 +1,3 @@
-# High-Resolution Image Synthesis with Latent Diffusion Models
-
 ## 研究方向
 
 图像生成 + Diffusion Model + VAE + Latent Space
