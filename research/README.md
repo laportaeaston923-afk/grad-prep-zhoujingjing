@@ -1,2 +1,2 @@
-01 CLAR
-02 latent diffusion model
+##01 CLAR
+##02 latent diffusion model
