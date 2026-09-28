@@ -37,11 +37,16 @@ Generator 和 Discriminator 需要相互博弈；
 ## 3. 核心思想
 不让 CSI 直接生成大量 RGB 像素，而是先把 CSI 映射到 Stable Diffusion 的 latent 空间，再利用预训练的 Latent Diffusion Model 完成图像生成。
 ## 4. 整体框架
+
 #推理 / 采样过程
+
 <img width="391" height="236" alt="image" src="https://github.com/user-attachments/assets/aabc3904-64c7-48bc-a59c-9bc76bea661d" />
 Text 的作用更接近：提供额外的语义控制
+
 #训练过程
+
 <img width="381" height="250" alt="image" src="https://github.com/user-attachments/assets/1c31520b-a997-4ff8-9a17-e9e2a3c2ac54" />
+
 z：真实图片经过预训练 VAE Encoder 得到的 latent；
 ẑ：CSI Encoder 根据 CSI 预测得到的 latent。
 计算 latent MSE：L = ||ẑ - z||²
