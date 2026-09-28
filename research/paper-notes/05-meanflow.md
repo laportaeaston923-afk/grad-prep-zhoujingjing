@@ -10,6 +10,8 @@ MeanFlow 是一种单步生成（One-step Generation）方法。
 - `MeanFlow`：学习平均速度，可以直接从噪声跳到数据，实现单步生成。
 
 ```TEXT
-<img width="203" height="52" alt="image" src="https://github.com/user-attachments/assets/7dbb448f-1788-48a4-9546-c221ab3c35b6" />
-
+DDPM 噪声 → 去噪 → 去噪 → …… → 图像
+DDIM 噪声 → 少量去噪步骤 → …… → 图像
+Flow Matching 噪声 → 多次沿瞬时速度移动 → 图像
+MeanFlow 噪声 ─────────────→ 图像
 ```
