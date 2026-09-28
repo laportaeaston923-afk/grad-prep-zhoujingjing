@@ -15,3 +15,6 @@ DDIM 噪声 → 少量去噪步骤 → …… → 图像
 Flow Matching 噪声 → 多次沿瞬时速度移动 → 图像
 MeanFlow 噪声 ─────────────→ 图像
 ```
+## 2. 核心公式
+
+<img width="247" height="66" alt="image" src="https://github.com/user-attachments/assets/fbfa3637-54bd-4c2c-861e-39db19e2ece7" />
