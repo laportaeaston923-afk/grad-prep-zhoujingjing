@@ -5,7 +5,7 @@ High-resolution efficient image generation from WiFi CSI using a pretrained late
 利用 WiFi CSI 重建一个高维的、可视化的、可控制的图像表示
 
 ## 2. 已有方法有什么问题？
--1.直接在像素空间生成图像：
+- 1.直接在像素空间生成图像：
 ```text
 CSI-->Generator-->RGB Image
 ```
