@@ -330,7 +330,8 @@ DDPM 使用噪声预测损失训练，并通过 Replay Buffer 保存训练样本
 
 需要注意，Algorithm 1 中 VAE 的 ELBO 更新仍位于逐 Block 循环内，并没有明确在第 400 个 Block 后停止。因此，不能简单地理解为训练阶段结束后所有网络参数都完全冻结。
 
-<img width="1774" height="887" alt="10 8" src="https://github.com/user-attachments/assets/0c6a9fb2-7867-4125-b1f3-d626d37ee84c" />
+<img width="877" height="439" alt="image" src="https://github.com/user-attachments/assets/7fa75895-c765-4b32-8957-afc0c9918647" />
+
 
 
 ## 5. 总结
