@@ -1,47 +1,68 @@
-## 内容
+# 论文名称
 
-图像生成 + Diffusion Model + VAE + Latent Space
+**High-Resolution Image Synthesis with Latent Diffusion Models（LDM）**
 
----
+## 1. 核心内容
 
-## 相对于 DDPM 的好处
-DDPM 是直接在原始图片的像素空间进行扩散和去噪：
-原始图片->不断加噪->噪声->逐步去噪->生成图片
-但是图片的像素空间维度很高，尤其是高分辨率图片，直接在像素空间进行 Diffusion 会产生很大的计算量。
-LDM 不在原始图片空间做 Diffusion，而是先把图片压缩到一个更小的隐空间（Latent Space），再在隐空间中进行 Diffusion。
+将图像生成、Diffusion Model、VAE 和 Latent Space 结合起来，在压缩后的潜在空间中进行扩散生成。
 
-## 优势
-1. **计算量更小**
-原始图片的像素数量很多，直接做 Diffusion 计算量比较大。
-LDM 先把图片压缩到 Latent Space，在更小的空间中进行 Diffusion，因此可以降低计算量。
-2. **更适合高分辨率图片生成**
-图片分辨率越高，像素空间就越大。
-DDPM 直接在像素空间进行计算会越来越困难，而 LDM 可以先压缩图片，再在 Latent Space 中进行 Diffusion，因此更适合高分辨率图像生成。
-3. **训练和生成效率更高**
-因为 Diffusion 不再直接处理大量像素，而是在压缩后的 Latent Space 中工作，所以能够减少计算和显存开销。
+## 2. 已有方法有什么问题？
 
----
+DDPM 直接在原始图片像素空间中加噪和去噪：
 
-## 整个模型运行
-LDM 可以理解成：
-**先压缩 → 在隐空间做 Diffusion → 再还原**
-1.Encoder 压缩图片
-输入一张真实图片：
-Image->Encoder->Latent
-Encoder的作用就是把原始图片压缩成一个维度更低的 Latent 表示。
-2.在 Latent Space 中进行 Diffusion
-得到 Latent 后，就和 DDPM 一样进行扩散过程。
-前向过程
-不断向 Latent 中加入噪声
+```text
+原始图片 → 不断加噪 → 噪声 → 逐步去噪 → 生成图片
+```
+
+- **计算量大：** 高分辨率图片的像素维度很高，直接在像素空间进行 Diffusion 需要较多计算。
+- **生成成本高：** 随分辨率提高，训练与采样开销增大。
+
+## 3. 核心思想
+
+**先压缩 → 在隐空间做 Diffusion → 再还原。**
+
+LDM 不在原始 Image Space 中进行扩散，而是先通过 Encoder 将图片压缩到低维 Latent Space，再在 Latent Space 中执行扩散与去噪。
+
+主要优势：
+
+1. 在更小的空间中进行扩散，减少计算量。
+2. 相比直接在像素空间计算，更适合高分辨率图片生成。
+3. 降低模型训练与生成所需的计算和显存开销。
+
+## 4. 整体框架
+
+### （1）Encoder 压缩图片
+
+```text
+Image → Encoder → Latent
+```
+
+Encoder 将原始图像变成维度更低的 Latent 表示。
+
+### （2）在 Latent Space 中进行 Diffusion
+
+前向加噪：
+
+```text
 z₀ → z₁ → z₂ → …… → zₜ
-训练模型学习反向去噪
+```
+
+模型学习反向去噪：
+
+```text
 zₜ → zₜ₋₁ → zₜ₋₂ → …… → z₀
-和 DDPM 最大的区别就在于：
-DDPM 是在 Image Space 里面做这个过程，而 LDM 是在 Latent Space 里面做这个过程。 
-4.Decoder 把 Latent 还原成图片
-LDM 的理解
+```
 
-LDM 的核心思想：
+**DDPM 与 LDM 的主要区别：** 前者直接在 Image Space 中执行扩散，后者在压缩的 Latent Space 中执行扩散。
 
-**先用 Encoder 把图片压缩到 Latent Space，再在 Latent Space 中进行 Diffusion，最后用 Decoder 把生成的 Latent 还原成图片。**
+### （3）Decoder 将 Latent 还原成图片
 
+```text
+生成的 Latent → Decoder → Image
+```
+
+## 5. 总结与我的理解
+
+LDM 的核心思想是：**使用 Encoder 将图片压缩到 Latent Space，在潜在空间进行 Diffusion，最后用 Decoder 将生成的 Latent 还原成图片。**
+
+我的理解是：LDM 并没有取消扩散模型的加噪与去噪过程，而是改变了扩散发生的空间，以降低高分辨率图像生成的成本。
