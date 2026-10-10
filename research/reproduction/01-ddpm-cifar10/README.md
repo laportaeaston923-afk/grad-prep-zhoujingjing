@@ -59,6 +59,10 @@
 | 扩散时间步 | 1000 |
 | 训练 Batch Size | 256 |
 | Learning Rate | 2e-4 |
+| 优化器（初始训练） | Adam |
+| 损失函数 | MSELoss |
+| 图像归一化 | 每通道使用 mean=0.5、std=0.5，映射至 [-1,1] |
+| DataLoader | shuffle=True、num_workers=4 |
 | 初始训练 | 100 Epoch |
 | 继续训练 | 额外 20 Epoch（结果整理中） |
 | 单次采样图片 | 16 张 |
@@ -66,9 +70,29 @@
 
 ## 5. DDPM 训练与结果
 
-### 5.1 初始训练
+### 5.1 初始训练（`train.py`）
 
-在 CIFAR-10 上训练 DDPM 共 100 Epoch，并将训练得到的模型参数保存为 `ddpm.pth`。
+在 CIFAR-10 训练集上训练 DDPM，共 100 Epoch，并在训练结束后将模型参数保存为 `ddpm.pth`。
+
+**实际训练流程：**
+
+```text
+CIFAR-10 图像 x₀（归一化至 [-1,1]）
+     ↓
+随机采样时间步 t ∈ {0, …, 999} 与高斯噪声 ε
+     ↓
+ddpm.q_sample(x₀, t, ε) → 得到 xₜ
+     ↓
+ddpm.eps_model(xₜ, t) → 预测噪声 εθ
+     ↓
+MSE(εθ, ε)
+     ↓
+optimizer.zero_grad() → loss.backward() → optimizer.step()
+```
+
+`train.py` 中用 `Adam(lr=2e-4)` 优化模型；`t` 作为浮点数传给 U-Net，作为整数索引传给 `q_sample()`。每轮通过 `tqdm` 显示当前 Batch Loss 和按样本数加权的平均 Loss。
+
+**日志与权重说明：** 这份原始 `train.py` 只在终端显示、打印 Loss，没有自行写入 CSV、绘制或保存 Loss 曲线；`ddpm.pth` 也是在 100 Epoch 全部结束后才保存。后续 20 Epoch 的继续训练属于另一个脚本，不应与这份初始训练代码混淆。
 
 ### 5.2 继续训练
 
