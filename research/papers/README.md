@@ -1,2 +1,36 @@
-## Latent diffusion model论文地址：
-https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html
+# Papers · 论文出处与阅读索引
+
+> **Generative Models × Wireless Sensing**  
+> 从生成模型基础出发，关注扩散模型在无线数据增强、环境重建与目标跟踪中的应用。
+
+本页统一整理论文的**原文入口**与**个人学习记录**。
+
+**阅读方式：** 📄 **仓库 PDF** 表示文件已收录在本仓库；🔗 **官方链接** 指向 arXiv 或会议论文页面。点击「阅读笔记 / 复现」可查看对应学习记录。
+
+## 01 · 生成模型基础
+
+| 论文 | 年份 / 出处 | 主要内容 | 论文原文 | 学习记录 |
+|---|---|---|---|---|
+| **DDPM** · Denoising Diffusion Probabilistic Models | NeurIPS 2020 | 前向加噪与反向去噪 | 🔗 [arXiv](https://arxiv.org/abs/2006.11239) | [CIFAR-10 复现](../reproduction/01-ddpm-cifar10/) |
+| **DDIM** · Denoising Diffusion Implicit Models | ICLR 2021 | 更少步骤的扩散采样 | 🔗 [arXiv](https://arxiv.org/abs/2010.02502) | [DDIM 复现记录](../reproduction/01-ddpm-cifar10/) |
+| **LDM** · High-Resolution Image Synthesis with Latent Diffusion Models | CVPR 2022 | 潜在空间扩散与高分辨率图像生成 | 🔗 [CVPR 官方](https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html) | [阅读笔记](../paper-notes/02-latent%20diffusion%20model.md) |
+| **MeanFlow** · Mean Flows for One-step Generative Modeling | 2025 | 单步生成与采样效率 | 📄 [仓库 PDF](mean%20flow.pdf) | [阅读笔记](../paper-notes/05-meanflow.md) |
+
+## 02 · 无线感知与扩散模型
+
+| 论文 / 方法 | 年份 | 研究任务 | 论文原文 | 阅读笔记 |
+|---|---|---|---|---|
+| **CLAR** | 2024 | WiFi CSI 数据增强与人体活动识别 | 📄 [仓库 PDF](CLAR_WiFi_CSI_HAR_2024.pdf) | [阅读笔记](../paper-notes/01-CLAR.md) |
+| **LatentCSI** · High-resolution Efficient Image Generation from WiFi CSI Using a Pretrained Latent Diffusion Model | 2025 | CSI 到 RGB 图像生成 | 📄 [仓库 PDF](LatentCSI_WiFi_CSI_Image_Generation_2025.pdf) | [阅读笔记](../paper-notes/03-LatentCSI.md) |
+| **WiFi-Diffusion** | 2025 | 低采样率 Radio Map 估计 | 📄 [仓库 PDF](WiFi-Diffusion_Radio_Map_Estimation_2025.pdf) | [阅读笔记](../paper-notes/04-wifi%20diffusion.md) |
+| **Echo-Conditioned DDPM** · Multi-Target Tracking in RF Sensing | 2025 · arXiv | RF 多目标状态预测与波束选择 | 🔗 [arXiv](https://arxiv.org/abs/2510.25464) | [阅读笔记](../paper-notes/06-Echo-Conditioned%20Denoising%20Diffusion.md) |
+
+---
+
+### 资料维护说明
+
+- 优先使用仓库中**已经存在**的 PDF；尚未存入仓库的论文提供稳定的官方入口。
+- 「论文原文」与「个人阅读笔记」分开维护，避免来源与个人理解混淆。
+- 论文版权归原作者及相关权利人所有。后续上传 PDF 前先确认再分发许可；不适合上传的论文仅提供官方链接。
+
+[← 返回科研主页](../README.md)
