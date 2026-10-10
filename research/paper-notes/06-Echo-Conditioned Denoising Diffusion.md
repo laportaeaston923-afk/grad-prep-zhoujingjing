@@ -334,7 +334,7 @@ DDPM 使用噪声预测损失训练，并通过 Replay Buffer 保存训练样本
 
 
 
-## 5. 总结
+## 5. 总结与我的理解
 
 这篇论文提出了一种基于 **VAE + Conditional DDPM + Beam Selection** 的多目标 RF 感知跟踪框架。
 
