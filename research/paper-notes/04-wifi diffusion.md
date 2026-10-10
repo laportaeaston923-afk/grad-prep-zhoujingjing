@@ -1,4 +1,5 @@
 # 论文名称
+
 WiFi-Diffusion: Achieving Fine-Grained WiFiRadio Map Estimation with Ultra-Low SamplingRate by Diffusion Models
 ## 1. 核心内容
 在只采集极少量 WiFi 无线电样本的情况下，如何生成整个区域的高分辨率、细粒度 Radio Map。
@@ -50,5 +51,5 @@ Radio Map 可以理解成：
   从64个候选 Radio Map 中选出最好的一个
 真实的 Radio Map 在实际推理时是`未知`的，所以不能直接通过与真实地图比较来选择结果。
 因此，该模块利用无线信号传播相关的物理先验，从多个候选 Radio Map 中选择最合理的一个，最终得到高分辨率的无线电地图。
-## 5. 总结
+## 5. 总结与我的理解
 利用 Diffusion 的生成能力，在极少的无线电采样点下生成多个可能的细粒度 Radio Map，再结合无线传播规律从中选出最合理的结果。
