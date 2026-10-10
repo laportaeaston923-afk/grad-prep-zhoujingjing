@@ -55,7 +55,6 @@ U-Net 噪声预测以及模型训练过程。
 | Batch Size | 256 |
 | Learning Rate | 2e-4 |
 | 初始训练 | 100 Epoch |
-| 继续训练 | 20 Epoch |
 | 总训练轮数 | 120 Epoch |
 
 ## 5. 实验结果
