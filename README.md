@@ -1,10 +1,9 @@
 # 个人简介
+
 - 姓名：周晶晶
 - 目前学习的方向：生成模型 × 无线感知
 
-> **研究生阶段科研准备记录**  
-
-**关键词：** `DDPM` · `DDIM` · `Latent Diffusion` · `MeanFlow` · `WiFi CSI` · `RF Sensing`
+> **研究生阶段科研记录**  
 
 [📚 论文笔记](research/paper-notes/) · [📄 论文索引](research/papers/README.md) · [💻 代码复现](research/reproduction/01-ddpm-cifar10/) · [🛠 工程实践](engineering/README.md)
 
