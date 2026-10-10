@@ -13,6 +13,7 @@
 | 代码复现 | DDPM/DDIM CIFAR-10 | 2 篇 |
 | 研究想法 | 暂无 | 0 个 |
 | 工程实践 | PyTorch 训练与调试 | 持续学习 |
+
 详细内容：[科研任务](research/README.md)
 
 ## 工程实践
