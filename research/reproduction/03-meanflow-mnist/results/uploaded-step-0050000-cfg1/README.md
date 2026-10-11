@@ -48,4 +48,8 @@ python eval_fid.py --checkpoint step_0050000.pt --config configs/mnist_uploaded_
 
 ![五步采样预览](preview_5step.png)
 
+## 训练 Loss
+
+目前没有收到该权重对应的原始 `train.log` / `loss.csv`，因此没有这次训练的 Loss 曲线。纯模型参数无法还原训练历史。[日志位置与绘图方法](../../README.md#本次上传权重的-loss-曲线)已整理；提供与权重同一次运行的训练日志和配置后，可生成并补齐真实曲线。
+
 [← 返回实验说明](../../README.md)

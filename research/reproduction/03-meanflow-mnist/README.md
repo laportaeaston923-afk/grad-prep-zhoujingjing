@@ -4,6 +4,27 @@
 
 **状态：代码流程已验证；上传权重的 MNIST FID 已实测：一步 179.8574、五步 17.9291（CFG=1，各 10,000 张）。** [查看评估记录与样本](results/uploaded-step-0050000-cfg1/)。本目录训练脚本的完整训练、RTX 5060 Laptop GPU 的 BF16 验证仍待完成。
 
+## 实测结果与生成图片
+
+| 采样 | 模型调用次数（NFE） | FID ↓ |
+|---|---:|---:|
+| 一步（核心结果） | 1 | **179.8574** |
+| 五步（补充对照） | 5 | **17.9291** |
+
+评估使用上传的 `step_0050000.pt`：每种采样 10,000 张生成图，对比 10,000 张 MNIST test 图片；CFG=1，CPU / FP32。[完整评估记录](results/uploaded-step-0050000-cfg1/) · [原始 FID JSON](results/uploaded-step-0050000-cfg1/fid.json)。
+
+MeanFlow 的核心目标是一步生成；五步用于质量对照，五步的较低 FID 不能证明一步高质量生成已复现成功。FID 越低表示这里采用的 Inception 特征分布越接近，不可直接和不同数据集或协议的分数比较。
+
+下面每张网格展示对应评估最先生成的 100 张图片，不是全部 10,000 张。两种采样使用相同类别与初始噪声，类别顺序随机固定。
+
+**一步生成：**
+
+![一步生成，FID 179.8574](results/uploaded-step-0050000-cfg1/preview_1step.png)
+
+**五步生成（补充对照）：**
+
+![五步生成，FID 17.9291](results/uploaded-step-0050000-cfg1/preview_5step.png)
+
 ## 1. 来源与复现范围
 
 - 原论文：[Mean Flows for One-step Generative Modeling](https://arxiv.org/abs/2505.13447)。
@@ -42,6 +63,20 @@
 - `loss_curve.png`：真实区间平均 Loss 与原始 MF 速度 MSE 曲线。
 - `images/step_0000500_1step.png`：固定噪声、固定类别的一步采样网格。
 - `ckpts/step_0000500.pt`：模型、优化器、scheduler、step、Loss 历史及随机数状态。
+
+### 本次上传权重的 Loss 曲线
+
+**目前缺少这份权重对应的真实训练日志，因此尚未上传其 Loss 曲线。** `step_0050000.pt` 只有模型参数，无法恢复历史 Loss；不以短测曲线代替该模型的完整训练曲线。
+
+已有实验记录提到原训练日志位于 `logs/mnist_50k/train.log`（iMF）或 `logs/mnist_meanflow_50k/train.log`（MeanFlow）。请按这次权重的来源选择同一运行目录的 `train.log` 和 `config.py`，不要仅凭相同权重文件名匹配。
+
+新增 [plot_training_loss.py](plot_training_loss.py) 可把上游 `train.log` 或本目录的 `loss.csv` 转成真实记录曲线，无需重新训练。例如，从项目根目录运行：
+
+```bat
+python plot_training_loss.py --input logs/mnist_50k/train.log --out results/mnist-50k-training
+```
+
+输出 `loss_curve.png`、`loss.csv`、`loss_source.json`（原日志哈希与实际记录范围）。仅绘制日志中的记录点，不平滑或填补缺失记录。如果日志不完整，图中只能展示实际记录的部分。
 
 ## 4. 一步生成与耗时记录
 
