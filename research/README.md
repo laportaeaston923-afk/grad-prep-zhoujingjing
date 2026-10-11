@@ -33,10 +33,10 @@
 
 | 项目 | 数据集 | 实验内容 | 状态 |
 |---|---|---|---|
-| [DDPM](reproduction/01-ddpm-cifar10/) | CIFAR-10 | 从头训练 120 Epoch、原始采样、完整训练 Loss | 代码及结果待上传 |
+| [DDPM](reproduction/01-ddpm-cifar10/) | CIFAR-10 | 使用 `train_full_120_amp.py` 从头进行 120 Epoch AMP 训练；记录 `train_results_120_amp/` Loss | 代码及结果待上传 |
 | [DDIM](reproduction/02-ddim-cifar10/) | CIFAR-10 | 复用 DDPM 权重、尝试 50 步采样 | 代码及结果待上传 |
 
-目前 DDPM 采用从头训练 120 Epoch 的实验记录；DDIM 使用 DDPM 训练所得权重进行采样，不单独训练。
+最终 DDPM 实验选用 AMP 混合精度从头训练 120 Epoch 的版本，Loss 以 `train_results_120_amp/` 中的记录为准，不再采用旧的继续训练日志。DDIM 复用 DDPM 噪声预测网络权重进行采样，不单独训练；具体使用哪份 checkpoint 待核对。
 
 后续逐步补充：
 
