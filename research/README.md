@@ -33,7 +33,8 @@
 
 | 项目 | 数据集 | 实验内容 | 状态 |
 |---|---|---|---|
-| DDPM/DDIM | CIFAR-10 | 训练、采样、继续训练 | 本地实验结果整理中 |
+| [DDPM](reproduction/01-ddpm-cifar10/) | CIFAR-10 | 100 Epoch 训练、原始采样与继续训练 | 代码及结果待上传 |
+| [DDIM](reproduction/02-ddim-cifar10/) | CIFAR-10 | 复用 DDPM 权重、尝试 50 步采样 | 代码及结果待上传 |
 
 目前已开展 DDPM/DDIM 在 CIFAR-10 数据集上的训练。
 
@@ -45,7 +46,7 @@
 - 模型生成结果
 - 实验分析
 
-详见 [代码复现](reproduction/)。
+详见 [DDPM / DDIM 复现总览](reproduction/README.md)，分别进入两个独立的代码目录。
 
 ---
 
