@@ -6,10 +6,10 @@
 
 | 项目 | 主要目标 | 实验内容 | 详细记录 |
 |---|---|---|---|
-| **DDPM** | 理解前向加噪、噪声预测与反向去噪 | CIFAR-10 从头训练 120 Epoch；记录完整训练 Loss；使用训练所得权重进行采样 | [01 · DDPM](01-ddpm-cifar10/) |
+| **DDPM** | 理解前向加噪、噪声预测与反向去噪 | CIFAR-10 使用 `train_full_120_amp.py` 从头进行 120 Epoch AMP 训练；以 `train_results_120_amp/` 的完整 Loss 为最终结果 | [01 · DDPM](01-ddpm-cifar10/) |
 | **DDIM** | 理解如何在不重新训练 U-Net 的情况下改变采样方式 | 复用 DDPM 权重，将采样调用改为 `ddim_sample(steps=50)` | [02 · DDIM](02-ddim-cifar10/) |
 
-**当前状态：** DDPM 的最终训练记录采用重新从头运行的 **120 Epoch** 实验，不合并旧的继续训练日志；完整 Loss 曲线与 Python 源码、生成图片尚未上传。DDIM 内部采样公式与实际耗时仍需核验，使用的具体 checkpoint 待上传时核对。
+**当前状态：** DDPM 的最终训练记录采用 `train_full_120_amp.py` 对应的 **120 Epoch AMP** 实验，以 `train_results_120_amp/` 中的真实 Loss 为准，不合并旧的继续训练日志；完整 Loss 曲线、Python 源码及生成图片尚未上传。DDIM 内部采样公式与实际耗时仍需核验，使用的具体 checkpoint 待上传时核对。
 
 ## 02 · DDPM 与 DDIM 的关系
 
@@ -28,7 +28,7 @@
         生成图像                生成图像
 ```
 
-两个实验中的**噪声预测网络结构和训练权重相同**，采样方式不同。DDIM 在本次实践中不单独训练模型；其采样函数的实现仍需结合 `ddpm.py` 检查。
+两个实验可以复用**相同的噪声预测网络结构及 checkpoint**，仅改变采样方式。DDIM 在本次实践中不单独训练模型；当前 DDIM 脚本实际加载的是哪份 checkpoint（旧权重或 120 Epoch AMP 新权重）尚需核对，不能直接认定已使用最终 AMP 权重。其采样函数也需结合 `ddpm.py` 检查。
 
 ## 03 · 实验设置对比
 
@@ -38,10 +38,10 @@
 | 图片大小 | 3 × 32 × 32 | 3 × 32 × 32 |
 | 网络 | U-Net | 复用 DDPM U-Net |
 | 扩散时间步 | 1000 | 1000（共用噪声调度） |
-| 模型权重 | `ddpm.pth` | 复用 `ddpm.pth` |
+| 模型权重 | 120 Epoch AMP 实验实际保存的 checkpoint（待核对文件名） | 可复用同一 checkpoint（当前 DDIM 脚本所加载权重待核对） |
 | 采样函数 | `sample()` | `ddim_sample()` |
 | 采样步数 | 由原始 DDPM 采样函数决定 | 脚本指定 50 |
-| 训练方式 | 从头训练 120 Epoch | 无需单独训练，可复用 DDPM 权重 |
+| 训练方式 | `train_full_120_amp.py`，从头训练 120 Epoch（AMP） | 无需单独训练，可复用 DDPM 权重 |
 
 ## 04 · 代码文件组织
 
@@ -54,9 +54,9 @@ research/reproduction/
 │   ├── README.md             # DDPM 训练、采样及结果
 │   ├── ddpm.py
 │   ├── unet.py
-│   ├── train_full_120.py     # 或实际使用的 120 Epoch AMP 脚本
+│   ├── train_full_120_amp.py # 最终采用的 120 Epoch AMP 脚本
 │   ├── sample.py
-│   └── results/              # 完整 120 Epoch Loss 与生成样本
+│   └── results/              # 选自 train_results_120_amp/ 的真实 Loss、生成样本
 └── 02-ddim-cifar10/
     ├── README.md             # DDIM 实现与结果
     ├── ddpm.py               # 含 ddim_sample 的版本
@@ -69,9 +69,9 @@ DDIM 的代码是在 DDPM 实现基础上修改的，若希望两个文件夹能
 ## 05 · 结果与后续计划
 
 - [x] 建立 DDPM / DDIM 两份独立复现记录
-- [x] 记录 DDPM 从头训练 120 Epoch 与 DDIM 50 步采样的配置
+- [x] 明确最终采用 `train_full_120_amp.py` 及 `train_results_120_amp/`，并记录 DDIM 50 步采样设置
 - [ ] 核对参考代码的公开使用与再分发许可后，上传源代码
-- [ ] 上传完整 120 Epoch 训练的真实 Loss 曲线、CSV 日志与生成样本
+- [ ] 从 `train_results_120_amp/` 上传完整 120 Epoch 的真实 Loss 曲线、CSV 日志与生成样本（如有）
 - [ ] 检查 `ddim_sample()` 内部的更新公式和时间步选择
 - [ ] 在相同模型权重、硬件及图片数量下比较实际采样时间与生成质量
 
