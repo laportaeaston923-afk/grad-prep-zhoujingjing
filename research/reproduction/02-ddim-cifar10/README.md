@@ -6,13 +6,13 @@
 
 ## 1. 实验介绍
 
-在完成 DDPM 的 CIFAR-10 训练后，我尝试复用已经训练好的模型权重 `ddpm.pth`，将原始采样方法替换为 DDIM 采样方法，研究生成过程中的采样步骤。
+在完成 DDPM 的 CIFAR-10 训练后，我尝试复用训练好的噪声预测网络权重，将原始采样方法替换为 DDIM 采样方法，研究生成过程中的采样步骤。最终 DDPM 训练记录选用 `train_full_120_amp.py` 的 120 Epoch AMP 版本，但当前 DDIM 采样脚本实际使用的是旧 `ddpm.pth` 还是新 checkpoint，仍需确认。
 
 参考论文：[Denoising Diffusion Implicit Models（ICLR 2021）](https://arxiv.org/abs/2010.02502)
 
 ## 2. 与 DDPM 的关系
 
-- **保持不变：** CIFAR-10 图像大小、U-Net 结构、训练好的 `ddpm.pth` 权重，以及 16 张图片的可视化方式。
+- **保持不变：** CIFAR-10 图像大小、U-Net 结构、复用已有 DDPM 权重的方式，以及 16 张图片的可视化方式。
 - **发生改变：** 采样脚本从 `ddpm.sample()` 改为 `ddpm.ddim_sample(..., steps=50)`。
 - **不需要：** 为了切换 DDIM 采样而重新训练 U-Net。
 
@@ -53,7 +53,7 @@ imgs = ddpm.ddim_sample(
 | 模型扩散时间步 | 1000 |
 | DDIM 指定的采样步数 | 50 |
 | 生成图片数量 | 16 |
-| 使用权重 | DDPM 训练所得的 `ddpm.pth` |
+| 使用权重 | 复用 DDPM 模型权重（当前采样脚本的 checkpoint 版本待确认） |
 | 是否重新训练 | 否 |
 
 ## 5. 采样结果
