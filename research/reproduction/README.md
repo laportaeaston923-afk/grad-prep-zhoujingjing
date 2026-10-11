@@ -1,6 +1,6 @@
-# 代码复现 · DDPM 与 DDIM（CIFAR-10）
+# 代码复现 · DDPM、DDIM 与 MeanFlow
 
-> **两个独立实验目录，一份统一总结。** DDPM 负责训练噪声预测网络；DDIM 在已有 DDPM 权重的基础上研究另一种采样方法。
+> 三个独立实验目录。DDPM 负责训练噪声预测网络；DDIM 复用其权重研究另一种采样方法；MeanFlow / iMF 单独训练平均速度模型，验证一步生成流程。
 
 ## 01 · 项目总览
 
@@ -8,6 +8,7 @@
 |---|---|---|---|
 | **DDPM** | 理解前向加噪、噪声预测与反向去噪 | CIFAR-10 使用 `train_full_120_amp.py` 从头进行 120 Epoch AMP 训练；以 `train_results_120_amp/` 的完整 Loss 为最终结果 | [01 · DDPM](01-ddpm-cifar10/) |
 | **DDIM** | 理解如何在不重新训练 U-Net 的情况下改变采样方式 | 复用 DDPM 权重，将采样调用改为 `ddim_sample(steps=50)` | [02 · DDIM](02-ddim-cifar10/) |
+| **MeanFlow / iMF** | 理解平均速度模型与一步生成 | MNIST 入门配置；训练、真实 Loss、checkpoint 恢复和 1/5-step 采样计时脚本；代码流程已验证，完整训练结果待实测 | [03 · MeanFlow / iMF](03-meanflow-mnist/) |
 
 **当前状态：** DDPM 的最终训练记录采用 `train_full_120_amp.py` 对应的 **120 Epoch AMP** 实验，以 `train_results_120_amp/` 中的真实 Loss 为准，不合并旧的继续训练日志；完整 Loss 曲线、Python 源码及生成图片尚未上传。DDIM 内部采样公式与实际耗时仍需核验，使用的具体 checkpoint 待上传时核对。
 

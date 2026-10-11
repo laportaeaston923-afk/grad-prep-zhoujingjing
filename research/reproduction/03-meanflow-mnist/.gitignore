@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+datasets/
+mnist/
+cifar/
+logs/
+runs/
+samples/
+*.pt
+*.pth
+*.tmp
