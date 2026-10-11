@@ -5,7 +5,7 @@
 
 > **研究生阶段科研记录**  
 
-[📚 论文笔记](research/paper-notes/) · [📄 论文索引](research/papers/README.md) · [💻 代码复现](research/reproduction/01-ddpm-cifar10/) · [🛠 工程实践](engineering/README.md)
+[📚 论文笔记](research/paper-notes/) · [📄 论文索引](research/papers/README.md) · [💻 代码复现](research/reproduction/README.md) · [🛠 工程实践](engineering/README.md)
 
 ---
 
@@ -17,7 +17,7 @@
 | 论文阅读 | 已整理 **6 篇**论文笔记 | 持续更新 | [阅读记录](research/README.md) |
 | 论文资料 | 按「生成模型基础 / 无线感知应用」整理索引，已有 **4 份 PDF** | 已建立索引 | [论文出处](research/papers/README.md) |
 | DDPM 训练 | CIFAR-10，初始训练 **100 Epoch**，已编写复现说明 | 本地实验已开展；代码和结果待上传 | [实验记录](research/reproduction/01-ddpm-cifar10/) |
-| DDIM 采样 | 复用 DDPM 权重，采样脚本调用 `ddim_sample(steps=50)` | 采样实现与结果待进一步核验、整理 | [DDIM 记录](research/reproduction/01-ddpm-cifar10/#6-ddim-采样复现) |
+| DDIM 采样 | 复用 DDPM 权重，采样脚本调用 `ddim_sample(steps=50)` | 采样实现与结果待进一步核验、整理 | [DDIM 记录](research/reproduction/02-ddim-cifar10/) |
 | 研究想法与工程实践 | 已建立对应目录 | 待持续补充 | [Ideas](research/ideas/) / [Engineering](engineering/) |
 
 ## 02 · 论文阅读与研究方向
@@ -28,7 +28,7 @@
 |---|---|---|
 | **Latent Diffusion Models (LDM)** | 为什么将扩散过程从像素空间转移到潜在空间？ | [阅读笔记](research/paper-notes/02-latent%20diffusion%20model.md) |
 | **MeanFlow** | 是否能通过学习平均速度实现单步生成？ | [阅读笔记](research/paper-notes/05-meanflow.md) |
-| **DDPM / DDIM** | 如何训练噪声预测网络，以及为什么可以替换采样方式？ | [CIFAR-10 复现记录](research/reproduction/01-ddpm-cifar10/) |
+| **DDPM / DDIM** | 如何训练噪声预测网络，以及为什么可以替换采样方式？ | [DDPM / DDIM 复现总览](research/reproduction/README.md) |
 
 ### B. 扩散模型在无线感知中的应用
 
@@ -73,7 +73,7 @@ DDPM 前向加噪 + U-Net 噪声预测训练
 | DDIM 尝试 | 复用 `ddpm.pth`，`steps=50` |
 | 扩展实验 | 加载已有权重继续训练 20 Epoch |
 
-**实验记录：** [DDPM / DDIM · CIFAR-10](research/reproduction/01-ddpm-cifar10/)
+**实验记录：** [DDPM / DDIM 统一总结](research/reproduction/README.md) · [DDPM](research/reproduction/01-ddpm-cifar10/) · [DDIM](research/reproduction/02-ddim-cifar10/)
 
 基础 DDPM 代码参考了 [Bilibili 教学视频](https://www.bilibili.com/video/BV1vZi6BaEgF/)。该项目以学习、理解和复现为目的；参考实现不声明为独立原创。DDIM 内部采样实现及采样加速效果仍需结合代码和实际结果验证。
 
@@ -99,8 +99,11 @@ grad-prep-zhoujingjing/
 │   │   ├── README.md
 │   │   └── 4 份论文 PDF
 │   ├── reproduction/
-│   │   └── 01-ddpm-cifar10/
-│   │       └── README.md
+│   │   ├── README.md               # DDPM / DDIM 统一总结
+│   │   ├── 01-ddpm-cifar10/
+│   │   │   └── README.md           # DDPM 单独记录
+│   │   └── 02-ddim-cifar10/
+│   │       └── README.md           # DDIM 单独记录
 │   └── ideas/
 │       └── readme.md
 └── engineering/
@@ -114,7 +117,7 @@ grad-prep-zhoujingjing/
 | [research/README.md](research/README.md) | 论文学习与研究任务总览 |
 | [research/paper-notes/](research/paper-notes/) | 6 篇论文笔记 |
 | [research/papers/README.md](research/papers/README.md) | 论文 PDF 与官方出处 |
-| [research/reproduction/](research/reproduction/) | DDPM / DDIM 复现记录 |
+| [research/reproduction/](research/reproduction/README.md) | DDPM / DDIM 统一总结及两个独立项目 |
 | [research/ideas/](research/ideas/) | 研究想法（待补充） |
 | [engineering/](engineering/) | 工程实践（待补充） |
 
