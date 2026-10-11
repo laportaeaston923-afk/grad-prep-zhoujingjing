@@ -6,10 +6,10 @@
 
 | 项目 | 主要目标 | 实验内容 | 详细记录 |
 |---|---|---|---|
-| **DDPM** | 理解前向加噪、噪声预测与反向去噪 | CIFAR-10 训练 100 Epoch；保存 `ddpm.pth`；尝试继续训练 20 Epoch | [01 · DDPM](01-ddpm-cifar10/) |
+| **DDPM** | 理解前向加噪、噪声预测与反向去噪 | CIFAR-10 从头训练 120 Epoch；记录完整训练 Loss；使用训练所得权重进行采样 | [01 · DDPM](01-ddpm-cifar10/) |
 | **DDIM** | 理解如何在不重新训练 U-Net 的情况下改变采样方式 | 复用 DDPM 权重，将采样调用改为 `ddim_sample(steps=50)` | [02 · DDIM](02-ddim-cifar10/) |
 
-**当前状态：** 已整理复现说明；Python 源代码、训练日志、生成图片尚未上传到这两个目录。表中的实验设置来自现有本地脚本，DDIM 内部采样公式与实际耗时仍需核验。
+**当前状态：** DDPM 的最终训练记录采用重新从头运行的 **120 Epoch** 实验，不合并旧的继续训练日志；完整 Loss 曲线与 Python 源码、生成图片尚未上传。DDIM 内部采样公式与实际耗时仍需核验，使用的具体 checkpoint 待上传时核对。
 
 ## 02 · DDPM 与 DDIM 的关系
 
@@ -41,7 +41,7 @@
 | 模型权重 | `ddpm.pth` | 复用 `ddpm.pth` |
 | 采样函数 | `sample()` | `ddim_sample()` |
 | 采样步数 | 由原始 DDPM 采样函数决定 | 脚本指定 50 |
-| 是否重新训练 | DDPM 初始训练 100 Epoch | 否 |
+| 训练方式 | 从头训练 120 Epoch | 无需单独训练，可复用 DDPM 权重 |
 
 ## 04 · 代码文件组织
 
@@ -54,9 +54,9 @@ research/reproduction/
 │   ├── README.md             # DDPM 训练、采样及结果
 │   ├── ddpm.py
 │   ├── unet.py
-│   ├── train.py
+│   ├── train_full_120.py     # 或实际使用的 120 Epoch AMP 脚本
 │   ├── sample.py
-│   └── train_continue.py     # 若已准备好
+│   └── results/              # 完整 120 Epoch Loss 与生成样本
 └── 02-ddim-cifar10/
     ├── README.md             # DDIM 实现与结果
     ├── ddpm.py               # 含 ddim_sample 的版本
@@ -69,9 +69,9 @@ DDIM 的代码是在 DDPM 实现基础上修改的，若希望两个文件夹能
 ## 05 · 结果与后续计划
 
 - [x] 建立 DDPM / DDIM 两份独立复现记录
-- [x] 记录 DDPM 初始训练与 DDIM 50 步采样的配置
+- [x] 记录 DDPM 从头训练 120 Epoch 与 DDIM 50 步采样的配置
 - [ ] 核对参考代码的公开使用与再分发许可后，上传源代码
-- [ ] 上传真实 Loss 曲线、CSV 日志与生成样本
+- [ ] 上传完整 120 Epoch 训练的真实 Loss 曲线、CSV 日志与生成样本
 - [ ] 检查 `ddim_sample()` 内部的更新公式和时间步选择
 - [ ] 在相同模型权重、硬件及图片数量下比较实际采样时间与生成质量
 
