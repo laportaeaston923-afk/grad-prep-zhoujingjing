@@ -33,10 +33,10 @@
 
 | 项目 | 数据集 | 实验内容 | 状态 |
 |---|---|---|---|
-| [DDPM](reproduction/01-ddpm-cifar10/) | CIFAR-10 | 100 Epoch 训练、原始采样与继续训练 | 代码及结果待上传 |
+| [DDPM](reproduction/01-ddpm-cifar10/) | CIFAR-10 | 从头训练 120 Epoch、原始采样、完整训练 Loss | 代码及结果待上传 |
 | [DDIM](reproduction/02-ddim-cifar10/) | CIFAR-10 | 复用 DDPM 权重、尝试 50 步采样 | 代码及结果待上传 |
 
-目前已开展 DDPM/DDIM 在 CIFAR-10 数据集上的训练。
+目前 DDPM 采用从头训练 120 Epoch 的实验记录；DDIM 使用 DDPM 训练所得权重进行采样，不单独训练。
 
 后续逐步补充：
 
