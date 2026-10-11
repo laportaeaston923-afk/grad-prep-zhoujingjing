@@ -66,21 +66,12 @@ research/reproduction/
 
 DDIM 的代码是在 DDPM 实现基础上修改的，若希望两个文件夹能够**独立运行**，需要各自具有正确的依赖模块；若后续改成共享模块结构，应同步调整 Python 导入路径。
 
-## 05 · 结果与后续计划
-
-- [x] 建立 DDPM / DDIM 两份独立复现记录
-- [x] 明确最终采用 `train_full_120_amp.py` 及 `train_results_120_amp/`，并记录 DDIM 50 步采样设置
-- [ ] 核对参考代码的公开使用与再分发许可后，上传源代码
-- [ ] 从 `train_results_120_amp/` 上传完整 120 Epoch 的真实 Loss 曲线、CSV 日志与生成样本（如有）
-- [ ] 检查 `ddim_sample()` 内部的更新公式和时间步选择
-- [ ] 在相同模型权重、硬件及图片数量下比较实际采样时间与生成质量
-
-## 06 · 参考资料
+## 05 · 参考资料
 
 - [DDPM 原始论文（NeurIPS 2020）](https://arxiv.org/abs/2006.11239)
 - [DDIM 原始论文（ICLR 2021）](https://arxiv.org/abs/2010.02502)
 - [DDPM 学习参考：Bilibili 教学视频](https://www.bilibili.com/video/BV1vZi6BaEgF/)
 
-本项目主要用于扩散模型原理学习。DDPM 基础代码参考视频教程，不声明为从零独立原创；引用来源不等于自动获得代码再分发许可。
+
 
 [← 返回科研任务](../README.md)
