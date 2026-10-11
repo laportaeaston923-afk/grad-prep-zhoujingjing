@@ -1,0 +1,61 @@
+{
+  "completed_at": "2026-10-12T00:11:01.604571+08:00",
+  "experiment": "Inference CFG scale comparison on a single CFG-distilled checkpoint; no retraining",
+  "checkpoint_sha256": "88a7a517315ff5445136671f54c8c44520eea90f19bdd82bf4334789bf4452e1",
+  "cfg_scales": [
+    1,
+    4.25
+  ],
+  "dataset": "mnist",
+  "real_split": "test",
+  "real_count": 10000,
+  "generated_count_per_setting": 10000,
+  "cfg1_protocol": "../uploaded-step-0050000-cfg1/fid.json",
+  "cfg425_protocol": "fid_cfg425.json",
+  "cfg1_protocol_sha256": "8c64cfe5be7bf92cf4fccf797877ea8a054280a9623f298d03ce74088df1b498",
+  "feature_weights_sha256": "6726825d0af5f729cebd5821db510b11b1cfad8faad88a03f1befd49fb9129b2",
+  "matched_protocol_fields": [
+    "checkpoint_sha256",
+    "dataset",
+    "real_split",
+    "real_count",
+    "generated_count",
+    "real_images_sha256",
+    "reference_indices",
+    "seed",
+    "generated_class_histogram",
+    "generation_precision",
+    "generation_batch_size",
+    "fid_batch_size",
+    "cpu_threads",
+    "attention_backend",
+    "feature_memory_format",
+    "feature_extractor",
+    "feature_layer",
+    "feature_precision",
+    "preprocessing",
+    "torch_fidelity_version",
+    "config",
+    "environment"
+  ],
+  "matched_inputs": true,
+  "results": [
+    {
+      "sample_steps": 1,
+      "nfe": 1,
+      "cfg1_fid": 179.85735655958467,
+      "cfg425_fid": 150.93138960833932,
+      "fid_difference": -28.925966951245357,
+      "fid_reduction_percent": 16.082726614333684
+    },
+    {
+      "sample_steps": 5,
+      "nfe": 5,
+      "cfg1_fid": 17.929143736273602,
+      "cfg425_fid": 35.264862351891225,
+      "fid_difference": 17.335718615617623,
+      "fid_reduction_percent": -96.69016474303018
+    }
+  ],
+  "interpretation": "CFG=1 keeps digit class conditioning but removes extra guidance; this is not a separately trained model without CFG distillation. The comparison does not establish the best CFG scale or prove equal diversity."
+}

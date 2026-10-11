@@ -25,6 +25,19 @@
 | 实际依赖、图像哈希与索引 | [fid.json](results/uploaded-step-0050000-cfg1/fid.json) |
 | 样本 | [一步](results/uploaded-step-0050000-cfg1/preview_1step.png) / [五步](results/uploaded-step-0050000-cfg1/preview_5step.png)，各展示最先生成的 100 张 |
 
+## CFG 推理设置对照
+
+同一个上传权重，仅改变推理 CFG scale，噪声和类别相同；每个设置均为 10,000 张生成图 vs 同一 10,000 张 MNIST test。没有重新训练。
+
+| 采样 | 无额外引导 CFG=1，FID ↓ | 有引导 CFG=4.25，FID ↓ |
+|---|---:|---:|
+| 1 步 | 179.8574 | 150.9314 |
+| 5 步 | 17.9291 | 35.2649 |
+
+一步 FID 改善 16.08%，五步 FID 变差 96.69%；此结果不支持“有 CFG 在所有采样步数下都更好”。两种引导设置仍各为 1 / 5 NFE。
+
+[完整对照记录、样本和动图](results/uploaded-step-0050000-cfg-comparison/) · [数值汇总 JSON](results/uploaded-step-0050000-cfg-comparison/comparison.json)。
+
 ## 观察与范围
 
 本协议下，五步 FID 明显低于一步；预览图中五步数字轮廓也更清晰。该辅助指标不能单独证明类别正确或覆盖充分，也不能作为原论文 ImageNet 结果的复现。

@@ -8,7 +8,7 @@
 |---|---|---|---|
 | **DDPM** | 理解前向加噪、噪声预测与反向去噪 | CIFAR-10 使用 `train_full_120_amp.py` 从头进行 120 Epoch AMP 训练；以 `train_results_120_amp/` 的完整 Loss 为最终结果 | [01 · DDPM](01-ddpm-cifar10/) |
 | **DDIM** | 理解如何在不重新训练 U-Net 的情况下改变采样方式 | 复用 DDPM 权重，将采样调用改为 `ddim_sample(steps=50)` | [02 · DDIM](02-ddim-cifar10/) |
-| **MeanFlow / iMF** | 理解平均速度模型与一步生成 | 训练与恢复流程已验证；上传权重 MNIST FID：一步 **179.8574**、五步 **17.9291**（CFG=1，10,000 张）；含实测协议和预览图 | [03 · MeanFlow / iMF](03-meanflow-mnist/) |
+| **MeanFlow / iMF** | 理解平均速度模型与一步生成 | MNIST 50k 真实 Loss、生成过程；FID 对照：一步 179.8574→150.9314、五步 17.9291→35.2649（CFG=1→4.25）；一步改善、五步变差 | [03 · MeanFlow / iMF](03-meanflow-mnist/) |
 
 **当前状态：** DDPM 的最终训练记录采用 `train_full_120_amp.py` 对应的 **120 Epoch AMP** 实验，以 `train_results_120_amp/` 中的真实 Loss 为准，不合并旧的继续训练日志；完整 Loss 曲线、Python 源码及生成图片尚未上传。DDIM 内部采样公式与实际耗时仍需核验，使用的具体 checkpoint 待上传时核对。
 
