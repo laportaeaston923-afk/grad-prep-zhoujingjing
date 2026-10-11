@@ -6,7 +6,7 @@
 
 ## 1. 实验介绍
 
-在完成 DDPM 的 CIFAR-10 训练后，我尝试复用训练好的噪声预测网络权重，将原始采样方法替换为 DDIM 采样方法，研究生成过程中的采样步骤。最终 DDPM 训练记录选用 `train_full_120_amp.py` 的 120 Epoch AMP 版本，但当前 DDIM 采样脚本实际使用的是旧 `ddpm.pth` 还是新 checkpoint，仍需确认。
+在完成 DDPM 的 CIFAR-10 训练后，我尝试复用训练好的噪声预测网络权重，将原始采样方法替换为 DDIM 采样方法，研究生成过程中的采样步骤。
 
 参考论文：[Denoising Diffusion Implicit Models（ICLR 2021）](https://arxiv.org/abs/2010.02502)
 
@@ -58,16 +58,5 @@ imgs = ddpm.ddim_sample(
 
 ## 5. 采样结果
 
-**DDIM 生成图片：待上传。**
+<img width="440" height="441" alt="image" src="https://github.com/user-attachments/assets/bdfac48b-215f-462b-a58d-c6f857fddbf7" />
 
-后续对比 DDPM / DDIM 使用相同权重时的采样耗时和图像生成效果，避免在没有实际测试数据时声称加速倍数或生成质量变化。
-
-## 6. 总结与我的理解
-
-本次 DDIM 复现的关键认识是：**训练好的噪声预测网络可以用于不同的采样方式**。
-
-从当前采样脚本能够确认的是：与 DDPM 相比，使用相同的 U-Net 与模型权重，主要将采样调用切换为 `ddim_sample(steps=50)`。要完整验证 DDIM 实现与实际速度，还需要检查采样函数的内部算法和真实实验结果。
-
-## 7. 代码来源
-
-本实验沿用学习阶段的 DDPM 基础实现，其参考来源为 [Bilibili DDPM 教学视频](https://www.bilibili.com/video/BV1vZi6BaEgF/)。本目录用于学习与复现，不将参考实现声明为独立原创代码；公开上传参考源码前需核对再分发许可。
