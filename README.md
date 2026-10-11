@@ -16,7 +16,7 @@
 |---|---|---|---|
 | 论文阅读 | 已整理 **6 篇**论文笔记 | 持续更新 | [阅读记录](research/README.md) |
 | 论文资料 | 按「生成模型基础 / 无线感知应用」整理索引，已有 **4 份 PDF** | 已建立索引 | [论文出处](research/papers/README.md) |
-| DDPM 训练 | CIFAR-10，初始训练 **100 Epoch**，已编写复现说明 | 本地实验已开展；代码和结果待上传 | [实验记录](research/reproduction/01-ddpm-cifar10/) |
+| DDPM 训练 | CIFAR-10，**从头训练 120 Epoch**，已编写复现说明 | 本地实验已开展；代码和结果待上传 | [实验记录](research/reproduction/01-ddpm-cifar10/) |
 | DDIM 采样 | 复用 DDPM 权重，采样脚本调用 `ddim_sample(steps=50)` | 采样实现与结果待进一步核验、整理 | [DDIM 记录](research/reproduction/02-ddim-cifar10/) |
 | 研究想法与工程实践 | 已建立对应目录 | 待持续补充 | [Ideas](research/ideas/) / [Engineering](engineering/) |
 
@@ -67,17 +67,17 @@ DDPM 前向加噪 + U-Net 噪声预测训练
 | 数据集 | CIFAR-10（32 × 32 RGB） |
 | 噪声预测网络 | U-Net |
 | 扩散时间步 | 1000 |
-| 初始训练 | 100 Epoch |
+| 最终训练方案 | 从头训练 120 Epoch |
 | Batch Size / Learning Rate | 256 / 2e-4 |
 | 优化器 / 损失函数 | Adam / MSE |
 | DDIM 尝试 | 复用 `ddpm.pth`，`steps=50` |
-| 扩展实验 | 加载已有权重继续训练 20 Epoch |
+| 训练 Loss | 以完整 120 Epoch 实验的真实 Loss 曲线为准（待上传） |
 
 **实验记录：** [DDPM / DDIM 统一总结](research/reproduction/README.md) · [DDPM](research/reproduction/01-ddpm-cifar10/) · [DDIM](research/reproduction/02-ddim-cifar10/)
 
 基础 DDPM 代码参考了 [Bilibili 教学视频](https://www.bilibili.com/video/BV1vZi6BaEgF/)。该项目以学习、理解和复现为目的；参考实现不声明为独立原创。DDIM 内部采样实现及采样加速效果仍需结合代码和实际结果验证。
 
-目前 GitHub 上已有实验的 README，**训练脚本、采样脚本、Loss 日志、生成图像与模型权重尚未公开上传**，后续将按实际实验进度补充。
+目前 GitHub 上已有实验的 README，**训练脚本、采样脚本、完整 120 Epoch Loss 日志、生成图像与模型权重尚未公开上传**，后续将按实际实验进度补充。
 
 ## 04 · 仓库目录
 
