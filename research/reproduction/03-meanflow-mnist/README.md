@@ -2,7 +2,7 @@
 
 基于 [haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow) 的第三方 PyTorch 实现，复现「训练平均速度模型 → 保存权重 → 一步生成」的完整流程。默认采用该仓库当前的 `i-meanflow` 模式，以 MNIST 为入门数据集。
 
-**状态：代码流程已验证；上传权重的 MNIST FID 已实测：一步 179.8574、五步 17.9291（CFG=1，各 10,000 张）。** [查看评估记录与样本](results/uploaded-step-0050000-cfg1/)。本目录训练脚本的完整训练、RTX 5060 Laptop GPU 的 BF16 验证仍待完成。
+**状态：上传权重的 MNIST FID 已实测：一步 179.8574、五步 17.9291（CFG=1，各 10,000 张）；已补充 MeanFlow 50,000 step 的真实训练日志和 Loss 曲线。** [查看评估记录与样本](results/uploaded-step-0050000-cfg1/)。本目录训练脚本的完整训练、RTX 5060 Laptop GPU 的 BF16 验证仍待完成。
 
 ## 实测结果与生成图片
 
@@ -66,17 +66,21 @@ MeanFlow 的核心目标是一步生成；五步用于质量对照，五步的�
 
 ### 本次上传权重的 Loss 曲线
 
-**目前缺少这份权重对应的真实训练日志，因此尚未上传其 Loss 曲线。** `step_0050000.pt` 只有模型参数，无法恢复历史 Loss；不以短测曲线代替该模型的完整训练曲线。
+2026-10-11 补充上传的 `train.log` 与 `config.py` 标注运行 `mnist_meanflow_50k`、模式 `meanflow`，训练配置为 50,000 step、batch=2、BF16。模型结构、max_cfg=7.5 与 minmax 归一化和本次评估设置一致。
 
-已有实验记录提到原训练日志位于 `logs/mnist_50k/train.log`（iMF）或 `logs/mnist_meanflow_50k/train.log`（MeanFlow）。请按这次权重的来源选择同一运行目录的 `train.log` 和 `config.py`，不要仅凭相同权重文件名匹配。
+日志每 500 step 记录一次区间平均指标：从 step 500 到 50,000，共 100 个记录点，按配置的记录间隔没有缺失。首个总 Loss 为 **1.985971**，末个为 **1.856935**；FM Loss 从 **0.992869** 到 **0.895081**，MF Loss 从 **0.993101** 到 **0.961854**。
 
-新增 [plot_training_loss.py](plot_training_loss.py) 可把上游 `train.log` 或本目录的 `loss.csv` 转成真实记录曲线，无需重新训练。例如，从项目根目录运行：
+![MeanFlow 50,000 step 真实训练 Loss](results/mnist-meanflow-50k-training/loss_curve.png)
+
+曲线上方为总 Loss，中间为 FM/MF 分项，下方为原始 MF 速度 MSE；分开展示避免尺度混淆。数据不平滑，不补造记录。原始 MSE 有明显波动，不能只凭总 Loss 下降判定一步生成效果，需结合上面的 FID 和生成图。
+
+[训练记录与解读](results/mnist-meanflow-50k-training/) · [原日志](results/mnist-meanflow-50k-training/train.log) · [训练配置](results/mnist-meanflow-50k-training/config.py) · [Loss CSV](results/mnist-meanflow-50k-training/loss.csv)。
+
+使用 [plot_training_loss.py](plot_training_loss.py) 可从已保存的日志重新绘图，无需重新训练：
 
 ```bat
-python plot_training_loss.py --input logs/mnist_50k/train.log --out results/mnist-50k-training
+python plot_training_loss.py --input results/mnist-meanflow-50k-training/train.log --out results/loss-replot
 ```
-
-输出 `loss_curve.png`、`loss.csv`、`loss_source.json`（原日志哈希与实际记录范围）。仅绘制日志中的记录点，不平滑或填补缺失记录。如果日志不完整，图中只能展示实际记录的部分。
 
 ## 4. 一步生成与耗时记录
 

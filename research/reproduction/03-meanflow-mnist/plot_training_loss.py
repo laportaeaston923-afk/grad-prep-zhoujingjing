@@ -64,23 +64,25 @@ def main():
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    fig, axes = plt.subplots(2, 1, figsize=(9, 6), sharex=True)
-    for key in ['loss', 'fm_loss', 'mf_loss']:
+    fig, axes = plt.subplots(3, 1, figsize=(9, 8), sharex=True)
+    axes[0].plot([r['step'] for r in rows], [r['loss'] for r in rows], label='Total loss')
+    for key in ['fm_loss', 'mf_loss']:
         selected = [r for r in rows if key in r]
         if selected:
-            axes[0].plot([r['step'] for r in selected], [r[key] for r in selected], label=key)
+            axes[1].plot([r['step'] for r in selected], [r[key] for r in selected], label=key)
     selected = [r for r in rows if 'mf_v_mse' in r]
     if selected:
-        axes[1].plot([r['step'] for r in selected], [r['mf_v_mse'] for r in selected], label='mf_v_mse')
-        axes[1].legend()
+        axes[2].plot([r['step'] for r in selected], [r['mf_v_mse'] for r in selected], label='mf_v_mse')
     else:
-        axes[1].text(0.5, 0.5, 'MF velocity MSE was not recorded', ha='center', transform=axes[1].transAxes)
-    axes[0].legend()
+        axes[2].text(0.5, 0.5, 'MF velocity MSE was not recorded', ha='center', transform=axes[2].transAxes)
     for ax in axes:
         ax.grid(alpha=0.3)
+        if ax.lines:
+            ax.legend()
     axes[0].set_ylabel('Recorded loss')
-    axes[1].set_ylabel('Raw velocity MSE')
-    axes[1].set_xlabel('Training step')
+    axes[1].set_ylabel('Component loss')
+    axes[2].set_ylabel('Raw velocity MSE')
+    axes[2].set_xlabel('Training step')
     fig.suptitle('Recorded training metrics (no smoothing or interpolation)')
     fig.tight_layout()
     fig.savefig(args.out / 'loss_curve.png', dpi=160)

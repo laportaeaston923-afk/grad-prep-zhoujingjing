@@ -20,9 +20,9 @@
 
 上传权重的 SHA256：`88a7a517315ff5445136671f54c8c44520eea90f19bdd82bf4334789bf4452e1`。
 
-模型通过严格 state_dict 加载：32×32 灰度图、patch=2、dim=256、depth=6、heads=4、10 类，7,831,304 个参数。`max_cfg=7.5` 依据用户已有实验记录；minmax 归一化沿用参考 MNIST 实现。评估适配配置见 [mnist_uploaded_50k.py](../../configs/mnist_uploaded_50k.py)。
+模型通过严格 state_dict 加载：32×32 灰度图、patch=2、dim=256、depth=6、heads=4、10 类，7,831,304 个参数。后续上传的训练配置确认 `max_cfg=7.5` 和 minmax 归一化。评估适配配置见 [mnist_uploaded_50k.py](../../configs/mnist_uploaded_50k.py)。
 
-原文件仅含模型参数，未包含训练模式、累计 step 或优化器状态。文件名提示 50,000 step，但本记录不把文件名当作训练过程验证；iMF/MeanFlow 训练模式尚未由该权重确认。采样流程与此模式标签无关。
+评估时原文件仅含模型参数，未包含训练模式、累计 step 或优化器状态。随后用户补充的 `train.log` 与 `config.py` 标注 `meanflow`、记录到 50,000 step，模型结构与所评估权重一致；详见 [训练来源记录](../mnist-meanflow-50k-training/)。原 `fid.json` 保留评估当时的协议，后续训练证据独立保存，不改动已测 FID 数值。
 
 该分数为本协议下 MNIST 的 Inception FID，不能直接与使用 MNIST 分类器特征、60,000 张训练参考图、不同预处理，或 ImageNet/CIFAR-10 的 FID 比较。
 
@@ -50,6 +50,6 @@ python eval_fid.py --checkpoint step_0050000.pt --config configs/mnist_uploaded_
 
 ## 训练 Loss
 
-目前没有收到该权重对应的原始 `train.log` / `loss.csv`，因此没有这次训练的 Loss 曲线。纯模型参数无法还原训练历史。[日志位置与绘图方法](../../README.md#本次上传权重的-loss-曲线)已整理；提供与权重同一次运行的训练日志和配置后，可生成并补齐真实曲线。
+已从补充上传的真实日志生成曲线：500–50,000 step，共 100 个记录点，总 Loss 1.985971 → 1.856935。\n\n![真实训练 Loss](../mnist-meanflow-50k-training/loss_curve.png)\n\n[训练配置、原日志、CSV 与解读](../mnist-meanflow-50k-training/)。
 
 [← 返回实验说明](../../README.md)

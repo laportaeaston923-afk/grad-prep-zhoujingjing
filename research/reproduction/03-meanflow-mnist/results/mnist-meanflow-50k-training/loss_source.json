@@ -1,0 +1,21 @@
+{
+  "source": "train.log",
+  "source_sha256": "7b6d6635e8ed411e7c44f18fc66a4fd4f25d1010847f3e11d13035b70aa177dd",
+  "recorded_points": 100,
+  "first_recorded_step": 500,
+  "last_recorded_step": 50000,
+  "smoothing": false,
+  "note": "Only recorded points; this plot does not establish unlogged training history",
+  "config": "config.py",
+  "config_sha256": "42cd24ec6a6b98d3dc069bf39294b63267044d9bb29a5f3fae25dc8bb882c7ad",
+  "run_name": "mnist_meanflow_50k",
+  "mode": "meanflow",
+  "configured_training_steps": 50000,
+  "log_step": 500,
+  "missing_recorded_steps": [],
+  "batch_size": 2,
+  "configured_training_precision": "bf16",
+  "loss_first": 1.985971,
+  "loss_last": 1.856935,
+  "association": "User supplied this log and config as training evidence for the previously evaluated checkpoint; model dimensions agree. Raw weights contain no embedded run ID."
+}
