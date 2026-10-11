@@ -6,6 +6,7 @@ cifar/
 logs/
 runs/
 samples/
+fid_results/
 *.pt
 *.pth
 *.tmp

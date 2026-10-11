@@ -126,7 +126,37 @@ python sample_repro.py --checkpoint runs/mnist_first/ckpts/step_0010000.pt --sam
 python train_repro.py --config configs/cifar10.py --out runs/cifar10_upstream
 ```
 
-它采用上游的大模型与 200,000 step 配置，尚未在笔记本上验证；先完成 MNIST 流程更容易排查问题。若要计算 FID，应另外固定真实样本集合、生成数量、特征模型和预处理。本目录不填入未测得的 FID、训练时间或生成结果。
+它采用上游的大模型与 200,000 step 配置，尚未在笔记本上验证；先完成 MNIST 流程更容易排查问题。本目录不填入未测得的正式 FID、训练时间或生成结果。
+
+### FID：完整训练后直接评估
+
+`eval_fid.py` 已补充并验证评估流程，支持本目录 `train_repro.py` 保存的 MNIST / CIFAR-10 checkpoint。先完整训练，再运行：
+
+```bat
+python -m pip install torch-fidelity==0.3.0
+python eval_fid.py --checkpoint runs/mnist_first/ckpts/step_0010000.pt --sample-steps 1 5 --num-samples 10000 --out fid_results/mnist_first
+```
+
+脚本会生成 **10,000 张一步图片和 10,000 张五步图片**，分别与固定的 **10,000 张测试集真实图片**计算 FID。第一次运行会下载约 91 MB 的预训练 Inception 权重；若网络无法下载，可先下载官方兼容权重，再用 `--fid-weights` 指定本地路径。
+
+评估协议：
+
+- 后端为 [torch-fidelity 0.3.0](https://torch-fidelity.readthedocs.io/en/v0.3.0/api.html)，`inception-v3-compat` 的 **2048 维**特征，特征提取采用 FP32。
+- 默认真实参考集为 MNIST/CIFAR-10 **test** 划分；`--split train` 可改变划分，结果必须注明。真实样本不做随机翻转。
+- MNIST 真实图片先按模型输入大小做 PIL 双线性缩放；灰度图复制为三个 RGB 通道。生成图先限制在 [0,1]，再按 `round(255*x)` 转成 uint8；两组均交由库内部缩放到 299 后提取特征。
+- 固定随机种子，生成类别数量与选中参考集的类别分布相同；一步/五步使用相同初始噪声。默认 CFG scale=1、生成 FP32，可通过参数明确改变并记录。
+- 结果写入 `fid_results/.../fid.json`：包含权重 SHA256、训练 step、参考样本索引、样本数、采样步数、精度、依赖版本与各次 FID；同时保存预览图。
+- 显存不足可调小 `--batch-size 16 --fid-batch-size 16`。`--cpu` 可以运行，但完整评估会较慢。
+
+**MNIST 上的 Inception FID 作为辅助指标使用。** 它不等于 MNIST 分类网络特征上的 Fréchet 距离，也不能直接与 ImageNet/CIFAR-10 或不同样本数、预处理、划分的论文分数比较。较低的 FID 不单独证明类别正确或数字清晰，应同时检查生成图。
+
+若只是检查评估能否运行，可减少样本并明确标为 debug：
+
+```bat
+python eval_fid.py --checkpoint runs/mnist_first/ckpts/step_0000500.pt --num-samples 256 --sample-steps 1 --debug --out fid_results/debug
+```
+
+少量样本、合成数据测试权重或非常早期的权重会被标作 `pipeline_check_or_preliminary`，不能作为完整复现成绩。当前只有短测权重，**正式 FID 仍待完整训练权重**。
 
 记录真实实验时请在 [EXPERIMENT_RECORD.md](EXPERIMENT_RECORD.md) 填写配置、训练总 step、样本与指标，并上传对应真实曲线和生成图片；权重和数据默认由 `.gitignore` 排除。
 
