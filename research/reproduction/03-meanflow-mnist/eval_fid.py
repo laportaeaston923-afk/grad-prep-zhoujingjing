@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import importlib.metadata
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -13,7 +14,7 @@ from tqdm import tqdm
 
 from models.dit import MFDiT
 from repro_utils import (autocast, build_flow, device_and_dtype, environment,
-                         generate, write_json)
+                         generate, write_json, load_config)
 
 
 class TensorImages(torch.utils.data.Dataset):
@@ -71,9 +72,33 @@ def sha256(path):
     return digest.hexdigest()
 
 
+def configure_fidelity_statistics_cache():
+    """torch-fidelity 0.3 stores NumPy statistics; newer torch.load defaults
+    cannot read them. Load only the locally generated FID statistics cache
+    with its required serialization mode, leaving model loading independent.
+    """
+    from torch_fidelity import metric_fid
+    from torch_fidelity.helpers import get_kwarg
+    original = metric_fid.cache_lookup_one_recompute_on_miss
+
+    def compatible_lookup(cached_filename, fn_recompute, **kwargs):
+        if get_kwarg('cache', kwargs):
+            root = get_kwarg('cache_root', kwargs)
+            if root is None:
+                root = os.path.join(torch.hub._get_torch_home(), 'fidelity_cache')
+            path = Path(root) / (cached_filename + '.pt')
+            if path.is_file():
+                return torch.load(path, map_location='cpu', weights_only=False)
+        return original(cached_filename, fn_recompute, **kwargs)
+
+    metric_fid.cache_lookup_one_recompute_on_miss = compatible_lookup
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--checkpoint', type=Path, required=True)
+    p.add_argument('--config', type=Path, help='Required for a raw upstream state_dict checkpoint')
+    p.add_argument('--training-step', type=int, help='Optional user-reported training step for raw weights')
     p.add_argument('--num-samples', type=int, default=10000)
     p.add_argument('--sample-steps', type=int, nargs='+', default=[1, 5])
     p.add_argument('--batch-size', type=int, default=32)
@@ -84,6 +109,10 @@ def main():
     p.add_argument('--precision', choices=['bf16', 'no'], default='no')
     p.add_argument('--seed', type=int, default=42)
     p.add_argument('--cpu', action='store_true')
+    p.add_argument('--threads', type=int, default=4)
+    p.add_argument('--attention', choices=['native', 'sdpa'], default='native')
+    p.add_argument('--feature-memory-format', choices=['contiguous', 'channels_last'], default='contiguous')
+    p.add_argument('--save-sample-tensors', action='store_true', help='Save generated uint8 tensors for reproducibility')
     p.add_argument('--debug', action='store_true', help='Mark the result as a pipeline check only')
     p.add_argument('--fid-weights', type=Path, help='Offline inception-v3-compat weights')
     p.add_argument('--out', type=Path)
@@ -91,8 +120,28 @@ def main():
     if args.num_samples < 2 or min(args.sample_steps + [args.batch_size, args.fid_batch_size]) < 1:
         p.error('Need at least 2 samples; batch sizes and sample steps must be positive')
     import torch_fidelity
+    configure_fidelity_statistics_cache()
+    if args.feature_memory_format == 'channels_last':
+        from torch_fidelity.feature_extractor_inceptionv3 import FeatureExtractorInceptionV3
+        original_init = FeatureExtractorInceptionV3.__init__
+
+        def channels_last_init(self, *constructor_args, **constructor_kwargs):
+            original_init(self, *constructor_args, **constructor_kwargs)
+            self.to(memory_format=torch.channels_last)
+
+        FeatureExtractorInceptionV3.__init__ = channels_last_init
     checkpoint = torch.load(args.checkpoint, map_location='cpu', weights_only=False)
-    cfg = checkpoint['config']
+    raw = 'config' not in checkpoint
+    if raw:
+        if args.config is None:
+            p.error('Raw state_dict checkpoint: supply --config with the original model/sampling settings')
+        cfg = load_config(args.config)
+        weights = checkpoint
+        training_step = args.training_step
+    else:
+        cfg = checkpoint['config']
+        weights = checkpoint['model']
+        training_step = checkpoint['step']
     if cfg.get('latent', False):
         p.error('Latent checkpoints need VAE decoding and a separate evaluation protocol')
     scale = cfg['meanflow'].get('cfg_scale')
@@ -103,20 +152,30 @@ def main():
     if isinstance(scale, (list, tuple)) and not (args.cfg_scale == 1 or scale[0] <= args.cfg_scale <= scale[1]):
         p.error('CFG scale is outside the trained range')
     device, dtype = device_and_dtype(args.precision, args.cpu)
-    torch.set_num_threads(min(torch.get_num_threads(), 4))
+    if args.threads < 1:
+        p.error('--threads must be positive')
+    torch.set_num_threads(args.threads)
     model = MFDiT(**cfg['model']).to(device)
-    model.load_state_dict(checkpoint['model'])
+    model.load_state_dict(weights)
     model.eval()
+    if args.attention == 'sdpa':
+        import torch.nn.functional as functional
+        from models.dit import Attention
+        Attention._native_attention = lambda self, q, k, v: functional.scaled_dot_product_attention(
+            q, k, v, scale=self.scale)
     flow = build_flow(cfg)
     real, labels, indices = reference_images(cfg['dataset'], args.data_root or cfg['data_root'],
                    args.split, cfg['model']['input_size'], args.num_samples, args.seed)
     out = args.out or Path('fid_results') / datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     out.mkdir(parents=True, exist_ok=False)
     preliminary = bool(args.debug or cfg.get('synthetic_data', False)
-                       or args.num_samples < 10000 or checkpoint['step'] < 1000)
+                       or args.num_samples < 10000 or (training_step is not None and training_step < 1000))
     protocol = dict(
         checkpoint=str(args.checkpoint), checkpoint_sha256=sha256(args.checkpoint),
-        training_step=checkpoint['step'], config=cfg,
+        training_step=training_step,
+        training_step_source=('not_available' if training_step is None else 'user_reported') if raw else 'checkpoint_metadata',
+        raw_state_dict=raw, evaluation_config_source=str(args.config) if raw else 'checkpoint_metadata',
+        config=cfg,
         status='pipeline_check_or_preliminary' if preliminary else 'measured',
         synthetic_training_data=cfg.get('synthetic_data', False),
         dataset=cfg['dataset'], real_split=args.split,
@@ -126,6 +185,8 @@ def main():
         class_sampling='same class histogram as selected real reference images',
         cfg_scale=args.cfg_scale, generation_precision=args.precision,
         generation_batch_size=args.batch_size, fid_batch_size=args.fid_batch_size,
+        attention_backend=args.attention, cpu_threads=args.threads,
+        feature_memory_format=args.feature_memory_format,
         feature_extractor='inception-v3-compat', feature_layer='2048', feature_precision='FP32',
         preprocessing='real: PIL bilinear resize to model size; grayscale repeated as RGB; '
                       'fake: clamp [0,1], round(255*x) uint8; library resizes both to 299 internally',
@@ -137,6 +198,9 @@ def main():
                        'not interchangeable with MNIST-classifier Frechet distance or ImageNet/CIFAR paper FID',
         results=[],
     )
+    real_hash = hashlib.sha256(real.images.numpy().tobytes()).hexdigest()
+    protocol['real_images_sha256'] = real_hash
+    weights_tag = protocol['feature_weights_sha256'] or 'default_inception_v3_compat_0.3.0_2048'
     write_json(out / 'protocol.json', protocol)
     if preliminary:
         print('PRELIMINARY / PIPELINE CHECK: do not report this as a completed reproduction score.')
@@ -153,19 +217,23 @@ def main():
                 samples = generate(model, flow, batch_labels, noise, steps, args.cfg_scale)
                 generated.append(to_fid_uint8(samples))
         fake = TensorImages(torch.cat(generated))
+        generated_hash = hashlib.sha256(fake.images.numpy().tobytes()).hexdigest()
+        if args.save_sample_tensors:
+            torch.save(fake.images, out / f'generated_{steps}step_uint8.pt')
         save_image(fake.images[:100].float() / 255,
                    out / f'preview_{steps}step.png', nrow=10)
         metrics = torch_fidelity.calculate_metrics(
             input1=fake, input2=real, cuda=device.type == 'cuda',
             fid=True, isc=False, kid=False, prc=False, verbose=True,
             batch_size=args.fid_batch_size, feature_extractor='inception-v3-compat',
-            feature_layer_fid='2048', cache=False, rng_seed=args.seed, save_cpu_ram=True,
+            feature_layer_fid='2048', cache=True, rng_seed=args.seed, save_cpu_ram=True,
+            input2_cache_name=f"meanflow_fid_{cfg['dataset']}_{args.split}_{weights_tag}_{device.type}_{args.feature_memory_format}_{real_hash}",
             feature_extractor_weights_path=str(args.fid_weights) if args.fid_weights else None,
         )
         value = float(metrics['frechet_inception_distance'])
         if not torch.isfinite(torch.tensor(value)):
             raise RuntimeError('FID was non-finite')
-        result = dict(sample_steps=steps, nfe=steps, fid=value)
+        result = dict(sample_steps=steps, nfe=steps, fid=value, generated_images_sha256=generated_hash)
         protocol['results'].append(result)
         write_json(out / 'fid.json', protocol)
         print(f'{steps}-step FID ({args.num_samples} fake vs {args.num_samples} real): {value:.6f}')

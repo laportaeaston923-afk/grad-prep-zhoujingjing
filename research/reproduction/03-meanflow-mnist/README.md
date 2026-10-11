@@ -2,7 +2,7 @@
 
 基于 [haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow) 的第三方 PyTorch 实现，复现「训练平均速度模型 → 保存权重 → 一步生成」的完整流程。默认采用该仓库当前的 `i-meanflow` 模式，以 MNIST 为入门数据集。
 
-**状态：代码流程已验证；完整 MNIST 训练、RTX 5060 Laptop GPU 上的 BF16 验证、生成质量及 FID 尚待实测。** 验证用的少量训练 step 或随机合成图片不作为论文复现结果。
+**状态：代码流程已验证；上传权重的 MNIST FID 已实测：一步 179.8574、五步 17.9291（CFG=1，各 10,000 张）。** [查看评估记录与样本](results/uploaded-step-0050000-cfg1/)。本目录训练脚本的完整训练、RTX 5060 Laptop GPU 的 BF16 验证仍待完成。
 
 ## 1. 来源与复现范围
 
@@ -137,6 +137,18 @@ python -m pip install torch-fidelity==0.3.0
 python eval_fid.py --checkpoint runs/mnist_first/ckpts/step_0010000.pt --sample-steps 1 5 --num-samples 10000 --out fid_results/mnist_first
 ```
 
+若使用上游 `train.py` 保存的**纯 state_dict**，必须通过 `--config` 提供正确的模型与归一化设置。仅凭权重文件名无法恢复训练模式、CFG 归一化范围或训练步数。
+
+本次上传的 `step_0050000.pt` 使用的结构为 patch=2、dim=256、depth=6、heads=4；其评估配置见 `configs/mnist_uploaded_50k.py`。`max_cfg=7.5` 依据已有实验记录，原训练模式和累计训练 step 未包含在权重中。复测命令为：
+
+```bat
+python eval_fid.py --checkpoint step_0050000.pt --config configs/mnist_uploaded_50k.py --sample-steps 1 5 --num-samples 10000 --precision no --cpu --threads 8 --attention sdpa --feature-memory-format channels_last --batch-size 32 --fid-batch-size 64 --out fid_results/uploaded_50k_cfg1
+```
+
+在 GPU 上运行可去掉 `--cpu`。本次 CPU 评估使用 FP32，启用等价的 SDPA attention 和 Inception channels-last 内存布局，设置会保存在结果 JSON 中。小批次与原路径的最大差异检查分别约为 1.8e-6（生成图浮点像素）与 5.5e-6（特征）；这些优化不改变采样公式。默认评估脚本仍采用原生 attention 和连续内存布局。
+
+`--save-sample-tensors` 可另外保存完整的生成 uint8 张量，结果中会记录生成图片的 SHA256。真实参考统计按图片内容、特征权重、设备和内存布局缓存，方便一步/五步评估共享同一参考。
+
 脚本会生成 **10,000 张一步图片和 10,000 张五步图片**，分别与固定的 **10,000 张测试集真实图片**计算 FID。第一次运行会下载约 91 MB 的预训练 Inception 权重；若网络无法下载，可先下载官方兼容权重，再用 `--fid-weights` 指定本地路径。
 
 评估协议：
@@ -156,7 +168,7 @@ python eval_fid.py --checkpoint runs/mnist_first/ckpts/step_0010000.pt --sample-
 python eval_fid.py --checkpoint runs/mnist_first/ckpts/step_0000500.pt --num-samples 256 --sample-steps 1 --debug --out fid_results/debug
 ```
 
-少量样本、合成数据测试权重或非常早期的权重会被标作 `pipeline_check_or_preliminary`，不能作为完整复现成绩。当前只有短测权重，**正式 FID 仍待完整训练权重**。
+少量样本、合成数据测试权重或非常早期的权重会被标作 `pipeline_check_or_preliminary`，不能作为完整复现成绩。上传权重已完成 10,000 张规模评估，详见 [实测结果](results/uploaded-step-0050000-cfg1/)；权重没有训练元数据，本记录不把文件名当作累计训练 step 的验证。
 
 记录真实实验时请在 [EXPERIMENT_RECORD.md](EXPERIMENT_RECORD.md) 填写配置、训练总 step、样本与指标，并上传对应真实曲线和生成图片；权重和数据默认由 `.gitignore` 排除。
 
