@@ -95,19 +95,35 @@ ddpm.eps_model(xₜ, t) → 预测噪声 εθ
 
 只展示 `train_results_120_amp/` 中这次 AMP 从头训练 **Epoch 1–120** 的真实 Loss，不拼接旧的 100 Epoch 和继续训练日志。
 
-**Loss 曲线：** 请从本地 `train_results_120_amp/` 中选择对应的真实 Loss 图片、CSV 上传至本项目 `results/` 目录。文件未上传之前不展示或分析具体数值。
+这次从头训练的 Loss 图片来源于本地 `train_results_120_amp/training_loss.png`。图中展示了原始每轮平均 Loss 及 5 Epoch 移动平均曲线：前期快速下降，随后逐步趋于平稳，末段在大约 0.03 附近波动。**Loss 下降仅说明噪声预测训练目标的优化趋势，并不单独证明图像生成质量。**
 
-### 5.3 图像生成
+**待上传原图：** [training_loss.png](results/training_loss.png)（上传后可查看）。
 
-使用训练所得模型权重，通过 `ddpm.sample()` 尝试生成 16 张 32 × 32 的 RGB 图片。
+### 5.3 DDPM 生成图像
 
-**DDPM 生成样本：待上传。**
+本地生成结果为 **4×4 图像网格，共 16 张 32×32 RGB 图片**。图中可以看到动物、车辆等具有一定结构的样本，但部分样本仍存在明显模糊与细节不足。
+
+**待上传原图：** [ddpm_samples.png](results/ddpm_samples.png)（上传后可查看）。
+
+**权重来源提醒：** 此前分享的 `sample.py` 从项目根目录加载 `ddpm.pth`，而最终 AMP 训练目录中另有 `checkpoint_amp.pth` 和其他权重文件。因此，暂时不能认定这张采样图来自最终 AMP 120 Epoch checkpoint；需要在代码中确认实际加载的模型。
+
+### 5.4 反向去噪过程可视化
+
+本地 `denoising_trajectory.png` 展示了同一个样本从随机噪声经过多次反向去噪，逐渐形成可辨认图像的过程。它可以直观说明 DDPM 的迭代式生成特点。
+
+**待上传原图：** [denoising_trajectory.png](results/denoising_trajectory.png)（上传后可查看）。
+
+**说明：** 此图的采样时间步及权重来源尚未核对，暂不填写未经验证的具体设置。
 
 ## 6. 实验分析与个人理解
 
 DDPM 的学习重点是理解：如何在真实图片上添加不同程度的高斯噪声，并训练 U-Net 预测所加噪声；采样时再从随机噪声逐步生成图像。
 
-本次最终采用 `train_full_120_amp.py` 对应的 AMP 从头训练 120 Epoch 实验，之后直接以 `train_results_120_amp/` 中完整的真实 Loss 曲线和实际生成样本进行分析，不采用继续训练日志。
+本次最终采用 `train_full_120_amp.py` 的 **AMP 从头训练 120 Epoch** 实验，Loss 以 `train_results_120_amp/training_loss.png` 为准，不采用旧的继续训练日志。
+
+结合目前本地三张实验图片，可分别说明**训练收敛趋势、生成图像的视觉质量、反向去噪过程**。但不同图片的 checkpoint 来源需要分别核对，不将不同训练运行误写为同一次实验的结果。
+
+预计上传的三张原始图片详见 [results/](results/)。
 
 进一步的采样研究单独放在 [DDIM · CIFAR-10](../02-ddim-cifar10/)，通过复用训练好的 U-Net 权重，比较不同的反向采样过程。
 
