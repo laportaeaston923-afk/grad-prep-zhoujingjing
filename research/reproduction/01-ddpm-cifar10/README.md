@@ -1,6 +1,6 @@
 # DDPM · CIFAR-10 训练与采样复现
 
-> 本目录记录 DDPM 在 CIFAR-10 上从头训练 120 Epoch、模型权重保存、原始反向采样与完整 Loss 曲线。DDIM 单独记录在 [02-ddim-cifar10](../02-ddim-cifar10/)；两个实验的共同总结见 [复现总览](../README.md)。
+> 本目录记录 DDPM 在 CIFAR-10 上通过 AMP 混合精度从头训练 120 Epoch、模型权重保存、原始反向采样与完整 Loss 曲线。DDIM 单独记录在 [02-ddim-cifar10](../02-ddim-cifar10/)；两个实验的共同总结见 [复现总览](../README.md)。
 
 ## 1. 实验介绍
 
@@ -8,11 +8,11 @@
 
 本次实验的主线：
 
-1. 从头训练 DDPM 的 U-Net 噪声预测模型，共 120 Epoch。
-2. 保存并复用模型权重 `ddpm.pth`。
+1. 使用 `train_full_120_amp.py` 以 AMP 混合精度从头训练 DDPM 的 U-Net 噪声预测模型，共 120 Epoch。
+2. 保存训练所得模型权重；最终 AMP 实验实际生成的 checkpoint 文件名与旧 `ddpm.pth` 的关系待核对。
 3. 使用 DDPM 原有采样函数生成图像。
 4. 将相同的训练权重用于单独的 [DDIM 复现实验](../02-ddim-cifar10/)。
-5. 以本次完整 120 Epoch 运行的真实 Loss 为准，整理训练曲线和生成效果。
+5. 以 `train_results_120_amp/` 中这次完整 120 Epoch 运行的真实 Loss 为准，整理训练曲线和生成效果。
 
 参考论文：
 
@@ -25,7 +25,7 @@
 
 - [Bilibili：DDPM 代码讲解与复现](https://www.bilibili.com/video/BV1vZi6BaEgF/)
 
-在此基础上，自己进行 CIFAR-10 训练、保存权重，并将采样脚本中的 DDPM 调用替换为 DDIM 调用。本次 DDPM 结果以重新从头训练的完整 120 Epoch 实验为准。
+在此基础上，自己进行 CIFAR-10 训练、保存权重，并将采样脚本中的 DDPM 调用替换为 DDIM 调用。本次 DDPM 结果以 `train_full_120_amp.py` 和 `train_results_120_amp/` 所对应的完整 120 Epoch AMP 实验为准。
 
 **说明：** 基础实现并非从零独立原创；若后续上传参考教程中的代码，需保留来源说明并核对原作者的代码许可。DDIM 采样公式的具体实现需要结合 `ddpm.py` 中的 `ddim_sample()` 函数进一步检查。
 
@@ -45,7 +45,7 @@
 
 ## 4. 实验配置
 
-以下主要记录已有 DDPM 训练与采样脚本的设置；最终 120 Epoch 运行使用的普通精度或 AMP 训练脚本、批大小等细节，以实际上传的脚本为准：
+最终采用 `train_full_120_amp.py` 作为训练脚本，`train_results_120_amp/` 作为 Loss 记录来源。下列网络结构及部分训练参数来自此前展示的脚本，尚需与最终 AMP 脚本核对：
 
 | 参数 | 设置 |
 |---|---|
@@ -59,18 +59,19 @@
 | 扩散时间步 | 1000 |
 | 训练 Batch Size | 256 |
 | Learning Rate | 2e-4 |
-| 优化器（此前展示的训练脚本） | Adam |
+| 优化器（此前展示的训练脚本） | Adam（最终 AMP 配置待核对） |
 | 损失函数 | MSELoss |
 | 图像归一化 | 每通道使用 mean=0.5、std=0.5，映射至 [-1,1] |
 | DataLoader | shuffle=True、num_workers=4 |
-| 最终实验 | 从头训练 120 Epoch（以本次 Loss 为准） |
+| 最终实验 | `train_full_120_amp.py` 从头训练 120 Epoch（AMP） |
+| Loss 来源 | `train_results_120_amp/` |
 | 单次采样图片 | 16 张 |
 
 ## 5. DDPM 训练与结果
 
-### 5.1 从头训练 120 Epoch
+### 5.1 AMP 混合精度从头训练 120 Epoch
 
-本次最终采用的是**重新从头训练 120 Epoch** 的实验，而不是“先训练 100 Epoch，再从旧 checkpoint 继续训练 20 Epoch”。
+本次最终采用的是 `train_full_120_amp.py` **以 AMP 混合精度重新从头训练 120 Epoch** 的实验，而不是“先训练 100 Epoch，再从旧 checkpoint 继续训练 20 Epoch”。
 
 训练的基本过程：
 
@@ -88,13 +89,13 @@ ddpm.eps_model(xₜ, t) → 预测噪声 εθ
 反向传播与优化器更新
 ```
 
-此前展示的 `train.py` 使用 Adam、MSELoss 和 100 Epoch 配置；但**本次最终结果应以实际运行的 120 Epoch 训练脚本为准**，不将旧脚本的记录冒充为本次日志。
+此前展示的 `train.py` 使用 Adam、MSELoss 和 100 Epoch 配置；但**本次最终结果以实际运行的 `train_full_120_amp.py` 为准**，具体 AMP、学习率和批大小设置仍需与该脚本核对，不将旧脚本参数或日志冒充为本次记录。
 
 ### 5.2 完整 120 Epoch Loss 曲线
 
-只展示这次从头训练 **Epoch 1–120** 的真实 Loss，不拼接旧的 100 Epoch 和继续训练日志。
+只展示 `train_results_120_amp/` 中这次 AMP 从头训练 **Epoch 1–120** 的真实 Loss，不拼接旧的 100 Epoch 和继续训练日志。
 
-**Loss 曲线：待将 120 Epoch 的真实图片或 CSV 上传至仓库。**
+**Loss 曲线：** 请从本地 `train_results_120_amp/` 中选择对应的真实 Loss 图片、CSV 上传至本项目 `results/` 目录。文件未上传之前不展示或分析具体数值。
 
 ### 5.3 图像生成
 
@@ -106,7 +107,7 @@ ddpm.eps_model(xₜ, t) → 预测噪声 εθ
 
 DDPM 的学习重点是理解：如何在真实图片上添加不同程度的高斯噪声，并训练 U-Net 预测所加噪声；采样时再从随机噪声逐步生成图像。
 
-本次最终采用从头训练 120 Epoch 的完整实验，之后将直接以这 120 轮的真实 Loss 曲线和生成样本进行分析，不采用继续训练日志。
+本次最终采用 `train_full_120_amp.py` 对应的 AMP 从头训练 120 Epoch 实验，之后直接以 `train_results_120_amp/` 中完整的真实 Loss 曲线和实际生成样本进行分析，不采用继续训练日志。
 
 进一步的采样研究单独放在 [DDIM · CIFAR-10](../02-ddim-cifar10/)，通过复用训练好的 U-Net 权重，比较不同的反向采样过程。
 
