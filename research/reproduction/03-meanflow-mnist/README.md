@@ -25,6 +25,20 @@ MeanFlow 的核心目标是一步生成；五步用于质量对照，五步的�
 
 ![五步生成，FID 17.9291](results/uploaded-step-0050000-cfg1/preview_5step.png)
 
+## 一步与五步生成过程
+
+使用同一个上传权重、CFG=1、相同初始噪声，固定展示数字类别 0–9。这里是额外生成的 10 个过程示例，不是上面 10,000 张 FID 评估图的逐帧记录。
+
+**一步：噪声 → 最终图。** 模型只调用一次，动图只有初始噪声和最终输出两种状态。
+
+![一步生成过程](results/uploaded-step-0050000-process/process_1step.gif)
+
+**五步：噪声 → 五次模型更新 → 最终图。** 动图保存全部六种实际状态；播放停留时间仅用于观看，不代表真实计算耗时。
+
+![五步生成过程](results/uploaded-step-0050000-process/process_5step.gif)
+
+[一步静态过程图](results/uploaded-step-0050000-process/process_1step.png) · [五步静态过程图](results/uploaded-step-0050000-process/process_5step.png) · [原理、设置与复测命令](results/uploaded-step-0050000-process/)。
+
 ## 1. 来源与复现范围
 
 - 原论文：[Mean Flows for One-step Generative Modeling](https://arxiv.org/abs/2505.13447)。

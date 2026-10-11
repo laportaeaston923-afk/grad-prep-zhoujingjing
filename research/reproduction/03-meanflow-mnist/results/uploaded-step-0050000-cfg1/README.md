@@ -48,6 +48,20 @@ python eval_fid.py --checkpoint step_0050000.pt --config configs/mnist_uploaded_
 
 ![五步采样预览](preview_5step.png)
 
+## 生成过程可视化
+
+同一权重、CFG=1、相同初始噪声，固定数字类别 0–9。[完整过程说明与静态图](../uploaded-step-0050000-process/)。
+
+一步（2 种实际状态，1 次模型调用）：
+
+![一步生成过程](../uploaded-step-0050000-process/process_1step.gif)
+
+五步（6 种实际状态，5 次模型调用）：
+
+![五步生成过程](../uploaded-step-0050000-process/process_5step.gif)
+
+动图只切换真实采样状态，播放时间不代表计算耗时。这 10 个过程示例独立于 FID 的 10,000 张评估样本。
+
 ## 训练 Loss
 
 已从补充上传的真实日志生成曲线：500–50,000 step，共 100 个记录点，总 Loss 1.985971 → 1.856935。\n\n![真实训练 Loss](../mnist-meanflow-50k-training/loss_curve.png)\n\n[训练配置、原日志、CSV 与解读](../mnist-meanflow-50k-training/)。
