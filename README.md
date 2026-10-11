@@ -16,8 +16,8 @@
 |---|---|---|---|
 | 论文阅读 | 已整理 **6 篇**论文笔记 | 持续更新 | [阅读记录](research/README.md) |
 | 论文资料 | 按「生成模型基础 / 无线感知应用」整理索引，已有 **4 份 PDF** | 已建立索引 | [论文出处](research/papers/README.md) |
-| DDPM 训练 | CIFAR-10，**AMP 混合精度从头训练 120 Epoch**（最终采用的版本），已编写复现说明 | 本地实验已开展；代码和结果待上传 | [实验记录](research/reproduction/01-ddpm-cifar10/) |
-| DDIM 采样 | 复用 DDPM 权重，采样脚本调用 `ddim_sample(steps=50)` | 采样实现与结果待进一步核验、整理 | [DDIM 记录](research/reproduction/02-ddim-cifar10/) |
+| DDPM 训练 | CIFAR-10， | 代码和结果已上传 | [实验记录](research/reproduction/01-ddpm-cifar10/) |
+| DDIM 采样 | 复用 DDPM 权重，采样脚本调用 `ddim_sample(steps=50)` | 代码和结果已上传 | [DDIM 记录](research/reproduction/02-ddim-cifar10/) |
 | 研究想法与工程实践 | 已建立对应目录 | 待持续补充 | [Ideas](research/ideas/) / [Engineering](engineering/) |
 
 ## 02 · 论文阅读与研究方向
