@@ -51,20 +51,6 @@
 | [DDIM · CIFAR-10](research/reproduction/02-ddim-cifar10/) | 复用 DDPM 权重，改变采样方法 | 已展示 50 步采样代码和结果；与 DDPM 的统一设备耗时、FID 对照仍待补齐 |
 | [MeanFlow · MNIST](research/reproduction/03-meanflow-mnist/) | 学习平均速度，比较一步与五步生成 | 已保存 50,000 step 配置、原日志、100 个 Loss 记录点；完成生成过程和 CFG/FID 对照 |
 
-### MeanFlow 实测摘要
-
-同一个上传权重，每个设置 10,000 张生成图，对比同一组 10,000 张 MNIST test；CPU / FP32，FID 越低越好。
-
-| 采样 | 无额外引导 CFG=1 | 有引导 CFG=4.25 |
-|---|---:|---:|
-| 一步 FID ↓ | 179.8574 | **150.9314** |
-| 五步 FID ↓ | **17.9291** | 35.2649 |
-
-**本次 CFG=4.25 改善了一步 FID，但使五步 FID 变差。** 两组都有数字类别条件，比较的是同一模型的推理引导强度。五步是补充对照，不能用五步结果代替一步生成的核心结果。
-
-- [真实训练 Loss、原日志与配置](research/reproduction/03-meanflow-mnist/results/mnist-meanflow-50k-training/)：500–50,000 step，共 100 个记录点，总 Loss 1.985971 → 1.856935。
-- [一步 / 五步生成过程](research/reproduction/03-meanflow-mnist/results/uploaded-step-0050000-process/)：静态过程图与 GIF，记录真实模型更新。
-- [CFG 对照实验](research/reproduction/03-meanflow-mnist/results/uploaded-step-0050000-cfg-comparison/)：并排图片、过程动图、四组 FID、协议与复测命令。
 
 DDPM 基础实现参考 [Bilibili 教学视频](https://www.bilibili.com/video/BV1vZi6BaEgF/)。MeanFlow 使用 [haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow) 的第三方实现，固定版本与许可记录在项目目录；当前结果属于 MNIST 实验，不声明达到原论文 ImageNet 成绩。
 
