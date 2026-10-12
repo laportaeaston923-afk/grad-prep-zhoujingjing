@@ -2,7 +2,6 @@
 
 基于 [haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow) 的第三方 PyTorch 实现，复现「训练平均速度模型 → 保存权重 → 一步生成」的完整流程。默认采用该仓库当前的 `i-meanflow` 模式，以 MNIST 为入门数据集。
 
-**状态：上传权重的 MNIST FID 已实测：一步 179.8574、五步 17.9291（CFG=1，各 10,000 张）；已补充 MeanFlow 50,000 step 的真实训练日志和 Loss 曲线。** [查看评估记录与样本](results/uploaded-step-0050000-cfg1/)。本目录训练脚本的完整训练、RTX 5060 Laptop GPU 的 BF16 验证仍待完成。
 
 ## 实测结果与生成图片
 
