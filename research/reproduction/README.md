@@ -8,6 +8,7 @@
 | [02 · DDIM](02-ddim-cifar10/) | CIFAR-10 | 复用 DDPM 权重，进行 50 步采样 |
 | [03 · MeanFlow](03-meanflow-mnist/) | MNIST | 一步/五步生成、Loss、CFG 与 FID 对照 |
 | [04 · cDDIM](04-cddim-wireless-channel/) | QuaDRiGa | 无线信道生成、Loss、Fig. 5/6/7 ID/OOD 评估 |
+| [05 · Widar3.0](05-widar3-csi-dfs-bvp/) | 官方 CSI 示例 | CSI → DFS → BVP；代码、结果图、学习笔记与问答 |
 
 ```text
 reproduction/
@@ -24,12 +25,17 @@ reproduction/
 │   ├── README.md
 │   ├── code/
 │   └── results/
-└── 04-cddim-wireless-channel/
+├── 04-cddim-wireless-channel/
+│   ├── README.md
+│   ├── code/
+│   └── results/
+└── 05-widar3-csi-dfs-bvp/
     ├── README.md
     ├── code/
     └── results/
 ```
 
-进入各项目的 `code/` 目录运行。图片、曲线、日志和指标保存在 `results/`，模型权重需自行准备。
+进入各项目的 `code/` 目录运行。图片、曲线、日志和指标保存在 `results/`，生成模型权重需自行准备；Widar3.0 信号处理不需要训练权重。
 
 [← 返回科研记录](../README.md)
+
