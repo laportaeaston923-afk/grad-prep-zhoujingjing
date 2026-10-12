@@ -7,6 +7,7 @@
 | [01 · DDPM](01-ddpm-cifar10/) | CIFAR-10 | 训练、生成图片与去噪过程 |
 | [02 · DDIM](02-ddim-cifar10/) | CIFAR-10 | 复用 DDPM 权重，进行 50 步采样 |
 | [03 · MeanFlow](03-meanflow-mnist/) | MNIST | 一步/五步生成、Loss、CFG 与 FID 对照 |
+| [04 · cDDIM](04-cddim-wireless-channel/) | QuaDRiGa | 无线信道生成、Loss、Fig. 5/6/7 ID/OOD 评估 |
 
 ```text
 reproduction/
@@ -19,7 +20,11 @@ reproduction/
 │   ├── README.md
 │   ├── code/
 │   └── results/
-└── 03-meanflow-mnist/
+├── 03-meanflow-mnist/
+│   ├── README.md
+│   ├── code/
+│   └── results/
+└── 04-cddim-wireless-channel/
     ├── README.md
     ├── code/
     └── results/
