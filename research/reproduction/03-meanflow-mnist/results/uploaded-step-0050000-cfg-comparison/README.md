@@ -60,14 +60,14 @@ FID 描述 Inception 特征中的分布差异；更低分数不能单独证明�
 
 [对比汇总 JSON](comparison.json) · [CFG=1 原协议](../uploaded-step-0050000-cfg1/fid.json) · [CFG=4.25 完整协议](fid_cfg425.json) · [真实训练配置和 Loss](../mnist-meanflow-50k-training/)。两组过程记录见 [CFG=1](process_cfg1.json) 和 [CFG=4.25](process_cfg425.json)。
 
-从项目根目录运行；将同一权重放进项目目录：
+从 `code/` 目录运行；将同一权重放进项目目录：
 
 ```bat
-python eval_fid.py --checkpoint step_0050000.pt --config configs/mnist_uploaded_50k.py --cfg-scale 1 --num-samples 10000 --sample-steps 1 5 --cpu --threads 8 --attention sdpa --feature-memory-format channels_last --batch-size 32 --fid-batch-size 64 --out fid_results/cfg1_recheck
-python eval_fid.py --checkpoint step_0050000.pt --config configs/mnist_uploaded_50k.py --cfg-scale 4.25 --num-samples 10000 --sample-steps 1 5 --cpu --threads 8 --attention sdpa --feature-memory-format channels_last --batch-size 32 --fid-batch-size 64 --out fid_results/cfg425_recheck
-python visualize_sampling.py --checkpoint step_0050000.pt --config results/mnist-meanflow-50k-training/config.py --cfg-scale 1 --cpu --out samples/process_cfg1
-python visualize_sampling.py --checkpoint step_0050000.pt --config results/mnist-meanflow-50k-training/config.py --cfg-scale 4.25 --cpu --out samples/process_cfg425
-python compare_cfg_visuals.py --baseline-process samples/process_cfg1 --guided-process samples/process_cfg425 --baseline-fid fid_results/cfg1_recheck --guided-fid fid_results/cfg425_recheck --out results/cfg_recheck
+python eval_fid.py --checkpoint ../results/weights/step_0050000.pt --config configs/mnist_uploaded_50k.py --cfg-scale 1 --num-samples 10000 --sample-steps 1 5 --cpu --threads 8 --attention sdpa --feature-memory-format channels_last --batch-size 32 --fid-batch-size 64 --out ../results/fid_runs/cfg1_recheck
+python eval_fid.py --checkpoint ../results/weights/step_0050000.pt --config configs/mnist_uploaded_50k.py --cfg-scale 4.25 --num-samples 10000 --sample-steps 1 5 --cpu --threads 8 --attention sdpa --feature-memory-format channels_last --batch-size 32 --fid-batch-size 64 --out ../results/fid_runs/cfg425_recheck
+python visualize_sampling.py --checkpoint ../results/weights/step_0050000.pt --config ../results/mnist-meanflow-50k-training/config.py --cfg-scale 1 --cpu --out ../results/samples/process_cfg1
+python visualize_sampling.py --checkpoint ../results/weights/step_0050000.pt --config ../results/mnist-meanflow-50k-training/config.py --cfg-scale 4.25 --cpu --out ../results/samples/process_cfg425
+python compare_cfg_visuals.py --baseline-process ../results/samples/process_cfg1 --guided-process ../results/samples/process_cfg425 --baseline-fid ../results/fid_runs/cfg1_recheck --guided-fid ../results/fid_runs/cfg425_recheck --out ../results/cfg_recheck
 ```
 
 默认预训练特征权重与本次显式下载的权重相同；可用 `--fid-weights` 指定相同本地文件。评估适配配置中的 mode 标签只用于构造采样器，不代表另一次训练；原日志与训练配置标注为 MeanFlow。输出目录应使用新的名称。

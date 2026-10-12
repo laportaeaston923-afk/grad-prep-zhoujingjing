@@ -20,7 +20,7 @@
 
 上传权重的 SHA256：`88a7a517315ff5445136671f54c8c44520eea90f19bdd82bf4334789bf4452e1`。
 
-模型通过严格 state_dict 加载：32×32 灰度图、patch=2、dim=256、depth=6、heads=4、10 类，7,831,304 个参数。后续上传的训练配置确认 `max_cfg=7.5` 和 minmax 归一化。评估适配配置见 [mnist_uploaded_50k.py](../../configs/mnist_uploaded_50k.py)。
+模型通过严格 state_dict 加载：32×32 灰度图、patch=2、dim=256、depth=6、heads=4、10 类，7,831,304 个参数。后续上传的训练配置确认 `max_cfg=7.5` 和 minmax 归一化。评估适配配置见 [mnist_uploaded_50k.py](../../code/configs/mnist_uploaded_50k.py)。
 
 评估时原文件仅含模型参数，未包含训练模式、累计 step 或优化器状态。随后用户补充的 `train.log` 与 `config.py` 标注 `meanflow`、记录到 50,000 step，模型结构与所评估权重一致；详见 [训练来源记录](../mnist-meanflow-50k-training/)。原 `fid.json` 保留评估当时的协议，后续训练证据独立保存，不改动已测 FID 数值。
 
@@ -28,10 +28,10 @@
 
 ## 复测
 
-把相同权重放进项目目录，从 `03-meanflow-mnist` 运行：
+把相同权重放进 `results/weights/`，从 `03-meanflow-mnist/code` 运行：
 
 ```bat
-python eval_fid.py --checkpoint step_0050000.pt --config configs/mnist_uploaded_50k.py --num-samples 10000 --sample-steps 1 5 --precision no --cpu --threads 8 --attention sdpa --feature-memory-format channels_last --batch-size 32 --fid-batch-size 64 --out fid_results/recheck
+python eval_fid.py --checkpoint ../results/weights/step_0050000.pt --config configs/mnist_uploaded_50k.py --num-samples 10000 --sample-steps 1 5 --precision no --cpu --threads 8 --attention sdpa --feature-memory-format channels_last --batch-size 32 --fid-batch-size 64 --out ../results/fid_runs/recheck
 ```
 
 在 GPU 上运行可去掉 `--cpu`；应保留其余评估设置并记录设备变化。

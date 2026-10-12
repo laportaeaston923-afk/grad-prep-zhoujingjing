@@ -42,10 +42,10 @@ BF16 是训练配置值；日志未单独记录训练 GPU、CUDA 版本和实际
 - [loss_curve.png](loss_curve.png)：三部分指标曲线。
 - [loss_source.json](loss_source.json)：原日志与配置 SHA256、记录范围和来源说明。
 
-从项目根目录复绘：
+从 `code/` 目录复绘：
 
 ```bat
-python plot_training_loss.py --input results/mnist-meanflow-50k-training/train.log --out results/loss-replot
+python plot_training_loss.py --input ../results/mnist-meanflow-50k-training/train.log --out ../results/loss-replot
 ```
 
 [FID 与生成图片](../uploaded-step-0050000-cfg1/)：CFG=1，10,000 张生成图对 10,000 张 MNIST test；一步 FID **179.8574**，五步 **17.9291**。五步为补充对照，一步才是 MeanFlow 的核心生成目标。

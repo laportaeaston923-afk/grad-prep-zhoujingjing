@@ -1,9 +1,9 @@
 """Resume CIFAR-10 DDPM training with CUDA AMP, keeping originals untouched.
 
-Source checkpoint: train_results_120/checkpoint.pth
-AMP outputs:       train_results_120_amp/
+Source checkpoint: ../results/train_results_120/checkpoint.pth
+AMP outputs:       ../results/train_results_120_amp/
 
-Run from the project folder containing ddpm.py and unet.py:
+Run from code/ containing ddpm.py and unet.py:
     python train_full_120_amp.py
 
 Every epoch the AMP-specific checkpoint saves model + Adam + GradScaler +
@@ -33,9 +33,11 @@ END_EPOCH = 120
 BATCH_SIZE = 256
 LEARNING_RATE = 2e-4
 
-PROJECT_DIR = Path(__file__).resolve().parent
-SOURCE_CHECKPOINT = PROJECT_DIR / "train_results_120" / "checkpoint.pth"
-OUTPUT_DIR = PROJECT_DIR / "train_results_120_amp"
+CODE_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = CODE_DIR.parent
+RESULTS_DIR = PROJECT_DIR / "results"
+SOURCE_CHECKPOINT = RESULTS_DIR / "train_results_120" / "checkpoint.pth"
+OUTPUT_DIR = RESULTS_DIR / "train_results_120_amp"
 AMP_CHECKPOINT = OUTPUT_DIR / "checkpoint_amp.pth"
 LOSS_CSV = OUTPUT_DIR / "training_loss.csv"
 LOSS_FIG = OUTPUT_DIR / "training_loss.png"
@@ -48,7 +50,7 @@ def create_dataloader(device):
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     ])
     dataset = datasets.CIFAR10(
-        root=str(PROJECT_DIR / "data"),
+        root=str(CODE_DIR / "data"),
         train=True,
         download=True,
         transform=transform,

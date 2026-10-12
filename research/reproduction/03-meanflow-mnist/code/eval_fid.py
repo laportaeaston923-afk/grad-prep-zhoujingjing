@@ -166,7 +166,7 @@ def main():
     flow = build_flow(cfg)
     real, labels, indices = reference_images(cfg['dataset'], args.data_root or cfg['data_root'],
                    args.split, cfg['model']['input_size'], args.num_samples, args.seed)
-    out = args.out or Path('fid_results') / datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+    out = args.out or (Path(__file__).resolve().parents[1] / 'results' / 'fid_runs') / datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     out.mkdir(parents=True, exist_ok=False)
     preliminary = bool(args.debug or cfg.get('synthetic_data', False)
                        or args.num_samples < 10000 or (training_step is not None and training_step < 1000))

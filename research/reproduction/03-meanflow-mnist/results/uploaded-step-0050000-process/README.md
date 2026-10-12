@@ -35,12 +35,12 @@ t=1.0 → 0.8 → 0.6 → 0.4 → 0.2 → 0.0。
 
 ## 复测
 
-把相同权重放进项目根目录，从 `03-meanflow-mnist` 运行：
+把相同权重放进项目根目录，从 `03-meanflow-mnist/code` 运行：
 
 ```bat
-python visualize_sampling.py --checkpoint step_0050000.pt --config results/mnist-meanflow-50k-training/config.py --out results/process-recheck --cpu --threads 8
+python visualize_sampling.py --checkpoint ../results/weights/step_0050000.pt --config ../results/mnist-meanflow-50k-training/config.py --out ../results/process-recheck --cpu --threads 8
 ```
 
-脚本见 [visualize_sampling.py](../../visualize_sampling.py)。在可用的 CUDA 环境运行可去掉 `--cpu`，但应记录设备变化。
+脚本见 [visualize_sampling.py](../../code/visualize_sampling.py)。在可用的 CUDA 环境运行可去掉 `--cpu`，但应记录设备变化。
 
 [FID 与样本预览](../uploaded-step-0050000-cfg1/) · [真实训练 Loss](../mnist-meanflow-50k-training/) · [返回复现页面](../../README.md)

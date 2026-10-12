@@ -82,7 +82,7 @@ def main():
         history = checkpoint['history']
     if cfg['n_steps'] <= start:
         p.error('Target --steps must exceed the checkpoint step')
-    out = args.out or Path('runs') / f"{cfg['name']}_{datetime.now():%Y%m%d_%H%M%S_%f}"
+    out = args.out or (Path(__file__).resolve().parents[1] / 'results' / 'runs') / f"{cfg['name']}_{datetime.now():%Y%m%d_%H%M%S_%f}"
     out.mkdir(parents=True, exist_ok=False)
     (out / 'images').mkdir()
     (out / 'ckpts').mkdir()

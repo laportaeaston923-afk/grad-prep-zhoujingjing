@@ -47,7 +47,7 @@ def main():
     noise = torch.randn(len(labels), cfg['model']['in_channels'],
                         cfg['model']['input_size'], cfg['model']['input_size'],
                         device=device, generator=generator)
-    out = args.out or Path('samples') / datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+    out = args.out or (Path(__file__).resolve().parents[1] / 'results' / 'samples') / datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     out.mkdir(parents=True, exist_ok=False)
 
     def sync():
