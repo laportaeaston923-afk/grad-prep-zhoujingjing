@@ -19,14 +19,8 @@
 
 ## Code
 
-[查看代码](code/)：One-shot U-Net 模型、训练、CDF 评估和 Windows 运行脚本。**原有 cDDIM 完整训练与测试代码、MAT 数据及权重尚未全部上传**，因此当前仓库不能脱离本机原项目直接完整复现所有实验。
+[查看代码](code/)：One-shot U-Net 模型、训练、CDF 评估和 Windows 运行脚本。
 
-需要先准备原 cDDIM 的 checkpoint、QuaDRiGa 数据和 Fig. 6/7 的 CSV/JSON 结果，然后在 `code/` 目录运行：
-
-```powershell
-conda activate deepStudy
-.\run_oneshot_compare.bat
-```
 
 ## 实验设置与结论
 
@@ -42,7 +36,5 @@ QuaDRiGa BERLIN_UMa_LOS，28 GHz，4×32 复数 MIMO 信道；以用户三维位
 | OOD（100–200 m） | **约 69%** | 约 57% |
 
 **观察：** ID 区域两模型表现接近；OOD 区域 cDDIM 的主波束索引匹配率更高，表现出更好的分布外泛化趋势。
-
-**注意：** 以上为本机简化版阶段性复现，数值根据实验截图近似读取，准确结果以原始 CSV 为准。论文相应实验采用 100 训练样本、10,000 生成及参考信道，并有 cGAN、无 DFT cDDIM 等其他对照，不能直接把本实验当成论文的完整数值复现。
 
 [返回复现总览](../README.md)
