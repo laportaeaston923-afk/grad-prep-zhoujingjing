@@ -1,41 +1,15 @@
 # 代码复现
 
-每个实验统一分为 `README.md`、`code/` 和 `results/`。
+每个实验按 `README.md`、`code/`、`results/` 整理。
 
 | 实验 | 数据集 | 主要内容 |
 |---|---|---|
-| [01 · DDPM](01-ddpm-cifar10/) | CIFAR-10 | 训练、生成图片与去噪过程 |
+| [01 · DDPM](01-ddpm-cifar10/) | CIFAR-10 | 训练、生成图像与去噪过程 |
 | [02 · DDIM](02-ddim-cifar10/) | CIFAR-10 | 复用 DDPM 权重，进行 50 步采样 |
-| [03 · MeanFlow](03-meanflow-mnist/) | MNIST | 一步/五步生成、Loss、CFG 与 FID 对照 |
-| [04 · cDDIM](04-cddim-wireless-channel/) | QuaDRiGa | 无线信道生成、Loss、Fig. 5/6/7 ID/OOD 评估 |
-| [05 · Widar3.0](05-widar3-csi-dfs-bvp/) | 官方 CSI 示例 | CSI → DFS → BVP；代码、结果图、学习笔记与问答 |
+| [03 · MeanFlow](03-meanflow-mnist/) | MNIST | 一步 / 五步生成、Loss、CFG 和 FID |
+| [04 · cDDIM](04-cddim-wireless-channel/) | QuaDRiGa | 无线信道生成，Fig. 5/6/7，ID/OOD 与 One-shot U-Net 对照 |
+| [05 · Widar3.0](05-widar3-csi-dfs-bvp/) | 官方 CSI 示例 | CSI → DFS → BVP，代码、实验结果与学习笔记 |
 
-```text
-reproduction/
-├── README.md
-├── 01-ddpm-cifar10/
-│   ├── README.md     # 环境配置与运行说明
-│   ├── code/         # 代码
-│   └── results/      # 实验结果
-├── 02-ddim-cifar10/
-│   ├── README.md
-│   ├── code/
-│   └── results/
-├── 03-meanflow-mnist/
-│   ├── README.md
-│   ├── code/
-│   └── results/
-├── 04-cddim-wireless-channel/
-│   ├── README.md
-│   ├── code/
-│   └── results/
-└── 05-widar3-csi-dfs-bvp/
-    ├── README.md
-    ├── code/
-    └── results/
-```
-
-进入各项目的 `code/` 目录运行。图片、曲线、日志和指标保存在 `results/`，生成模型权重需自行准备；Widar3.0 信号处理不需要训练权重。
+各项目的 `results/` 放结果图，`code/` 放对应代码。大体积训练数据和模型权重按各项目 README 说明自行准备。
 
 [← 返回科研记录](../README.md)
-
