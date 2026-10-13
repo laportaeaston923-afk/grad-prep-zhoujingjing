@@ -10,10 +10,9 @@
 | [fig7_ood_cdf.webp](fig7_ood_cdf.webp) | 原 cDDIM OOD CDF |
 | [fig6_id_vs_fig7_ood.webp](fig6_id_vs_fig7_ood.webp) | 原 cDDIM ID/OOD 曲线比较 |
 | [fig7_train_vs_ood_positions.webp](fig7_train_vs_ood_positions.webp) | 训练和 OOD 用户位置 |
-| **[fig6_id_cddim_vs_oneshot.svg](fig6_id_cddim_vs_oneshot.svg)** | **新增：ID 两模型对比曲线** |
-| **[fig7_ood_cddim_vs_oneshot.svg](fig7_ood_cddim_vs_oneshot.svg)** | **新增：OOD 两模型对比曲线** |
+| [fig6_id_cddim_vs_oneshot.svg](fig6_id_cddim_vs_oneshot.svg) | ID 两模型对比曲线 |
+| [fig7_ood_cddim_vs_oneshot.svg](fig7_ood_cddim_vs_oneshot.svg) | OOD 两模型对比曲线 |
 
-新两幅 SVG 是依据本对话提供的**真实运行截图近似重绘**，不是原始 `.png` 文件。原始本机图片和精确 `cdf_comparison.csv` 应保存在本机 `outputs/oneshot/comparison/`。
 
 ## 两模型对照（D≤2）
 
