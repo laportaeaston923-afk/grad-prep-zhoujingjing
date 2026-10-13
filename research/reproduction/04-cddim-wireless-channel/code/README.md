@@ -1,13 +1,31 @@
-# 代码
+# One-shot U-Net 对照代码
 
-这次 cDDIM 的 **完整 Python、BAT 和 MATLAB 实验脚本目前保存在运行实验的 Windows 电脑中**，并未随用户上传到当前对话。为避免把不完整或不同版本的代码冒充成实际运行版本，仓库这里只保留源码整理说明。
+此目录包含 One-shot U-Net 的训练与评估代码，不覆盖原先 cDDIM 实验。
 
-请从本机项目 `E:\all\cDDIM_reproduction_for_E_all\cDDIM_reproduction` 复制以下文件到本目录：
+```text
+code/
+├── src/
+│   ├── model.py
+│   ├── dataset.py
+│   ├── train_oneshot.py
+│   ├── compare_oneshot.py
+│   └── plot_oneshot_loss.py
+├── run_oneshot_compare.bat
+└── resume_oneshot.bat
+```
 
-- `src/`（包含 `train.py`、`model.py`、`diffusion.py`、`dataset.py`、`evaluate.py`、`fig6_id.py`、`fig7_ood.py` 等）
-- `matlab/generate_ood_quadriga.m`
-- `requirements.txt` 和 `run_paper.bat`、`run_fig6_id.bat`、`run_fig7_ood.bat`
+- `train_oneshot.py` 从 `outputs/paper/latest.pt` 读取训练划分和网络配置，使用随机噪声 + 三维位置 **直接预测干净信道**，保存 One-shot 的新权重及真实 MSE Loss。
+- `compare_oneshot.py` 读取保存的 cDDIM ID/OOD 统计结果，分别在相同位置计算 One-shot 波束索引误差 CDF 并作图。
+- `plot_oneshot_loss.py` 绘制 One-shot 自己的 MSE 曲线；注意它与 cDDIM 噪声预测 MSE 不是同一个目标。
+- 需要 `numpy scipy matplotlib torch`、正式 QuaDRiGa `.mat` 文件、先前 cDDIM checkpoint、Fig.6/7 的 CSV/JSON；这些大型文件不在仓库中。
 
-保留原始脚本和记录；若改变目录结构，需同步检查 BAT 中的 `outputs\paper` 路径。权重 `*.pt`、原始 MAT 数据 `*.mat` 不应直接上传。
+PowerShell 示例：
 
-作者官方实现：[taekyunl/cDDIM](https://github.com/taekyunl/cDDIM)。本机跑的是根据其方法重新整理的简化版，不能直接用官方脚本替代本机实测代码。
+```powershell
+conda activate deepStudy
+.\run_oneshot_compare.bat
+```
+
+注意 **`run_oneshot_compare.bat` 使用相对路径**，请在 `code/` 目录运行。仓库保存的是当时编写的 One-shot 补丁脚本，而不是通过 GitHub CI 验证过的完整训练环境。cDDIM 原始训练脚本与本机实验产物需从实验机另行保存和对应版本核对。
+
+[返回项目](../README.md)
