@@ -35,7 +35,7 @@ def evaluate(variant):
     x = torch.rand(12, 1, 4, 4)
     labels = torch.arange(12) % 10
     loss, metrics = flow.loss(net, x, labels)
-    assert torch.isfinite(loss) and set(metrics) == {'mf_loss', 'mf_v_mse'}
+    assert torch.isfinite(loss) and set(metrics) == {'mf_loss', 'mf_v_mse', 'non_boundary_mse'}
     loss.backward()
     assert net.a.grad is not None and torch.isfinite(net.a.grad)
     assert net.b.grad is not None and torch.isfinite(net.b.grad)
