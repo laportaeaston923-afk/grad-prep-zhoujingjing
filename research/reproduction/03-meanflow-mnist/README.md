@@ -64,6 +64,20 @@ python run_mf_imf_comparison.py --steps 2 --batch-size 2 --cpu --precision no --
 
 脚本会依次执行 MF 和 iMF，结果保存在 `results/mf-vs-imf-one-step/<时间戳>/` 中；包含双方独立的 `train/loss.csv`、`train/loss_curve.png`、`train/images/`、`train/ckpts/`，以及 `fid/`、`timing/`、`comparison.json` 和生成的对照 README。FID 使用两组各 **10,000 张生成图 vs 同一组 10,000 张 MNIST test**；两组采用相同标签与初始噪声。若为少量样本短测，不应作为正式 FID。
 
+### Windows OpenMP #15 / 中途退出后的恢复
+
+如果出现 `OMP: Error #15: libiomp5md.dll already initialized`，不要使用 `KMP_DUPLICATE_LIB_OK=TRUE` 掩盖潜在的库冲突。先检查 `results/mf-vs-imf-one-step/.../mf/train/ckpts/` 中是否已有最终 `step_0010000.pt`。**已有最终权重时无需再训练 MF**：
+
+```powershell
+conda activate meanflow
+python -c "import sys; print(sys.executable)"
+python run_mf_imf_comparison.py --steps 10000 --num-samples 10000 --batch-size 32 --mf-checkpoint "E:\\all\\03-meanflow-mnist\\results\\mf-vs-imf-one-step\\你的运行目录\\mf\\train\\ckpts\\step_0010000.pt"
+```
+
+将路径换成你的实际文件路径，程序会跳过 MF 训练，继续执行该 MF 的一步 FID 和 iMF 的完整训练。若只有未完成的中间 checkpoint，则使用 `--mf-resume "完整路径"` **续训到 10,000 step**；若只有 `step_0000000.pt`，无法恢复已经进行但未保存的训练步数。
+
+新版本的对照脚本每 **500 step** 保存 checkpoint，训练阶段避免在同一进程内导入 Matplotlib，训练结束后在独立进程根据 `loss.csv` 画图。正式对比还会在运行目录生成 `loss_comparison.png`。**GitHub 更新不会自动修改你电脑上下载的旧文件，运行前请同步最新代码**。
+
 ## 4. 实验结果
 
 **等待两组实际训练及评估后填写。** 不把过去上传的 50,000 step 权重结果当作本次 MF/iMF 对照，也不预先编造 FID、速度或 Loss。
