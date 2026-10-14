@@ -70,8 +70,14 @@ class MFIMFComparison(MeanFlow):
         loss = adaptive_l2_loss(error,
                                 gamma=self.adaptive_l2_gamma,
                                 c=self.adaptive_l2_c)
+        # Figure 3 compares the non-boundary samples (t != r).
+        per_sample_mse = error.square().flatten(1).mean(dim=1)
+        non_boundary = (t > r).to(per_sample_mse.dtype)
+        non_boundary_mse = ((per_sample_mse * non_boundary).sum()
+                            / non_boundary.sum().clamp_min(1))
         metrics = {
             'mf_loss': stopgrad(loss),
             'mf_v_mse': stopgrad(error.square().mean()),
+            'non_boundary_mse': stopgrad(non_boundary_mse),
         }
         return loss, metrics
