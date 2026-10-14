@@ -18,6 +18,13 @@ def load_config(path):
 
 
 def build_flow(cfg):
+    if 'comparison' in cfg:
+        from comparison_flow import MFIMFComparison
+        kwargs = dict(cfg['comparison'])
+        kwargs.update(channels=cfg['model']['in_channels'],
+                      image_size=cfg['model']['input_size'],
+                      num_classes=cfg['model']['num_classes'])
+        return MFIMFComparison(**kwargs)
     from meanflow import MeanFlow
     kwargs = dict(cfg['meanflow'])
     kwargs.update(channels=cfg['model']['in_channels'],
@@ -77,7 +84,10 @@ def plot_history(rows, target):
     fig, axes = plt.subplots(2, 1, figsize=(8, 6), sharex=True)
     steps = [row['step'] for row in rows]
     axes[0].plot(steps, [row['loss'] for row in rows], label='Total adaptive loss')
-    axes[1].plot(steps, [row['mf_v_mse'] for row in rows], label='Raw MF velocity MSE')
+    key = 'non_boundary_mse' if 'non_boundary_mse' in rows[0] else 'mf_v_mse'
+    label = ('Non-boundary (t != r) velocity MSE' if key == 'non_boundary_mse'
+             else 'Raw MF velocity MSE')
+    axes[1].plot(steps, [row[key] for row in rows], label=label)
     for ax in axes:
         ax.grid(alpha=0.3)
         ax.legend()

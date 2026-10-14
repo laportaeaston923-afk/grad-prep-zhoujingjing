@@ -117,8 +117,12 @@ def main():
         torch.set_rng_state(checkpoint['rng_torch'])
         if device.type == 'cuda' and checkpoint['rng_cuda'] is not None:
             torch.cuda.set_rng_state_all(checkpoint['rng_cuda'])
-    columns = ['step', 'interval_steps', 'loss', 'fm_loss', 'mf_loss', 'mf_v_mse', 'lr', 'grad_norm']
-    values = {k: 0.0 for k in ['loss', 'fm_loss', 'mf_loss', 'mf_v_mse', 'grad_norm']}
+    # Controlled MF/iMF uses the u-boundary condition, not the legacy v-head.
+    # Do not invent an auxiliary FM loss for runs that do not train such a head.
+    metric_names = (['mf_loss', 'mf_v_mse', 'non_boundary_mse'] if 'comparison' in cfg
+                    else ['fm_loss', 'mf_loss', 'mf_v_mse'])
+    columns = ['step', 'interval_steps', 'loss', *metric_names, 'lr', 'grad_norm']
+    values = {k: 0.0 for k in ['loss', *metric_names, 'grad_norm']}
     count = 0
     last_saved = None
 
