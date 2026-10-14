@@ -18,6 +18,13 @@ def load_config(path):
 
 
 def build_flow(cfg):
+    if 'comparison' in cfg:
+        from comparison_flow import MFIMFComparison
+        kwargs = dict(cfg['comparison'])
+        kwargs.update(channels=cfg['model']['in_channels'],
+                      image_size=cfg['model']['input_size'],
+                      num_classes=cfg['model']['num_classes'])
+        return MFIMFComparison(**kwargs)
     from meanflow import MeanFlow
     kwargs = dict(cfg['meanflow'])
     kwargs.update(channels=cfg['model']['in_channels'],
