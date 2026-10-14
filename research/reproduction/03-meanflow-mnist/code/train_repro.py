@@ -186,11 +186,16 @@ def main():
                     with autocast(device, dtype):
                         samples = generate(model, flow, labels, fixed_noise, n_steps=1, cfg_scale=1.0)
                     save_image(samples.float(), out / 'images' / f'step_{step:07d}_1step.png', nrow=10)
-                    plot_history(history, out / 'loss_curve.png')
+                    # Windows: importing matplotlib late in the training process
+                    # can collide with another libiomp5md.dll runtime.
+                    # Controlled MF/iMF runs plot CSV in a fresh process instead.
+                    if 'comparison' not in cfg:
+                        plot_history(history, out / 'loss_curve.png')
         except KeyboardInterrupt:
             print(f'Interrupted. Resume the last complete checkpoint: {last_saved}')
             print('Updates after that checkpoint are not restored. Original outputs are kept.')
-            plot_history(history, out / 'loss_curve.png')
+            if 'comparison' not in cfg:
+                plot_history(history, out / 'loss_curve.png')
             return
     print(f'Training finished: {last_saved}')
 
