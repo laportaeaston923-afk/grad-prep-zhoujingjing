@@ -119,7 +119,7 @@ def main():
             torch.cuda.set_rng_state_all(checkpoint['rng_cuda'])
     # Controlled MF/iMF uses the u-boundary condition, not the legacy v-head.
     # Do not invent an auxiliary FM loss for runs that do not train such a head.
-    metric_names = (['mf_loss', 'mf_v_mse'] if 'comparison' in cfg
+    metric_names = (['mf_loss', 'mf_v_mse', 'non_boundary_mse'] if 'comparison' in cfg
                     else ['fm_loss', 'mf_loss', 'mf_v_mse'])
     columns = ['step', 'interval_steps', 'loss', *metric_names, 'lr', 'grad_norm']
     values = {k: 0.0 for k in ['loss', *metric_names, 'grad_norm']}
