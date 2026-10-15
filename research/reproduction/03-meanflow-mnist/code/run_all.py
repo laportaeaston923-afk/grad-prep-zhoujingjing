@@ -53,7 +53,11 @@ def main():
              "--grad-clip",a.grad_clip,"--ema-decay",a.ema_decay,
              "--seed",a.seed,"--runs-root",a.runs_root,
              "--abort-offdiag-threshold",a.abort_offdiag_threshold]
-        if a.resume:cmd.append("--resume")
+        # An existing run resumes; a missing mode (often CFG after a Fig3-only
+        # pilot) starts fresh. Nothing ever silently overwrites a checkpoint.
+        checkpoint=Path(a.runs_root)/mode/"last.pt"
+        if a.resume and checkpoint.exists():
+            cmd.append("--resume")
         launch("train.py",*cmd)
     cmd=["--device",a.device,"--runs-root",a.runs_root,"--results",a.results]
     if a.fig3_only:cmd.append("--fig3-only")
