@@ -35,12 +35,26 @@ def evaluate(variant):
     x = torch.rand(12, 1, 4, 4)
     labels = torch.arange(12) % 10
     loss, metrics = flow.loss(net, x, labels)
-    assert torch.isfinite(loss) and set(metrics) == {'mf_loss', 'mf_v_mse', 'non_boundary_mse'}
+    assert torch.isfinite(loss)
+    assert set(metrics) == {
+        'mf_loss', 'mf_v_mse', 'non_boundary_mse', 'non_boundary_count',
+        'tangent_rms', 'jvp_rms'
+    }
+    for value in metrics.values():
+        assert torch.isfinite(value), f'Nonfinite metric: {value}'
+    assert metrics['non_boundary_count'].item() > 0
     loss.backward()
     assert net.a.grad is not None and torch.isfinite(net.a.grad)
     assert net.b.grad is not None and torch.isfinite(net.b.grad)
     assert torch.allclose(loss.detach(), metrics['mf_v_mse'])
     return loss.item()
+
+
+def test_jvp_tangent_matters():
+    """Equal settings, same random batch, but different JVP tangent."""
+    mf = evaluate('mf')
+    imf = evaluate('imf')
+    assert abs(mf - imf) > 1e-6, 'MF/iMF must use different JVP directions'
 
 
 def main():
