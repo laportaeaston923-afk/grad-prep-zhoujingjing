@@ -1,5 +1,10 @@
-torch>=2.2
-torchvision>=0.17
+# Prefer an isolated environment (avoid conflicting OpenMP runtimes).
+# Install a suitable CUDA PyTorch build separately if using NVIDIA GPU.
+torch>=2.4
+torchvision>=0.19
+timm>=1.0.7
+einops>=0.7
 numpy>=1.24
-matplotlib>=3.7
-scipy>=1.10
+scipy>=1.11
+matplotlib>=3.8
+Pillow>=10
