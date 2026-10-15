@@ -1,16 +1,25 @@
-# DiT 真实实验结果
+# 实验结果目录
 
-请运行 python code/run_all.py --steps 20000 --batch-size 64，再把自动生成的真实图上传此处。
+## 新版 DiT 数值稳定性实验（待用户 GPU 正式运行）
 
-四张目标图均在 results/dit/：
+请参考 ../README.md，先用 --fig3-only --steps 4000 做短程诊断，然后确认稳定后续训至 20000。
 
-1. fig3_loss_dit.png — MF/iMF JVP 方向实验，plain MSE、无 CFG、仅 r≠t 的样本。浅色原始值，实线滑动平均值。
-2. cfg_scales_dit.png — 同一 iMF-CFG DiT，ω=1/1.5/2/3/4。
-3. one_step_process_dit.png — 噪声 z1 → 平均速度 u（灰度仅用于展示） → 最终图像 z0=z1-u，1 NFE。
-4. mf_vs_imf_dit.png — 同样随机噪声、目标数字和模型规模下两种方法的一步生成结果。
+新版真实结果将由 code/plot_results.py 生成，保存在 results/dit_stable/：
 
-可选：运行 python code/evaluate.py --train-classifier，得到 metrics.csv 和 mf_vs_imf_metrics_dit.png（MNIST feature Fréchet，而非 Inception FID）。
+- fig3_loss_dit.png — 使用完整、真实、未经裁剪的 MF 与 iMF 非对角损失日志（原值和滑动平均同时保留）。
+- one_step_process_dit.png — 噪声 → 平均速度（显示时归一化） → 一步生成的数字。
+- mf_vs_imf_dit.png — 同类标签和同一初始噪声下对比。
+- cfg_scales_dit.png — 同一个 iMF-CFG 模型在不同引导尺度下的一步生成。
 
-**目前仅提供完整生成代码，尚未得到用户 GPU 真实训练结果；没有放置伪造曲线或生成图。**
+可以再生成指标 metrics.csv 和 mf_vs_imf_metrics_dit.png，注意不是标准 Inception FID。
 
-旧 U-Net 版脚本已经归档在 ../legacy_unet/，不可与 DiT 图混为一谈。
+### 数值诊断
+
+两种模型的真实训练日志在本地 runs_dit_stable/mf/train.csv 和 runs_dit_stable/imf/train.csv。新记录包含：
+
+- offdiag_v_loss、diag_v_loss：t≠r 和 t=r 的损失；
+- jvp_rms、jvp_max：JVP 自身幅值；
+- weighted_jvp_rms、weighted_jvp_max：实际乘上 (t-r) 后的 JVP 修正项；
+- grad_norm_mean、grad_norm_max、learning_rate：更新数值稳定性的诊断指标。
+
+以前的训练图对应旧优化器设置，不与新实验混用。当前没有上传虚构训练结果。
