@@ -72,8 +72,8 @@ def main():
     p.add_argument("--batch-size",type=int,default=128)
     p.add_argument("--device",default="auto")
     p.add_argument("--seed",type=int,default=2026)
-    p.add_argument("--runs-root",default=str(ROOT/"runs_dit"))
-    p.add_argument("--results",default=str(ROOT/"results"/"dit"))
+    p.add_argument("--runs-root",default=str(ROOT/"runs_dit_stable"))
+    p.add_argument("--results",default=str(ROOT/"results"/"dit_stable"))
     p.add_argument("--data-root",default=str(ROOT/"data"))
     a=p.parse_args()
     if a.samples<130 or a.samples>10000:p.error("--samples must be between 130 and 10000")
@@ -113,7 +113,7 @@ def main():
         if not ckpt.exists():raise FileNotFoundError(ckpt)
         sd=torch.load(ckpt,map_location=device,weights_only=False)
         model=MFDiT(**sd["model_config"]).to(device)
-        model.load_state_dict(sd["model"]);model.eval()
+        model.load_state_dict(sd.get("ema_model",sd["model"]));model.eval()
         feats=[];matched=total=0
         with torch.inference_mode():
             for i in range(0,a.samples,a.batch_size):
