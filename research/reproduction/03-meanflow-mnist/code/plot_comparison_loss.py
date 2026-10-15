@@ -1,7 +1,7 @@
-"""Plot the MF/iMF training CSV in a fresh process without importing PyTorch.
+"""Plot measured (t != r) loss, as in iMF paper Figure 3.
 
-This avoids late matplotlib + libiomp5md collisions inside long-running Windows
-training processes. Pass either or both CSV inputs.
+No smoothing, clipping, fabricated values or misleading axis truncation.
+Secondary diagnostic plot is optional. Runs independently of torch/CUDA.
 """
 import argparse
 import csv
@@ -12,11 +12,13 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-def read_history(path):
+def load_csv(path):
     with Path(path).open(newline='', encoding='utf-8') as f:
         rows = list(csv.DictReader(f))
     if not rows:
-        raise ValueError(f'No training logs in {path}')
+        raise ValueError(f'No logged rows: {path}')
+    if 'non_boundary_mse' not in rows[0]:
+        raise ValueError(f'Missing non_boundary_mse (do not substitute total loss): {path}')
     return rows
 
 
@@ -25,34 +27,50 @@ def main():
     p.add_argument('--mf-loss-csv', type=Path)
     p.add_argument('--imf-loss-csv', type=Path)
     p.add_argument('--out', type=Path, required=True)
+    p.add_argument('--diagnostics-out', type=Path)
     args = p.parse_args()
-    if not (args.mf_loss_csv or args.imf_loss_csv):
-        p.error('Provide at least one CSV')
-    histories = {}
-    if args.mf_loss_csv:
-        histories['MF'] = read_history(args.mf_loss_csv)
-    if args.imf_loss_csv:
-        histories['iMF'] = read_history(args.imf_loss_csv)
+    paths = {'MF': args.mf_loss_csv, 'iMF': args.imf_loss_csv}
+    histories = {label: load_csv(path) for label, path in paths.items() if path}
+    if not histories:
+        p.error('Provide at least one training loss CSV')
 
-    fig, axes = plt.subplots(2, 1, figsize=(8, 6), sharex=True)
-    for name, rows in histories.items():
-        steps = [int(row['step']) for row in rows]
-        axes[0].plot(steps, [float(row['loss']) for row in rows], label=name)
-        # Paper Fig. 3 focuses on non-boundary training errors.
-        key = ('non_boundary_mse' if 'non_boundary_mse' in rows[0]
-               else 'mf_v_mse')
-        axes[1].plot(steps, [float(row[key]) for row in rows], label=name)
-    axes[0].set_ylabel('Training loss (interval mean)')
-    axes[1].set_ylabel('Non-boundary raw MSE')
-    axes[1].set_xlabel('Training step')
-    for ax in axes:
-        ax.legend()
-        ax.grid(alpha=0.25)
-    fig.tight_layout()
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(args.out, dpi=170)
+    fig, ax = plt.subplots(figsize=(8.5, 4.2))
+    for label, rows in histories.items():
+        ax.plot([int(r['step']) for r in rows],
+                [float(r['non_boundary_mse']) for r in rows],
+                linewidth=1.1, label=label)
+    ax.set(xlabel='Training steps', ylabel='Loss (t != r)',
+           title='MF vs iMF: non-boundary velocity MSE (MNIST)')
+    ax.set_ylim(bottom=0)
+    ax.grid(alpha=0.2)
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(args.out, dpi=180)
     plt.close(fig)
-    print(f'Loss curve saved: {args.out}')
+    print('Saved Figure-3-style raw MSE:', args.out)
+
+    if args.diagnostics_out:
+        keys = [('loss', 'All-samples mean loss'),
+                ('grad_norm', 'Gradient norm (before clipping)'),
+                ('tangent_rms', 'JVP direction RMS'),
+                ('jvp_rms', 'JVP output RMS')]
+        fig, axes = plt.subplots(len(keys), 1, figsize=(8.5, 10), sharex=True)
+        for ax, (key, label) in zip(axes, keys):
+            for name, rows in histories.items():
+                if key not in rows[0]:
+                    continue
+                ax.plot([int(r['step']) for r in rows],
+                        [float(r[key]) for r in rows], label=name, linewidth=1)
+            ax.set_ylabel(label)
+            ax.grid(alpha=0.2)
+            ax.legend()
+        axes[-1].set_xlabel('Training steps')
+        fig.tight_layout()
+        args.diagnostics_out.parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(args.diagnostics_out, dpi=180)
+        plt.close(fig)
+        print('Saved diagnostics:', args.diagnostics_out)
 
 
 if __name__ == '__main__':
