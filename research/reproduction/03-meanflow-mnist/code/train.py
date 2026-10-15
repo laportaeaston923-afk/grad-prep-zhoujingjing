@@ -144,7 +144,8 @@ def main():
                 "step","learning_rate","total_loss","v_loss","auxiliary_v_loss",
                 "offdiag_v_loss","offdiag_std","offdiag_samples",
                 "diag_v_loss","diag_std","diag_samples",
-                "jvp_rms","jvp_max","u_rms","u_max","tangent_rms",
+                "jvp_rms","jvp_max","weighted_jvp_rms","weighted_jvp_max",
+                "u_rms","u_max","tangent_rms",
                 "compound_rms","offdiag_batch_max","delta_mean",
                 "grad_norm_mean","grad_norm_max","grad_clip_fraction",
                 "elapsed_seconds"])
@@ -163,8 +164,9 @@ def main():
         torch.save(data,tmp);tmp.replace(ckpt)
 
     scalar_keys=("loss","v_loss","auxiliary_v_loss",
-                 "jvp_rms","u_rms","tangent_rms","compound_rms","delta_mean")
-    max_keys=("jvp_max","u_max","offdiag_batch_max")
+                 "jvp_rms","weighted_jvp_rms","u_rms","tangent_rms",
+                 "compound_rms","delta_mean")
+    max_keys=("jvp_max","weighted_jvp_max","u_max","offdiag_batch_max")
     count_keys=("offdiag_count","diag_count")
     sum_keys=("offdiag_sum","offdiag_sumsq","diag_sum","diag_sumsq")
     acc={key:0.0 for key in scalar_keys+sum_keys+count_keys}
@@ -211,6 +213,7 @@ def main():
                  acc["auxiliary_v_loss"]/nlogged,offmean,offstd,int(n),
                  diagmean,diagstd,int(d),
                  acc["jvp_rms"]/nlogged,maxima["jvp_max"],
+                 acc["weighted_jvp_rms"]/nlogged,maxima["weighted_jvp_max"],
                  acc["u_rms"]/nlogged,maxima["u_max"],
                  acc["tangent_rms"]/nlogged,acc["compound_rms"]/nlogged,
                  maxima["offdiag_batch_max"],acc["delta_mean"]/nlogged,
@@ -220,8 +223,8 @@ def main():
                 csv.writer(f).writerow(row)
             print(f"{a.mode:7s} step={step:6d}/{a.steps} "
                   f"offdiag={offmean:.4f} diag={diagmean:.4f} "
-                  f"JVP_RMS={row[11]:.3f} JVP_MAX={row[12]:.1f} "
-                  f"grad={row[19]:.2f} lr={lr:.2e}",flush=True)
+                  f"JVP_RMS={row[11]:.3f} ΔJVP_RMS={row[13]:.3f} "
+                  f"grad={row[21]:.2f} lr={lr:.2e}",flush=True)
             if a.abort_offdiag_threshold>0 and math.isfinite(offmean) and \
                offmean>a.abort_offdiag_threshold:
                 exceeded+=1
