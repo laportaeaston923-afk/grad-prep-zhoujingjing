@@ -8,7 +8,7 @@ config = dict(
                dim=256, depth=6, num_heads=8, num_classes=10, max_cfg=7.5),
     meanflow=dict(mode='i-meanflow', normalizer=['minmax', None, None],
                   cfg_scale=None),
-    # Basic L2 as in paper Figure 3; no adaptive loss or CFG.\n    comparison=dict(variant='imf', equal_time_prob=0.5,
+    # Basic L2 as in paper Figure 3; no adaptive loss or CFG.\n    comparison_revision=2,  # FP32-JVP audited experiment; not compatible with v1 weights\n    comparison=dict(variant='imf', equal_time_prob=0.5,
                     normalizer=['minmax', None, None],
                     time_dist=['lognorm', -0.4, 1.0],
                     adaptive_l2_gamma=1.0, adaptive_l2_c=1e-2),
