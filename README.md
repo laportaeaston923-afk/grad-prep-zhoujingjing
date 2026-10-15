@@ -15,7 +15,7 @@
 | 论文资料 | 已建立论文索引，保存 4 份 PDF | [论文出处](research/papers/README.md) |
 | DDPM | CIFAR-10；120 Epoch AMP 训练代码、Loss 曲线图、生成样本和反向去噪过程图 | [DDPM 记录](research/reproduction/01-ddpm-cifar10/) |
 | DDIM | 复用 DDPM 网络权重的 50 步采样代码与生成结果图 | [DDIM 记录](research/reproduction/02-ddim-cifar10/) |
-| MeanFlow | MNIST 50,000 step 真实日志与 Loss；一步/五步过程图和动图；CFG 推理设置与 FID 对照 | [MeanFlow 记录](research/reproduction/03-meanflow-mnist/) |
+| MeanFlow / iMF | 已编写 MNIST MF/iMF 与 CFG 的训练、绘图和评估脚本；正式训练图待生成 | [iMF 复现](research/reproduction/03-meanflow-mnist/) |
 | 研究想法与工程实践 | 已建立目录，持续补充 | [Ideas](research/ideas/) / [Engineering](engineering/) |
 
 ## 02 · 论文阅读与研究方向
@@ -49,7 +49,7 @@
 |---|---|---|
 | [DDPM · CIFAR-10](research/reproduction/01-ddpm-cifar10/) | 训练 U-Net 预测噪声，再进行反向采样 | 采用 `train_full_120_amp.py` 对应的完整 120 Epoch AMP 实验；已展示真实 Loss、生成图和去噪过程图 |
 | [DDIM · CIFAR-10](research/reproduction/02-ddim-cifar10/) | 复用 DDPM 权重，改变采样方法 | 已展示 50 步采样代码和结果；与 DDPM 的统一设备耗时、FID 对照仍待补齐 |
-| [MeanFlow · MNIST](research/reproduction/03-meanflow-mnist/) | 学习平均速度，比较一步与五步生成 | 已保存 50,000 step 配置、原日志、100 个 Loss 记录点；完成生成过程和 CFG/FID 对照 |
+| [MF / iMF · MNIST](research/reproduction/03-meanflow-mnist/) | 对比 JVP 训练目标、灵活 CFG 和一步生成 | 代码与绘图脚本已就绪，三模型实际训练及图表待执行 |
 
 
 DDPM 基础实现参考 [Bilibili 教学视频](https://www.bilibili.com/video/BV1vZi6BaEgF/)。MeanFlow 使用 [haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow) 的第三方实现，固定版本与许可记录在项目目录；当前结果属于 MNIST 实验，不声明达到原论文 ImageNet 成绩。
@@ -61,9 +61,9 @@ DDPM 基础实现参考 [Bilibili 教学视频](https://www.bilibili.com/video/B
 | [research/](research/README.md) | 论文学习、代码复现与研究任务总览 |
 | [research/paper-notes/](research/paper-notes/) | 6 篇论文笔记 |
 | [research/papers/](research/papers/README.md) | 论文索引、官方出处与 4 份 PDF |
-| [research/reproduction/](research/reproduction/README.md) | DDPM、DDIM、MeanFlow 三个独立实验的统一总结 |
+| [research/reproduction/](research/reproduction/README.md) | DDPM、DDIM、MeanFlow/iMF 等独立实验的统一总结 |
 | [01-ddpm-cifar10/](research/reproduction/01-ddpm-cifar10/) | DDPM 训练代码与结果展示 |
 | [02-ddim-cifar10/](research/reproduction/02-ddim-cifar10/) | DDIM 采样代码与结果展示 |
-| [03-meanflow-mnist/](research/reproduction/03-meanflow-mnist/) | MeanFlow 代码、真实日志、Loss、过程可视化与 FID/CFG 对照 |
+| [03-meanflow-mnist/](research/reproduction/03-meanflow-mnist/) | MeanFlow/iMF 训练代码、Loss/CFG/一步生成可视化与 MNIST 特征距离评估（待正式运行） |
 | [research/ideas/](research/ideas/) | 研究想法，持续补充 |
 | [engineering/](engineering/) | 工程实践，持续补充 |
