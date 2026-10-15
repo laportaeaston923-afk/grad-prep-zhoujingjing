@@ -1,90 +1,110 @@
-# 03 · Improved MeanFlow (iMF) — MNIST + 原项目 DiT
+# 03 · Improved MeanFlow（iMF）— MNIST / DiT
 
-**状态：DiT 代码已上传；实际 MNIST 训练和真实结果图待在本机 GPU 上运行。**
+**状态：已修改数值不稳定问题的训练设置并补齐诊断；还没有得到新版本的真实训练曲线。** 不保证 MNIST 小 DiT 可以精确复制原论文的 ImageNet 曲线，更不会用处理图像的办法伪造下降趋势。
 
-本项目直接采用 [haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow) 的 **MFDiT（DiT Transformer）**，不是之前自行实现的 U-Net。之前 U-Net 版代码已归档到 [legacy_unet/](legacy_unet/)，不会读取或者覆盖之前的旧模型权重。
+- 论文：Improved Mean Flows（Fig.3 训练稳定性对照）
+- [参考 GitHub：haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow)（第三方 PyTorch 实现）
+- 模型：**原仓库的 models/dit.py / MFDiT，未经修改**，而不是之前的 U-Net。
+- 之前的 U-Net 代码放在 legacy_unet/，原 DiT 首轮不稳定实验权重保留在用户电脑的 runs_dit/。
 
-参考：[iMF 论文](https://arxiv.org/abs/2512.02012) · [原仓库](https://github.com/haidog-yaqub/MeanFlow)（第三方 PyTorch，MIT）· [论文作者 JAX 代码](https://github.com/Lyy-iiis/imeanflow)。
+## 结果（新实验运行后生成）
 
-## 本次只做四组图
-
-| 实验 | 训练完成后的图片 | 目标 |
+| 用户要求 | 新版结果路径 | 说明 |
 |---|---|---|
-| Fig.3 风格 Loss | results/dit/fig3_loss_dit.png | MF/iMF 不同 JVP 方向，无 CFG，plain MSE，仅 t≠r |
-| CFG 尺度比较 | results/dit/cfg_scales_dit.png | 同一 iMF-CFG 模型测试 ω=1/1.5/2/3/4 |
-| 一步生成过程 | results/dit/one_step_process_dit.png | 噪声 z1 → 平均速度 u → 图像 z0=z1-u（1-NFE） |
-| MF 与 iMF | results/dit/mf_vs_imf_dit.png | 相同 DiT 规模、训练预算、随机噪声和类别条件 |
+| 论文 Fig.3 Loss 对比 | results/dit_stable/fig3_loss_dit.png | 同模型/配置的 MF 与 iMF；只画 t≠r 样本的普通 v-loss |
+| 不同 CFG 尺度 | results/dit_stable/cfg_scales_dit.png | iMF-CFG，同噪声，ω=1/1.5/2/3/4 |
+| 一步生成过程 | results/dit_stable/one_step_process_dit.png | z1 → 预测平均速度 u → z0=z1-u；仅 **1-NFE** |
+| MF vs iMF 一步生成 | results/dit_stable/mf_vs_imf_dit.png | 相同模型规模、噪声、数字类别和训练步数 |
 
-可选运行 code/evaluate.py 计算 MNIST 分类器特征 Fréchet 距离、类别一致率（results/dit/mf_vs_imf_metrics_dit.png 和 metrics.csv）。**此数值不是标准 Inception FID，不能与论文 ImageNet 的 FID 对比。**
+使用 code/evaluate.py 可额外得到 MNIST 分类器特征 Fréchet 距离及数字类别一致率。该特征距离**不是标准 Inception FID**，也不对应论文报告的 ImageNet FID。
 
-## 源代码沿用哪些部分
+**注意：现阶段以上 PNG 尚待你本机实际训练生成。** 旧图来自旧训练，不会被当作新版实验结果。
 
-直接从原项目 [commit 97cc518](https://github.com/haidog-yaqub/MeanFlow/commit/97cc5182abe9d69e5dcb350268f603fbe31a5897) 拷贝、未修改：
+## 代码：使用原 DiT，具体改了什么？
 
-- [code/models/dit.py](code/models/dit.py)：原始双头 **MFDiT** 神经网络；
-- [code/data.py](code/data.py)：原始 MNIST 预处理（28×28 变为 32×32）；
-- [code/upstream_meanflow.py](code/upstream_meanflow.py)：原 meanflow.py，作为参考保留；
-- [code/upstream_mnist_config.py](code/upstream_mnist_config.py)：原 MNIST 配置；
-- [UPSTREAM_LICENSE](UPSTREAM_LICENSE)：原项目 MIT 许可。
+以下源代码与上游相同（已校验 Git blob）：code/models/dit.py、code/data.py、code/upstream_meanflow.py。参考原配置保存在 code/upstream_mnist_config.py，MIT 许可见 UPSTREAM_LICENSE。
 
-为正确比较论文 Fig.3，新写的 [code/experiment_core.py](code/experiment_core.py) 实现：
+**核心 Fig.3 公式没有改变：**
 
-- **MF / Eq.(9)：** JVP 方向采用真实条件速度 e−x；
-- **iMF / Eq.(12)：** JVP 方向采用网络预测的瞬时速度 vθ，使用边界条件 vθ(z,t)=uθ(z,t,t)，不训练额外的 v 辅助头；
-- 两者都预测平均速度 uθ；回归重新参数化的瞬时速度；无 CFG、无 adaptive loss，只记录 t≠r 的 v-loss；
-- **iMF-CFG / Algorithm 2：** 显式条件 ω，使用原 MFDiT 的辅助 v-head 与引导目标；此模型和 Fig.3 两种无 CFG 消融分别训练。
+- 原 MF：复合预测 V=u+(t-r)·JVP(u; e-x)，用条件速度 e-x 作 JVP 方向；
+- iMF：V=u+(t-r)·JVP(u; vθ)，用边界速度 vθ=u(z,t,t) 作 JVP 方向；
+- 两者都使用普通平方误差回归 e-x，保留 stop-gradient。**不加 CFG、不用 adaptive loss、不使用辅助 v-head 损失**。
+- 两者各自从相同初始化种子训练；只比较 t≠r 样本，t=r 部分仍参加正常训练。
+- iMF-CFG 单独使用原 MFDiT 双头和论文 Algorithm 2 引导目标，不能与 Fig.3 的无 CFG Loss 数值直接比较。
 
-原第三方代码中切换 meanflow.mode 主要改变目标的 u-loss/v-loss 表述，**不是** Fig.3 论文中的不同 JVP 方向。训练代码对此做了有依据的改动，**DiT 网络本身不改**。
+**新增数值稳定性设置（影响实验条件，不能冒充论文原数值）：**
 
-## VS Code Windows：从头使用
+| 项目 | 之前不稳定版本 | 本次默认 |
+|---|---|---|
+| 最高学习率 | 1e-4，固定 | **2e-5**，前 2,000 步线性 warmup 后余弦衰减 |
+| Adam 第二动量 β₂ | 0.999 | **0.95** |
+| 梯度裁剪阈值 | 5.0 | **1.0** |
+| EMA 权重 | 无 | 0.999（只用在生成图/评估，不改变训练 Loss） |
+| JVP 数值记录 | 无 | **JVP RMS / max、(t-r)×JVP RMS / max** |
+| 其他记录 | Loss | 增加 t=r / t≠r Loss、速度幅值、梯度范数、学习率 |
+| 异常保护 | 无 | 连续两个日志窗口 t≠r Loss 超过 250 则保存并停止 |
 
-推荐独立 Conda 环境，避免之前 base 环境 OpenMP 库冲突。
+**为什么先这么改？** 原来上传的 CSV 表明：t=r 样本的 Loss 通常在 0.3～1.5 附近，而 t≠r 样本飙升至数万。问题集中在包含 (t-r)×JVP 的损失部分。新版不改训练数学目标，先用保守优化器配置和更完善的日志验证根因。改动能否真正改善曲线须由新日志检验。
+
+## 在 Windows / VS Code 运行（先不要再做 60,000 步）
+
+先用 **新的干净环境** 安装适配显卡的 PyTorch；旧 base 环境遇到过 OpenMP 运行时冲突。不要为了正式实验设置 KMP_DUPLICATE_LIB_OK=TRUE。
+
+在 E:\all 下用一个全新的文件夹放这个仓库的 **最新** 03-meanflow-mnist；原来已训练出的 runs_dit/ 和旧 CSV 请备份，不要删。
 
 ~~~powershell
 conda create -n imfdit python=3.11 -y
 conda activate imfdit
 ~~~
 
-按设备在 [PyTorch 官网](https://pytorch.org/get-started/locally/) 安装匹配的 CUDA / PyTorch。然后进入本项目目录执行：
+PyTorch 需要先按 [官网安装页面](https://pytorch.org/get-started/locally/) 选择你的 CUDA 版本安装，然后：
 
 ~~~powershell
 pip install -r requirements.txt
 python code\smoke_test.py
 ~~~
 
-看到 SMOKE TEST PASSED 后再开始训练。**不要**依赖 KMP_DUPLICATE_LIB_OK=TRUE 的危险兼容模式来执行正式实验。
-
-**训练三组 DiT 并自动生成四张结果图：**
+出现 SMOKE TEST PASSED 后，**先只做 MF/iMF 各 4,000 步检查**，无需先跑 CFG：
 
 ~~~powershell
-python code\run_all.py --steps 20000 --batch-size 64
+python code\run_all.py --fig3-only --steps 4000 --batch-size 64
 ~~~
 
-新模型默认 dim=256, depth=6, heads=8, patch=4。仍是**原项目的 MFDiT**，但缩小训练成本；上游 MNIST 配置是 dim=512、depth=12、patch=2、200000 步，因此本项目为方法级复现，不能冒称原论文精确结果。GPU 显存有限可以尝试减小 batch size。
+两份真实新日志会出现在：
 
-**中断后续训（相同参数）：**
+- runs_dit_stable/mf/train.csv
+- runs_dit_stable/imf/train.csv
+
+先看新列 weighted_jvp_rms、weighted_jvp_max、grad_norm_max、offdiag_v_loss 是否还有爆炸。**如果仍出现较大尖峰，应该先诊断，不要继续浪费 GPU 时间。**
+
+如果 4,000 步稳定，再从原权重继续到 20,000 步：
 
 ~~~powershell
-python code\run_all.py --steps 25000 --batch-size 64 --resume
+python code\run_all.py --fig3-only --steps 20000 --batch-size 64 --resume
 ~~~
 
-会恢复模型与优化器，但数据 shuffle 顺序会重新开始，不保证与不中断训练逐位一致。无 --resume 时若检测到已有 checkpoint，会拒绝覆盖。
+此命令会恢复模型及优化器，并读取已保存的学习率计划；数据加载器的 shuffle 顺序重启，不保证逐位一致。
 
-**若三个模型已训练完毕，只重新生成四张图：**
+在 MF/iMF 曲线满意之后，再训练 CFG，生成全部四图：
+
+~~~powershell
+python code\run_all.py --steps 20000 --batch-size 64 --resume
+~~~
+
+已经完成的 MF/iMF 会跳过新的训练循环；没有旧 checkpoint 的 imf_cfg 会开始训练。也可以直接做全部三组训练，但首次建议先检查 Fig.3。
+
+生成图和可选定量评估：
 
 ~~~powershell
 python code\plot_results.py
-~~~
-
-**可选定量对比：**
-
-~~~powershell
 python code\evaluate.py --train-classifier --samples 2000
 ~~~
 
-旧 U-Net checkpoint 不能用于新 DiT。新权重位置为 runs_dit/mf/last.pt、runs_dit/imf/last.pt、runs_dit/imf_cfg/last.pt；旧 runs/ 目录保持不变。四张图保存在 results/dit/，上传真实图前不制造示例论文曲线。
+结果文件存入 results/dit_stable/。新版权重存入 runs_dit_stable/，**不会覆盖原 runs_dit/ 和 runs/**。
 
-## 文件结构
+**若中途触发异常保护：** 先看 CSV 中的 weighted_jvp_rms、weighted_jvp_max 和 grad_norm_max，将日志提供出来，不要删除异常样本、强行裁剪绘图 y 轴或把真实数据替换成论文曲线。
+
+## 项目结构
 
 ~~~text
 03-meanflow-mnist/
@@ -92,20 +112,18 @@ python code\evaluate.py --train-classifier --samples 2000
 ├── UPSTREAM_LICENSE
 ├── requirements.txt
 ├── code/
-│   ├── models/dit.py           # 原项目 DiT 网络，未改
-│   ├── data.py                 # 原项目 MNIST
-│   ├── upstream_meanflow.py    # 上游训练目标留档
-│   ├── upstream_mnist_config.py
-│   ├── experiment_core.py      # Eq9/Eq12/Algorithm2
-│   ├── train.py                # 真实 CSV + checkpoint
-│   ├── plot_results.py         # 四种真实图
-│   ├── evaluate.py             # 可选定量指标
-│   ├── run_all.py
-│   └── smoke_test.py
-├── results/dit/                # 待真实运行输出
-├── legacy_unet/                # 旧版代码备份
-├── runs_dit/                   # 本地权重，不提交
-└── data/                       # 本地 MNIST，不提交
+│   ├── models/dit.py         # 原第三方项目的 DiT，原样
+│   ├── data.py               # 原 MNIST 预处理，原样
+│   ├── upstream_meanflow.py  # 参考实现留档
+│   ├── experiment_core.py    # MF Eq.9 / iMF Eq.12 / CFG Algorithm 2
+│   ├── train.py              # 稳定训练 + 完整 CSV 诊断 + EMA
+│   ├── run_all.py            # Fig3-only / 三组实验 / 续训
+│   ├── plot_results.py       # 四组真实结果图
+│   ├── evaluate.py           # 可选指标
+│   └── smoke_test.py         # 正式训练前测试
+├── legacy_unet/              # 旧 U-Net 备份
+├── results/dit_stable/       # 本次真实新结果，运行后生成
+└── runs_dit_stable/          # 本地 ckpt 和 CSV，不传大权重
 ~~~
 
-**研究结论原则：** 不能预设 iMF 在 MNIST 上一定优于 MF；应该根据真实 Loss、生成图和指标客观分析差异。
+**研究界限：** 原论文 Fig.3 的场景是 ImageNet 256×256 的 MF-B/2；本项目为 MNIST 32×32 + 缩小版原 DiT 的方法级复现。目标是检验 MF/iMF 的稳定性差异，而不是承诺数值与原论文一致。
