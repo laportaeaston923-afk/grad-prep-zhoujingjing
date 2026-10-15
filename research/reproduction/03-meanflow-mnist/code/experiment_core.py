@@ -112,6 +112,8 @@ def training_loss(model,x,labels,mode,diagonal_probability=0.5,max_cfg=4.0,cls_d
             diag_count=diag_count,diag_sum=diag_sum,diag_sumsq=diag_sumsq,
             jvp_rms=float(dudt.float().square().mean().sqrt()),
             jvp_max=float(dudt.float().abs().amax()),
+            weighted_jvp_rms=float((delta*dudt).float().square().mean().sqrt()),
+            weighted_jvp_max=float((delta*dudt).float().abs().amax()),
             u_rms=float(u.float().square().mean().sqrt()),
             u_max=float(u.float().abs().amax()),
             tangent_rms=float(tangent.float().square().mean().sqrt()),
