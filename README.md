@@ -49,7 +49,7 @@
 |---|---|---|
 | [DDPM · CIFAR-10](research/reproduction/01-ddpm-cifar10/) | 训练 U-Net 预测噪声，再进行反向采样 | 采用 `train_full_120_amp.py` 对应的完整 120 Epoch AMP 实验；已展示真实 Loss、生成图和去噪过程图 |
 | [DDIM · CIFAR-10](research/reproduction/02-ddim-cifar10/) | 复用 DDPM 权重，改变采样方法 | 已展示 50 步采样代码和结果；与 DDPM 的统一设备耗时、FID 对照仍待补齐 |
-| [MF / iMF · MNIST](research/reproduction/03-meanflow-mnist/) | 基于原项目 DiT，对比 JVP 方向、CFG 和一步生成 | 原项目 MFDiT 代码与绘图脚本已提交；三模型实际训练及结果待执行 |
+| [MF / iMF · MNIST](research/reproduction/03-meanflow-mnist/) | 基于原项目 DiT，对比 JVP 方向、CFG 和一步生成 | 原项目 MFDiT 代码已更新稳定性设置与 JVP 诊断；新版实际训练结果待执行 |
 
 
 DDPM 基础实现参考 [Bilibili 教学视频](https://www.bilibili.com/video/BV1vZi6BaEgF/)。MeanFlow 使用 [haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow) 的第三方实现，固定版本与许可记录在项目目录；当前结果属于 MNIST 实验，不声明达到原论文 ImageNet 成绩。
