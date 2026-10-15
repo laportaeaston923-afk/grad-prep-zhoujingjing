@@ -115,7 +115,7 @@ def main():
         try:
             run(sys.executable, root / 'plot_comparison_loss.py',
                 '--mf-loss-csv' if variant == 'mf' else '--imf-loss-csv',
-                loss_csv, '--out', run_dir / 'loss_curve.png')
+                loss_csv, '--out', run_dir / 'loss_curve.png',\n                '--diagnostics-out', run_dir / 'loss_diagnostics.png')
         except subprocess.CalledProcessError as e:
             print(f'WARNING: loss plotting failed; CSV and checkpoint are safe: {e}')
         if not args.skip_fid:
@@ -141,7 +141,7 @@ def main():
         run(sys.executable, root / 'plot_comparison_loss.py',
             '--mf-loss-csv', loss_sources['mf'],
             '--imf-loss-csv', loss_sources['imf'],
-            '--out', out / 'loss_comparison.png')
+            '--out', out / 'loss_comparison.png',\n            '--diagnostics-out', out / 'loss_diagnostics.png')
     except subprocess.CalledProcessError as e:
         print(f'WARNING: comparison plotting failed; original CSVs are safe: {e}')
     result = {'kind': 'controlled_mf_vs_imf_one_step',
