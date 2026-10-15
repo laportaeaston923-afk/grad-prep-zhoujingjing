@@ -166,14 +166,30 @@ def main():
                     scheduler.step()
                 values['loss'] += loss.item()
                 values['grad_norm'] += grad_norm.item()
-                for key in metrics:
-                    values[key] += metrics[key].item()
+                if 'comparison' in cfg:
+                    nb_count = metrics['non_boundary_count'].item()
+                    values['non_boundary_count'] += nb_count
+                    values['non_boundary_mse'] += metrics['non_boundary_mse'].item() * nb_count
+                    for key in metrics:
+                        if key not in ('non_boundary_count', 'non_boundary_mse'):
+                            values[key] += metrics[key].item()
+                else:
+                    for key in metrics:
+                        values[key] += metrics[key].item()
                 count += 1
                 progress.set_postfix(loss=f'{loss.item():.4f}', mse=f"{metrics['mf_v_mse'].item():.4f}")
                 save_now = step % args.save_every == 0 or step == cfg['n_steps']
                 if step % args.log_every == 0 or save_now:
-                    row = dict(step=step, interval_steps=count, lr=optimizer.param_groups[0]['lr'],
-                               **{k: v / count for k, v in values.items()})
+                    averages = {k: v / count for k, v in values.items()}
+                    if 'comparison' in cfg:
+                        # Figure 3 reports the sample-weighted mean over t != r.
+                        # Boundary counts vary between steps, so do not
+                        # average the per-batch non-boundary means uniformly.
+                        n = values['non_boundary_count']
+                        averages['non_boundary_mse'] = values['non_boundary_mse'] / max(n, 1)
+                        averages['non_boundary_count'] = n
+                    row = dict(step=step, interval_steps=count,
+                               lr=optimizer.param_groups[0]['lr'], **averages)
                     history.append(row)
                     writer.writerow(row)
                     f.flush()
