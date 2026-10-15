@@ -93,12 +93,31 @@ def training_loss(model,x,labels,mode,diagonal_probability=0.5,max_cfg=4.0,cls_d
         aux_loss=F.mse_loss(v_aux,target.detach())
     full=meanflow_loss+aux_loss
     with torch.no_grad():
-        off_count=int(offdiag.sum().item())
-        off_sum=float(per_example[offdiag].sum().item())
-        off_sumsq=float(per_example[offdiag].square().sum().item())
-        stats=dict(loss=float(full),v_loss=float(meanflow_loss),
-                   auxiliary_v_loss=float(aux_loss),
-                   offdiag_count=off_count,offdiag_sum=off_sum,offdiag_sumsq=off_sumsq)
+        # Recording both groups distinguishes u-regression from JVP instability.
+        # Diagnostics never change the original paper v-loss objective.
+        diag=~offdiag
+        off_values=per_example[offdiag].float()
+        diag_values=per_example[diag].float()
+        off_count=int(off_values.numel())
+        diag_count=int(diag_values.numel())
+        off_sum=float(off_values.sum())
+        off_sumsq=float(off_values.square().sum())
+        diag_sum=float(diag_values.sum())
+        diag_sumsq=float(diag_values.square().sum())
+        # JVP can have large tails even while t=r regression is fine.
+        stats=dict(
+            loss=float(full),v_loss=float(meanflow_loss),
+            auxiliary_v_loss=float(aux_loss),
+            offdiag_count=off_count,offdiag_sum=off_sum,offdiag_sumsq=off_sumsq,
+            diag_count=diag_count,diag_sum=diag_sum,diag_sumsq=diag_sumsq,
+            jvp_rms=float(dudt.float().square().mean().sqrt()),
+            jvp_max=float(dudt.float().abs().amax()),
+            u_rms=float(u.float().square().mean().sqrt()),
+            u_max=float(u.float().abs().amax()),
+            tangent_rms=float(tangent.float().square().mean().sqrt()),
+            compound_rms=float(V.float().square().mean().sqrt()),
+            offdiag_batch_max=float(off_values.max()) if off_count else 0.0,
+            delta_mean=float((t-r).mean()))
     return full,stats
 
 
