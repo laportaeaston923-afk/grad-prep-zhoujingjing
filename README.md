@@ -15,7 +15,7 @@
 | 论文资料 | 已建立论文索引，保存 4 份 PDF | [论文出处](research/papers/README.md) |
 | DDPM | CIFAR-10；120 Epoch AMP 训练代码、Loss 曲线图、生成样本和反向去噪过程图 | [DDPM 记录](research/reproduction/01-ddpm-cifar10/) |
 | DDIM | 复用 DDPM 网络权重的 50 步采样代码与生成结果图 | [DDIM 记录](research/reproduction/02-ddim-cifar10/) |
-| MeanFlow / iMF | 已编写 MNIST MF/iMF 与 CFG 的训练、绘图和评估脚本；正式训练图待生成 | [iMF 复现](research/reproduction/03-meanflow-mnist/) |
+| MeanFlow / iMF | 已改为原项目 DiT 的 MF/iMF/CFG 复现脚本，旧 U-Net 已归档；真实训练图待生成 | [iMF 复现](research/reproduction/03-meanflow-mnist/) |
 | 研究想法与工程实践 | 已建立目录，持续补充 | [Ideas](research/ideas/) / [Engineering](engineering/) |
 
 ## 02 · 论文阅读与研究方向
@@ -49,7 +49,7 @@
 |---|---|---|
 | [DDPM · CIFAR-10](research/reproduction/01-ddpm-cifar10/) | 训练 U-Net 预测噪声，再进行反向采样 | 采用 `train_full_120_amp.py` 对应的完整 120 Epoch AMP 实验；已展示真实 Loss、生成图和去噪过程图 |
 | [DDIM · CIFAR-10](research/reproduction/02-ddim-cifar10/) | 复用 DDPM 权重，改变采样方法 | 已展示 50 步采样代码和结果；与 DDPM 的统一设备耗时、FID 对照仍待补齐 |
-| [MF / iMF · MNIST](research/reproduction/03-meanflow-mnist/) | 对比 JVP 训练目标、灵活 CFG 和一步生成 | 代码与绘图脚本已就绪，三模型实际训练及图表待执行 |
+| [MF / iMF · MNIST](research/reproduction/03-meanflow-mnist/) | 基于原项目 DiT，对比 JVP 方向、CFG 和一步生成 | 原项目 MFDiT 代码与绘图脚本已提交；三模型实际训练及结果待执行 |
 
 
 DDPM 基础实现参考 [Bilibili 教学视频](https://www.bilibili.com/video/BV1vZi6BaEgF/)。MeanFlow 使用 [haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow) 的第三方实现，固定版本与许可记录在项目目录；当前结果属于 MNIST 实验，不声明达到原论文 ImageNet 成绩。
