@@ -19,7 +19,7 @@ def load(runs,mode,device):
     state=torch.load(file,map_location=device,weights_only=False)
     if state["mode"]!=mode:raise ValueError("Wrong checkpoint mode")
     model=MFDiT(**state["model_config"]).to(device)
-    model.load_state_dict(state["model"],strict=True);model.eval()
+    model.load_state_dict(state.get("ema_model",state["model"]),strict=True);model.eval()
     return model,state
 
 
@@ -66,22 +66,25 @@ def loss_plot(runs,dest):
 @torch.no_grad()
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument("--runs-root",default=str(ROOT/"runs_dit"))
-    p.add_argument("--results",default=str(ROOT/"results"/"dit"))
+    p.add_argument("--runs-root",default=str(ROOT/"runs_dit_stable"))
+    p.add_argument("--results",default=str(ROOT/"results"/"dit_stable"))
+    p.add_argument("--fig3-only",action="store_true",
+                   help="No CFG checkpoint needed; generate Fig3, MF-vs-iMF and 1-step")
     p.add_argument("--device",default="auto")
     p.add_argument("--seed",type=int,default=2026)
     a=p.parse_args()
     dev=torch.device("cuda" if a.device=="auto" and torch.cuda.is_available()
                      else ("cpu" if a.device=="auto" else a.device))
     runs,out=Path(a.runs_root),Path(a.results)
-    checkpoints={k:load(runs,k,dev) for k in ("mf","imf","imf_cfg")}
+    modes=("mf","imf") if a.fig3_only else ("mf","imf","imf_cfg")
+    checkpoints={k:load(runs,k,dev) for k in modes}
     out.mkdir(parents=True,exist_ok=True)
     loss_plot(runs,out/"fig3_loss_dit.png")
     # Identical noise, labels and number of evaluations for every comparison.
     torch.manual_seed(a.seed)
     label=torch.arange(10,device=dev)
     noise=torch.randn(10,1,32,32,device=dev)
-    mf=checkpoints["mf"][0];imf=checkpoints["imf"][0];cfg=checkpoints["imf_cfg"][0]
+    mf=checkpoints["mf"][0];imf=checkpoints["imf"][0]
     z_imf,u_imf=sample_one_step(imf,noise,label,1.)
     velocity_vis=(u_imf/(2*max(1.,u_imf.abs().max().item()))+.5).clamp(0,1)
     plot_rows([to_images(noise),velocity_vis,to_images(z_imf)],
@@ -92,12 +95,16 @@ def main():
     plot_rows([to_images(z_mf),to_images(z_imf)],["MF","iMF"],
               "Same DiT size, training budget, noise and class; 1-NFE",
               out/"mf_vs_imf_dit.png")
-    scales=[1.,1.5,2.,3.,4.]
-    z_cfg=[to_images(sample_one_step(cfg,noise,label,scale)[0]) for scale in scales]
-    plot_rows(z_cfg,[f"CFG = {scale:g}" for scale in scales],
-              "Same iMF DiT, same noise; flexible CFG in one evaluation",
-              out/"cfg_scales_dit.png")
-    print(f"Saved four DiT results in {out}")
+    if not a.fig3_only:
+        cfg=checkpoints["imf_cfg"][0]
+        scales=[1.,1.5,2.,3.,4.]
+        z_cfg=[to_images(sample_one_step(cfg,noise,label,scale)[0])
+               for scale in scales]
+        plot_rows(z_cfg,[f"CFG = {scale:g}" for scale in scales],
+                  "Same iMF DiT, same noise; flexible CFG in one evaluation",
+                  out/"cfg_scales_dit.png")
+    print(f"Saved {'three figures (CFG skipped)' if a.fig3_only else 'four figures'} "
+          f"from actual DiT checkpoints in {out}")
 
 
 if __name__=="__main__":
