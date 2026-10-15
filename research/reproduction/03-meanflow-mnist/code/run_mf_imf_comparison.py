@@ -39,7 +39,9 @@ def main():
     args = parser.parse_args()
     if args.steps < 1 or args.num_samples < 2 or min(args.batch_size, args.fid_batch_size) < 1:
         parser.error('Steps and batches must be positive; FID requires >=2 samples')
-    precision = args.precision or ('no' if args.cpu else 'bf16')
+    # Figure-3-style comparison: use FP32 on GPU by default.
+    # BF16 remains opt-in, but JVP itself is forced to FP32 for both methods.
+    precision = args.precision or 'no'
     root = Path(__file__).resolve().parent
     out = args.out or (root.parent / 'results' / 'mf-vs-imf-one-step' / datetime.now().strftime('%Y%m%d_%H%M%S_%f'))
     out.mkdir(parents=True, exist_ok=False)
@@ -54,6 +56,26 @@ def main():
         resume_checkpoint = getattr(args, f'{variant}_resume')
         if existing_checkpoint is not None and resume_checkpoint is not None:
             parser.error(f'--{variant}-checkpoint and --{variant}-resume are mutually exclusive')
+        # Mixing the previous BF16 run into the revised FP32 comparison
+        # would invalidate a fair MF/iMF loss comparison. Require v2 metadata.
+        supplied_ckpt = existing_checkpoint or resume_checkpoint
+        if supplied_ckpt is not None:
+            import torch
+            source = torch.load(supplied_ckpt, map_location='cpu', weights_only=False)
+            old_config = source.get('config', {})
+            if old_config.get('comparison_revision') != 2:
+                parser.error(
+                    f'{variant.upper()} checkpoint was trained with the old '
+                    'comparison implementation. Keep it as a historical result; '
+                    'run both MF and iMF from scratch for the corrected FP32 comparison.'
+                )
+            if old_config.get('mixed_precision') != precision:
+                parser.error(
+                    f'{variant.upper()} checkpoint uses precision '
+                    f"{old_config.get('mixed_precision')}, but this run requests {precision}."
+                )
+            if old_config.get('comparison', {}).get('variant') != variant:
+                parser.error(f'{variant.upper()} checkpoint variant mismatch')
         if existing_checkpoint is not None:
             checkpoint = existing_checkpoint.resolve()
             if not checkpoint.is_file():
