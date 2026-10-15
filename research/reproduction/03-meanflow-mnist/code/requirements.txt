@@ -1,9 +1,0 @@
-numpy
-pillow
-timm>=1.0,<2
-einops>=0.8,<1
-tqdm
-matplotlib
-accelerate
-diffusers
-torch-fidelity==0.3.0
