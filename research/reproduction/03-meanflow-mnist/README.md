@@ -50,7 +50,7 @@ python -m pip install -r requirements.txt
 python tests/check_mf_imf.py
 ```
 
-一次运行两组独立训练、一步 FID 与一步采样计时（需要 CUDA GPU 和 BF16）：
+一次运行两组独立训练、一步 FID 与一步采样计时（GPU 默认 **FP32**，不再默认 BF16）：
 
 ```bat
 python run_mf_imf_comparison.py --steps 10000 --num-samples 10000 --batch-size 32
@@ -62,21 +62,37 @@ CPU 上只进行最小流程检查（**不代表模型收敛**）：
 python run_mf_imf_comparison.py --steps 2 --batch-size 2 --cpu --precision no --skip-fid --skip-timing
 ```
 
-脚本会依次执行 MF 和 iMF，结果保存在 `results/mf-vs-imf-one-step/<时间戳>/` 中；包含双方独立的 `train/loss.csv`、`train/loss_curve.png`、`train/images/`、`train/ckpts/`，以及 `fid/`、`timing/`、`comparison.json` 和生成的对照 README。FID 使用两组各 **10,000 张生成图 vs 同一组 10,000 张 MNIST test**；两组采用相同标签与初始噪声。若为少量样本短测，不应作为正式 FID。
+脚本会依次执行 MF 和 iMF，结果保存在 `results/mf-vs-imf-one-step/<时间戳>/` 中；包含双方独立的 `train/loss.csv`、`loss_curve.png`、`loss_diagnostics.png`、`train/images/`、`train/ckpts/`，以及 `fid/`、`timing/`、`comparison.json` 和生成的对照 README。FID 使用两组各 **10,000 张生成图 vs 同一组 10,000 张 MNIST test**；两组采用相同标签与初始噪声。若为少量样本短测，不应作为正式 FID。
 
-### Windows OpenMP #15 / 中途退出后的恢复
+### 复现论文 Figure 3：数值稳定性修订 v2（2026-10-15）
 
-如果出现 `OMP: Error #15: libiomp5md.dll already initialized`，不要使用 `KMP_DUPLICATE_LIB_OK=TRUE` 掩盖潜在的库冲突。先检查 `results/mf-vs-imf-one-step/.../mf/train/ckpts/` 中是否已有最终 `step_0010000.pt`。**已有最终权重时无需再训练 MF**：
+你之前的 MNIST 对照中，iMF 在 step 5200/6700 附近出现超过 2 万的 Loss 尖峰。该尖峰是真实训练日志，不应删掉或在绘图时截断；不能直接当作论文结果。为了先排除**实现和数值精度**问题，已作如下修改：
+
+1. **JVP 子图强制 FP32**：包括 iMF 的 `v_theta = u_theta(z,t,t)` 和真正求导的 JVP；MF 和 iMF 一致。BF16 自动混合精度下的 JVP 可能导致数值误差；该修改是稳定性排查措施，**并未证实 BF16 就是此前尖峰的根因**。
+2. 新实验两组都默认使用 `--precision no`（GPU FP32）。此前 MF 为 BF16，不能与新 FP32 iMF 混用来声称公平对比。
+3. 只画 `t != r` 的原始速度 MSE，记录每个区间的非边界样本数并**按样本数加权**。输出 `loss_comparison.png`；同时输出 `loss_diagnostics.png`，用于检查总 Loss、梯度范数、JVP 方向及结果的 RMS。
+4. 普通 L2、无 CFG、同一个 u-head、同一时间采样和结构保持不变；梯度裁剪（5.0）继续沿用，记录的 `grad_norm` 是裁剪**前**的值。只比较一步生成。
+
+**重要：** v2 引入 `comparison_revision=2`，新脚本会拒绝把旧 BF16 的 `step_0010000.pt` 用作新对照的任一组。老权重及 Loss 必须作为历史实验保留，不能通过直接加载旧权重获得修改后算法的曲线。新实验需要 MF、iMF **分别重新训练**。
+
+先在你本地 `E:\\all\\03-meanflow-mnist\\code` 做短测：
 
 ```powershell
 conda activate meanflow
-python -c "import sys; print(sys.executable)"
-python run_mf_imf_comparison.py --steps 10000 --num-samples 10000 --batch-size 32 --mf-checkpoint "E:\\all\\03-meanflow-mnist\\results\\mf-vs-imf-one-step\\你的运行目录\\mf\\train\\ckpts\\step_0010000.pt"
+python -m pip install matplotlib
+python tests/check_mf_imf.py
+python run_mf_imf_comparison.py --steps 300 --batch-size 32 --skip-fid --skip-timing --precision no
 ```
 
-将路径换成你的实际文件路径，程序会跳过 MF 训练，继续执行该 MF 的一步 FID 和 iMF 的完整训练。若只有未完成的中间 checkpoint，则使用 `--mf-resume "完整路径"` **续训到 10,000 step**；若只有 `step_0000000.pt`，无法恢复已经进行但未保存的训练步数。
+短测没问题后再开展正式训练：
 
-新版本的对照脚本每 **500 step** 保存 checkpoint，训练阶段避免在同一进程内导入 Matplotlib，训练结束后在独立进程根据 `loss.csv` 画图。正式对比还会在运行目录生成 `loss_comparison.png`。**GitHub 更新不会自动修改你电脑上下载的旧文件，运行前请同步最新代码**。
+```powershell
+python run_mf_imf_comparison.py --steps 10000 --num-samples 10000 --batch-size 32 --precision no
+```
+
+如果 Windows 出现 `OMP: Error #15`，先检查具体依赖/conda 环境，不要通过 `KMP_DUPLICATE_LIB_OK=TRUE` 强行忽略。训练阶段避免在同一进程内导入 Matplotlib；每 500 step 自动保存 checkpoint。只对**本 v2 实验**使用 `--mf-resume` 或 `--imf-resume` 续训，别混用旧 BF16 权重。
+
+**论文差异：** Figure 3 使用 ImageNet 潜变量、MeanFlow-B/2、约 50,000 训练步；这里仍使用 MNIST 和简化 DiT（10,000 step），因此不能保证出现论文中 MF 上升、iMF 平稳下降的相同趋势。此修订用于提高比较的可解释性，**不是美化曲线，也不是完整复现 Figure 3 的硬件/数据设置**。
 
 ## 4. 实验结果
 
@@ -84,7 +100,7 @@ python run_mf_imf_comparison.py --steps 10000 --num-samples 10000 --batch-size 3
 
 | 指标 | MF | iMF |
 |---|---|---|
-| 训练 Loss 曲线 | 待运行 | 待运行 |
+| v2 训练 Loss 曲线 | 待重新运行 | 待重新运行 |
 | 一步生成图片 | 待运行 | 待运行 |
 | 一步 FID ↓ | 待运行 | 待运行 |
 | 一步生成耗时 | 待运行 | 待运行 |
