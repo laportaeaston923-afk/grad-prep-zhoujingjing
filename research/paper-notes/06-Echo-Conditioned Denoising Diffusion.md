@@ -2,6 +2,12 @@
 
 **Echo-Conditioned Denoising Diffusion Probabilistic Models for Multi-Target Tracking in RF Sensing**
 
+- **作者：** Amirhossein Azarbahram、Onel L. A. López
+- **出处：** arXiv 预印本，2025（本次检索未发现正式会议或期刊出版信息）
+- **论文：** [arXiv:2510.25464](https://arxiv.org/abs/2510.25464)
+- **官方代码：** 本次检索未找到作者公开的官方代码仓库。
+- **方法关键词：** RF Sensing、C-DDPM、VAE、Classifier-Free Guidance（CFG）、多目标跟踪、角度与距离预测、感知波束选择
+
 方法名称：**Echo-Conditioned C-DDPM（回波条件扩散模型）**
 
 ## 1. 核心内容
