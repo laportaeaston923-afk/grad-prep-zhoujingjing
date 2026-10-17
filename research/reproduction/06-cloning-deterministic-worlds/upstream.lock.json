@@ -1,5 +1,0 @@
-{
-  "repo": "https://github.com/XiaFire/Clone_Deterministic_Environment.git",
-  "commit": "0a1f99fb7d47e1d8985b00b658aa77d7335cf49f",
-  "comment": "Official Maze9 initial release (2026-06-18). Model, loss and diffusion code are fetched unchanged at this commit."
-}
