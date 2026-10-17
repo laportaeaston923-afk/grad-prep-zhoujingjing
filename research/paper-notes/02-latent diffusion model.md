@@ -2,6 +2,12 @@
 
 **High-Resolution Image Synthesis with Latent Diffusion Models（LDM）**
 
+- **作者：** Robin Rombach、Andreas Blattmann、Dominik Lorenz、Patrick Esser、Björn Ommer
+- **出处：** *Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 2022, pp. 10684–10695
+- **论文：** [CVF Open Access](https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html) · [arXiv:2112.10752](https://arxiv.org/abs/2112.10752) · [DOI](https://doi.org/10.1109/CVPR52688.2022.01042)
+- **官方代码：** [CompVis/latent-diffusion](https://github.com/CompVis/latent-diffusion)
+- **方法关键词：** Latent Diffusion、VAE、潜在空间、Cross-Attention、条件图像生成、高分辨率合成
+
 ## 1. 核心内容
 
 将图像生成、Diffusion Model、VAE 和 Latent Space 结合起来，在压缩后的潜在空间中进行扩散生成。
