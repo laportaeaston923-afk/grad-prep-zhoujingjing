@@ -6,7 +6,7 @@
 
 ## 01 · 论文阅读
 
-目前已整理 6 篇论文阅读笔记。原文与官方出处见 [论文索引](papers/README.md)。
+目前已整理 8 篇论文阅读笔记。原文与官方出处见 [论文索引](papers/README.md)。
 
 | 编号 | 论文 / 方法 | 主要内容 | 阅读笔记 |
 |---|---|---|---|
@@ -16,6 +16,8 @@
 | 04 | WiFi-Diffusion | 无线电地图估计与环境重建 | [查看笔记](paper-notes/04-wifi%20diffusion.md) |
 | 05 | MeanFlow | 平均速度建模与一步生成 | [查看笔记](paper-notes/05-meanflow.md) |
 | 06 | Echo-Conditioned DDPM | RF 多目标跟踪与波束选择 | [查看笔记](paper-notes/06-Echo-Conditioned%20Denoising%20Diffusion.md) |
+| 07 | mmWaveFlow | Flow Matching 统一稀疏 / 稠密人体点云的双向转换 | [查看笔记](paper-notes/07-mmWaveFlow.md) |
+| 08 | cDDIM | 位置条件 MIMO 信道生成与数据增强 | [查看笔记](paper-notes/08-cDDIM.md) |
 
 ## 02 · 研究任务对比
 
@@ -27,6 +29,8 @@
 | LatentCSI | 图像潜在表示 | 无线场景可视化 |
 | WiFi-Diffusion | Radio Map | 无线环境重建 |
 | Echo-Conditioned DDPM | 未来目标状态 | 目标跟踪与后续波束选择 |
+| cDDIM | 用户位置条件下的 MIMO 信道 | 数据增强，辅助下游通信任务 |
+| mmWaveFlow | 稀疏 / 稠密人体点云 | 点云增强与毫米波点云生成 |
 | MeanFlow | 数据样本 | 研究一步生成与采样效率 |
 
 阅读时重点记录：输入是什么、生成什么、如何训练、怎样评估，以及生成结果如何帮助最终任务。
