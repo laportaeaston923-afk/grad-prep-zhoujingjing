@@ -1,6 +1,12 @@
 # 论文名称
 
-**CLAR（WiFi CSI 人体活动识别）**
+**Diffusion Model-Based Contrastive Learning for Human Activity Recognition（CLAR）**
+
+- **作者：** Chunjing Xiao、Yanhui Han、Wei Yang、Yane Hou、Fangzhan Shi、Kevin Chetty
+- **出处：** *IEEE Internet of Things Journal*, 11(20), 33525–33536, 2024
+- **论文：** [IEEE Xplore / DOI](https://doi.org/10.1109/JIOT.2024.3429245) · [arXiv:2408.05567](https://arxiv.org/abs/2408.05567) · [开放版本（UCL）](https://discovery.ucl.ac.uk/id/eprint/10194462/)
+- **官方代码：** [ChunjingXiao/CLAR](https://github.com/ChunjingXiao/CLAR)
+- **方法关键词：** WiFi CSI、人体活动识别、DDPM 数据增强、对比学习、DTW、自适应权重
 
 ## 1. 核心内容
 
