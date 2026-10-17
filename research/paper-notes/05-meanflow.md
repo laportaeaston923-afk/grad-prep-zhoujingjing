@@ -2,6 +2,12 @@
 
 **Mean Flows for One-step Generative Modeling（MeanFlow）**
 
+- **作者：** Zhengyang Geng、Mingyang Deng、Xingjian Bai、J. Zico Kolter、Kaiming He
+- **出处：** *Advances in Neural Information Processing Systems (NeurIPS 2025)*, Main Conference Track（Oral）
+- **论文：** [NeurIPS 2025](https://papers.neurips.cc/paper_files/paper/2025/hash/6d13e085b79d454da5910e4ca82a3d9d-Abstract-Conference.html) · [arXiv:2505.13447](https://arxiv.org/abs/2505.13447)
+- **官方代码：** [Gsunshine/meanflow](https://github.com/Gsunshine/meanflow)（作者团队发布的实现）；[haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow)（用于 MNIST / PyTorch 复现的第三方实现）
+- **方法关键词：** Flow Matching、平均速度、瞬时速度、单步生成、JVP、ODE、NFE
+
 ## 1. 核心内容
 
 MeanFlow 是一种单步生成（One-step Generation）方法。它学习一段时间区间内的**平均速度**，而不是某一时刻的瞬时速度，希望直接从噪声生成数据。
