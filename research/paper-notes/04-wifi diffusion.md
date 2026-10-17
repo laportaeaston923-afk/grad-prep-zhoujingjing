@@ -1,6 +1,12 @@
 # 论文名称
 
-WiFi-Diffusion: Achieving Fine-Grained WiFiRadio Map Estimation with Ultra-Low SamplingRate by Diffusion Models
+**WiFi-Diffusion: Achieving Fine-Grained WiFi Radio Map Estimation With Ultra-Low Sampling Rate by Diffusion Models**
+
+- **作者：** Zhiyuan Liu、Shuhang Zhang、Qingyu Liu、Hongliang Zhang、Lingyang Song
+- **出处：** *IEEE Journal on Selected Areas in Communications*, 43(11), 3796–3812, 2025
+- **论文：** [IEEE Xplore / DOI](https://doi.org/10.1109/JSAC.2025.3584562) · [arXiv:2503.12004](https://arxiv.org/abs/2503.12004)
+- **官方代码：** [liuzhiyuan-pku/WiFi-Diffusion](https://github.com/liuzhiyuan-pku/WiFi-Diffusion)
+- **方法关键词：** Radio Map、超低采样率、条件 DDPM、DDIM 采样、物理先验、候选地图筛选
 ## 1. 核心内容
 在只采集极少量 WiFi 无线电样本的情况下，如何生成整个区域的高分辨率、细粒度 Radio Map。
 ```text
