@@ -16,7 +16,7 @@
 | **LDM** · High-Resolution Image Synthesis with Latent Diffusion Models | CVPR 2022 | 潜在空间扩散与高分辨率图像生成 | 🔗 [CVPR 官方](https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html) | [阅读笔记](../paper-notes/02-latent%20diffusion%20model.md) |
 | **MeanFlow** · Mean Flows for One-step Generative Modeling | 2025 | 单步生成与采样效率 | 📄 [仓库 PDF](mean%20flow.pdf) | [阅读笔记](../paper-notes/05-meanflow.md) |
 
-## 02 · 无线感知与扩散模型
+## 02 · 无线感知、无线通信与生成模型应用
 
 | 论文 / 方法 | 年份 | 研究任务 | 论文原文 | 阅读笔记 |
 |---|---|---|---|---|
@@ -24,6 +24,8 @@
 | **LatentCSI** · High-resolution Efficient Image Generation from WiFi CSI Using a Pretrained Latent Diffusion Model | 2025 | CSI 到 RGB 图像生成 | 📄 [仓库 PDF](LatentCSI_WiFi_CSI_Image_Generation_2025.pdf) | [阅读笔记](../paper-notes/03-LatentCSI.md) |
 | **WiFi-Diffusion** | 2025 | 低采样率 Radio Map 估计 | 📄 [仓库 PDF](WiFi-Diffusion_Radio_Map_Estimation_2025.pdf) | [阅读笔记](../paper-notes/04-wifi%20diffusion.md) |
 | **Echo-Conditioned DDPM** · Multi-Target Tracking in RF Sensing | 2025 · arXiv | RF 多目标状态预测与波束选择 | 🔗 [arXiv](https://arxiv.org/abs/2510.25464) | [阅读笔记](../paper-notes/06-Echo-Conditioned%20Denoising%20Diffusion.md) |
+| **mmWaveFlow** · Unified Enhancement and Generation of mmWave Human Point Clouds | CVPR 2026 | 稀疏 / 稠密人体点云的双向转换与增强 | 🔗 [CVF Open Access](https://openaccess.thecvf.com/content/CVPR2026/html/Su_mmWaveFlow_Unified_Enhancement_and_Generation_of_mmWave_Human_Point_Clouds_CVPR_2026_paper.html) | [阅读笔记](../paper-notes/07-mmWaveFlow.md) |
+| **cDDIM** · Generating High Dimensional User-Specific Wireless Channels using Diffusion Models | IEEE Transactions on Wireless Communications, Vol. 25 (2026; online 2025) | 用户位置条件下的 MIMO 信道生成与数据增强 | 🔗 [arXiv](https://arxiv.org/abs/2409.03924) · [IEEE Xplore](https://ieeexplore.ieee.org/document/11142589/) | [阅读笔记](../paper-notes/08-cDDIM.md) |
 
 ---
 
