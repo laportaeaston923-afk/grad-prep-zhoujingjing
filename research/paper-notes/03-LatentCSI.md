@@ -1,6 +1,12 @@
 # 论文名称
 
-High-resolution efficient image generation from WiFi CSI using a pretrained latent diffusion model
+**High-resolution efficient image generation from WiFi CSI using a pretrained latent diffusion model（LatentCSI）**
+
+- **作者：** Eshan Ramesh、Takayuki Nishio
+- **出处：** *2025 IEEE Global Communications Conference Workshops (GLOBECOM Workshops)*, 2025, pp. 709–714
+- **论文：** [arXiv:2506.10605](https://arxiv.org/abs/2506.10605) · [IEEE Xplore / DOI](https://doi.org/10.1109/GCWkshps68340.2025.11591056)
+- **官方代码：** 本次检索未找到作者公开的专用官方代码仓库；可参考其使用的基础模型实现：[CompVis/latent-diffusion](https://github.com/CompVis/latent-diffusion)（这是 LDM 基础模型代码，不等于 LatentCSI 官方实现）
+- **方法关键词：** WiFi CSI、CSI-to-Image、预训练 LDM、潜在空间映射、文本引导、环境可视化
 ## 1. 核心内容
 
 利用 WiFi CSI 重建一个高维的、可视化的、可控制的图像表示
