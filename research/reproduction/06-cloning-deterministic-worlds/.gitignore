@@ -1,0 +1,13 @@
+.upstream/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.pth
+*.pt
+*.ckpt
+*.npy
+*.hdf5
+*.h5
+wandb/
+logs/
+checkpoints/
