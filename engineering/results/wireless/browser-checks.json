@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checks": [
+    "8 test examples",
+    "3 real metric rows",
+    "59.5% RMSE reduction",
+    "reset to t=100",
+    "sample and subcarrier switching",
+    "playback reaches t=0",
+    "390px no horizontal overflow",
+    "zero JavaScript exceptions"
+  ],
+  "browser": "Microsoft Edge headless / CDP",
+  "screenshots": [
+    "wireless-desktop.png",
+    "wireless-mobile.png"
+  ]
+}
