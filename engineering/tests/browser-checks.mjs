@@ -1,0 +1,69 @@
+/** Run after launching a dedicated Edge/Chrome with --remote-debugging-port=9222. */
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import assert from 'node:assert/strict';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const targets=await (await fetch(process.env.CDP_URL||'http://127.0.0.1:9222/json')).json();
+const target=targets.find(t=>t.type==='page');if(!target)throw Error('No browser page target');
+const ws=new WebSocket(target.webSocketDebuggerUrl);
+await new Promise((resolve,reject)=>{ws.onopen=resolve;ws.onerror=reject;});
+let seq=0;const pending=new Map(),errors=[],checks=[];
+ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails);if(m.id){const p=pending.get(m.id);pending.delete(m.id);m.error?p.reject(m.error):p.resolve(m.result);}};
+const send=(method,params={})=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params}));});
+async function evaluate(expression){const r=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(JSON.stringify(r.exceptionDetails));return r.result.value;}
+async function until(expression){for(let i=0;i<80;i++){if(await evaluate(expression))return;await new Promise(r=>setTimeout(r,75));}throw Error('Timeout: '+expression);}
+async function screenshot(filename,full=true){await evaluate('window.scrollTo(0,0)');await new Promise(r=>setTimeout(r,150));let params={format:'png',captureBeyondViewport:full};if(full){const m=await send('Page.getLayoutMetrics');params.clip={x:0,y:0,width:m.cssContentSize.width,height:m.cssContentSize.height,scale:1};}const image=await send('Page.captureScreenshot',params);await fs.writeFile(path.join(root,'screenshots',filename),Buffer.from(image.data,'base64'));}
+await send('Runtime.enable');await send('Page.enable');
+await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1080,deviceScaleFactor:1,mobile:false});
+await send('Page.navigate',{url:pathToFileURL(path.join(root,'src/index.html')).href});
+await until("document.readyState==='complete' && document.getElementById('benchmark')?.children.length >= 7");
+await evaluate("localStorage.removeItem('gencompare.custom.v1')");await send('Page.reload');
+await until("document.getElementById('benchmark')?.children.length===7");
+assert.equal(await evaluate("document.getElementById('model-pills').children.length"),7);checks.push('7 built-in models and real experiment data loaded');
+for(const model of ['ddpm','ddim','vae','ldm','dit','fm','meanflow']){
+ await evaluate(`document.getElementById('model-a').value='${model}';document.getElementById('model-a').dispatchEvent(new Event('change'))`);
+ assert.ok(await evaluate("document.getElementById('metric-a').textContent.includes('MMD')"));
+}
+checks.push('All 7 model selectors and supported NFE configurations');
+await evaluate("document.getElementById('model-a').value='ddpm';document.getElementById('model-a').dispatchEvent(new Event('change'));document.getElementById('steps-b').value='5';document.getElementById('steps-b').dispatchEvent(new Event('change'));document.getElementById('digit').value='3';document.getElementById('digit').dispatchEvent(new Event('change'));document.getElementById('play').click()");
+await until("document.getElementById('play').textContent.startsWith('▶')");
+assert.equal(await evaluate("document.getElementById('frame-a').value===document.getElementById('frame-a').max"),true);checks.push('Class filtering and synchronized playback finish');
+await evaluate("document.getElementById('digit').value='all';document.getElementById('digit').dispatchEvent(new Event('change'))");
+await screenshot('01-comparison.png');
+await evaluate("document.querySelector('[data-tab=principles]').click();document.getElementById('noise-t').value=100;document.getElementById('noise-t').dispatchEvent(new Event('input'));document.getElementById('flow-t').value=75;document.getElementById('flow-t').dispatchEvent(new Event('input'))");
+assert.equal(await evaluate("document.getElementById('noise-output').textContent"),'100 / 100');
+assert.equal(await evaluate("document.getElementById('flow-output').textContent"),'75%');checks.push('Formula-based noising and paired-flow sliders');
+await screenshot('02-principles.png');
+await evaluate("document.querySelector('[data-tab=records]').click();document.getElementById('loss-model').value='meanflow';document.getElementById('loss-model').dispatchEvent(new Event('change'))");
+assert.ok(await evaluate("document.getElementById('loss-note').textContent.includes('平均速度')"));
+await screenshot('03-records.png');checks.push('Model-specific loss curves and experiment provenance');
+await evaluate("document.querySelector('[data-tab=compare]').click();document.getElementById('add-model').click()");
+await screenshot('04-add-model.png',false);
+await evaluate("document.getElementById('custom-name').value='QA Method';document.getElementById('custom-summary').value='Manual comparison';document.getElementById('custom-pros').value='Fast';document.getElementById('custom-cons').value='Needs evaluation';document.getElementById('import-form').requestSubmit()");
+await until("document.getElementById('benchmark').children.length===8");
+assert.ok(await evaluate("document.getElementById('metric-b').textContent.includes('未提供')"));
+await send('Page.reload');await until("document.getElementById('benchmark')?.children.length===8");checks.push('Manual model addition, no invented metrics, reload persistence');
+await evaluate("document.getElementById('remove-model').click()");
+assert.equal(await evaluate("document.getElementById('benchmark').children.length"),7);
+// Reject invalid input without mutating the model list.
+await evaluate(`document.getElementById('add-model').click();var invalid={name:'Bad',summary:'Invalid metrics',pros:['x'],cons:['y'],metrics:{label_consistency:5}};var transfer=new DataTransfer();transfer.items.add(new File([JSON.stringify(invalid)],'bad.json',{type:'application/json'}));document.getElementById('model-file').files=transfer.files;document.getElementById('import-form').requestSubmit();`);
+await until("document.getElementById('import-error').textContent.length>0");
+assert.equal(await evaluate("document.getElementById('benchmark').children.length"),7);
+checks.push('Invalid metric JSON rejected without mutation');
+// Round-trip the exported array format, with literal HTML text and real pixels.
+await evaluate(`var value={name:'<img src=x onerror=alert(1)>',summary:'Imported text',pros:['One'],cons:['Two'],samples:[GEN_META.reference[0]],labels:[0],nfe:4,metrics:{mmd2:.01,label_consistency:.5,batch_ms:10},provenance:'QA import, not a scientific result'};var transfer=new DataTransfer();transfer.items.add(new File([JSON.stringify([value])],'models.json',{type:'application/json'}));document.getElementById('model-file').files=transfer.files;document.getElementById('import-form').requestSubmit();`);
+await until("document.getElementById('benchmark').children.length===8");
+assert.equal(await evaluate("document.querySelectorAll('#model-detail img').length"),0);
+assert.ok(await evaluate("document.getElementById('model-detail').textContent.includes('<img')"));
+assert.ok(await evaluate("document.getElementById('metric-b').textContent.includes('50.0%')"));
+checks.push('JSON array import with pixels and metrics; HTML remains literal text');
+await evaluate("document.getElementById('remove-model').click()");
+assert.equal(await evaluate("document.getElementById('benchmark').children.length"),7);checks.push('Custom model removal preserves built-ins');
+await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+await evaluate("document.querySelector('[data-tab=compare]').click()");
+assert.ok(await evaluate('document.documentElement.scrollWidth<=window.innerWidth'));
+await screenshot('05-mobile.png',false);checks.push('390px responsive layout without horizontal overflow');
+assert.equal(errors.length,0);checks.push('Zero JavaScript exceptions');
+await fs.writeFile(path.join(root,'results/browser-checks.json'),JSON.stringify({passed:true,browser:'Microsoft Edge headless / CDP',checks},null,2));
+console.log(JSON.stringify({passed:true,checks},null,2));ws.close();

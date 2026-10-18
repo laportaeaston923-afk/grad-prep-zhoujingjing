@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "browser": "Microsoft Edge headless / CDP",
+  "checks": [
+    "7 built-in models and real experiment data loaded",
+    "All 7 model selectors and supported NFE configurations",
+    "Class filtering and synchronized playback finish",
+    "Formula-based noising and paired-flow sliders",
+    "Model-specific loss curves and experiment provenance",
+    "Manual model addition, no invented metrics, reload persistence",
+    "Invalid metric JSON rejected without mutation",
+    "JSON array import with pixels and metrics; HTML remains literal text",
+    "Custom model removal preserves built-ins",
+    "390px responsive layout without horizontal overflow",
+    "Zero JavaScript exceptions"
+  ]
+}
