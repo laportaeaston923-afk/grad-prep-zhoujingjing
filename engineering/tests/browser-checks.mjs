@@ -21,6 +21,16 @@ await until("document.readyState==='complete' && document.getElementById('benchm
 await evaluate("localStorage.removeItem('gencompare.custom.v1')");await send('Page.reload');
 await until("document.getElementById('benchmark')?.children.length===7");
 assert.equal(await evaluate("document.getElementById('model-pills').children.length"),7);checks.push('7 built-in models and real experiment data loaded');
+assert.ok(await evaluate("document.getElementById('edit-model').disabled && document.getElementById('remove-model').disabled"));
+assert.equal(await evaluate("document.getElementById('plot-run').options.length"),24);
+await evaluate("document.getElementById('plot-run').value='meanflow-2';document.getElementById('plot-run').dispatchEvent(new Event('change'))");
+assert.equal(await evaluate("document.getElementById('model-b').value"),'meanflow');
+assert.equal(await evaluate("document.getElementById('steps-b').value"),'2');
+assert.ok(await evaluate("document.getElementById('plot-readout').textContent.includes('MeanFlow')"));
+await evaluate("document.getElementById('plot-metric').value='label_consistency';document.getElementById('plot-metric').dispatchEvent(new Event('change'));document.getElementById('plot-model').value='ddim';document.getElementById('plot-model').dispatchEvent(new Event('change'))");
+assert.equal(await evaluate("document.getElementById('plot-run').options.length"),6);
+await evaluate("document.getElementById('plot-model').value='all';document.getElementById('plot-model').dispatchEvent(new Event('change'));document.getElementById('plot-metric').value='mmd2';document.getElementById('plot-metric').dispatchEvent(new Event('change'));document.getElementById('model-b').value='ddim';document.getElementById('model-b').dispatchEvent(new Event('change'))");
+checks.push('Speed-quality chart, metric and model filters, accessible point selection');
 for(const model of ['ddpm','ddim','vae','ldm','dit','fm','meanflow']){
  await evaluate(`document.getElementById('model-a').value='${model}';document.getElementById('model-a').dispatchEvent(new Event('change'))`);
  assert.ok(await evaluate("document.getElementById('metric-a').textContent.includes('MMD')"));
@@ -44,20 +54,37 @@ await evaluate("document.getElementById('custom-name').value='QA Method';documen
 await until("document.getElementById('benchmark').children.length===8");
 assert.ok(await evaluate("document.getElementById('metric-b').textContent.includes('未提供')"));
 await send('Page.reload');await until("document.getElementById('benchmark')?.children.length===8");checks.push('Manual model addition, no invented metrics, reload persistence');
+assert.ok(await evaluate("document.getElementById('remove-model').disabled"));
+await evaluate("[...document.querySelectorAll('#model-pills button')].find(b=>b.textContent==='QA Method').click();document.getElementById('edit-model').click();document.getElementById('custom-name').value='QA Edited';document.getElementById('custom-summary').value='Updated without losing samples';document.getElementById('custom-dataset').value='QA Dataset';document.getElementById('custom-hardware').value='QA CPU';document.getElementById('custom-nfe').value='4';document.getElementById('custom-batch').value='64';document.getElementById('custom-ms').value='12.5';document.getElementById('custom-mmd').value='0.02';document.getElementById('import-form').requestSubmit()");
+await until("document.getElementById('model-detail').textContent.includes('QA Edited')");
+assert.equal(await evaluate("document.getElementById('benchmark').children.length"),8);
+assert.ok(await evaluate("document.getElementById('edit-model').disabled === false"));
+await evaluate("document.getElementById('model-b').value=[...document.getElementById('model-b').options].find(o=>o.textContent.includes('QA Edited')).value;document.getElementById('model-b').dispatchEvent(new Event('change'));document.getElementById('plot-custom').click()");
+assert.ok(await evaluate("document.getElementById('source-b').textContent.includes('QA Dataset')"));
+assert.ok(await evaluate("document.getElementById('metric-b').textContent.includes('64 张批次')"));
+assert.equal(await evaluate("document.getElementById('plot-run').options.length"),25);
+checks.push('Edit selected custom model, preserve count, provenance, opt-in user scatter points');
 await evaluate("document.getElementById('remove-model').click()");
 assert.equal(await evaluate("document.getElementById('benchmark').children.length"),7);
+await evaluate("document.getElementById('plot-custom').click()");
 // Reject invalid input without mutating the model list.
 await evaluate(`document.getElementById('add-model').click();var invalid={name:'Bad',summary:'Invalid metrics',pros:['x'],cons:['y'],metrics:{label_consistency:5}};var transfer=new DataTransfer();transfer.items.add(new File([JSON.stringify(invalid)],'bad.json',{type:'application/json'}));document.getElementById('model-file').files=transfer.files;document.getElementById('import-form').requestSubmit();`);
 await until("document.getElementById('import-error').textContent.length>0");
 assert.equal(await evaluate("document.getElementById('benchmark').children.length"),7);
 checks.push('Invalid metric JSON rejected without mutation');
 // Round-trip the exported array format, with literal HTML text and real pixels.
-await evaluate(`var value={name:'<img src=x onerror=alert(1)>',summary:'Imported text',pros:['One'],cons:['Two'],samples:[GEN_META.reference[0]],labels:[0],nfe:4,metrics:{mmd2:.01,label_consistency:.5,batch_ms:10},provenance:'QA import, not a scientific result'};var transfer=new DataTransfer();transfer.items.add(new File([JSON.stringify([value])],'models.json',{type:'application/json'}));document.getElementById('model-file').files=transfer.files;document.getElementById('import-form').requestSubmit();`);
+await evaluate(`var value={name:'<img src=x onerror=alert(1)>',summary:'Imported text',pros:['One'],cons:['Two'],samples:[GEN_META.reference[0]],labels:[7],nfe:4,metrics:{mmd2:.01,label_consistency:.5,batch_ms:10},provenance:'QA import, not a scientific result'};var transfer=new DataTransfer();transfer.items.add(new File([JSON.stringify([value])],'models.json',{type:'application/json'}));document.getElementById('model-file').files=transfer.files;document.getElementById('import-form').requestSubmit();`);
 await until("document.getElementById('benchmark').children.length===8");
 assert.equal(await evaluate("document.querySelectorAll('#model-detail img').length"),0);
 assert.ok(await evaluate("document.getElementById('model-detail').textContent.includes('<img')"));
 assert.ok(await evaluate("document.getElementById('metric-b').textContent.includes('50.0%')"));
 checks.push('JSON array import with pixels and metrics; HTML remains literal text');
+await evaluate("document.getElementById('digit').value='7';document.getElementById('digit').dispatchEvent(new Event('change'));window.qaFrame7=document.getElementById('trajectory-b').toDataURL();document.getElementById('digit').value='8';document.getElementById('digit').dispatchEvent(new Event('change'))");
+assert.ok(await evaluate("document.getElementById('trajectory-b').toDataURL()!==window.qaFrame7"));
+await evaluate("document.getElementById('digit').value='all';document.getElementById('digit').dispatchEvent(new Event('change'));document.getElementById('edit-model').click();document.getElementById('custom-name').value='QA Preserve Pixels';document.getElementById('import-form').requestSubmit()");
+await until("document.getElementById('model-detail').textContent.includes('QA Preserve Pixels')");
+assert.equal(await evaluate("Object.values(GEN_RUNS).filter(r=>r.samples.length===1&&r.labels[0]===7).length"),1);
+checks.push('Editing preserves imported pixels and filtering respects non-ordered user labels');
 await evaluate("document.getElementById('remove-model').click()");
 assert.equal(await evaluate("document.getElementById('benchmark').children.length"),7);checks.push('Custom model removal preserves built-ins');
 await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});

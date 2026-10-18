@@ -3,13 +3,16 @@
   "browser": "Microsoft Edge headless / CDP",
   "checks": [
     "7 built-in models and real experiment data loaded",
+    "Speed-quality chart, metric and model filters, accessible point selection",
     "All 7 model selectors and supported NFE configurations",
     "Class filtering and synchronized playback finish",
     "Formula-based noising and paired-flow sliders",
     "Model-specific loss curves and experiment provenance",
     "Manual model addition, no invented metrics, reload persistence",
+    "Edit selected custom model, preserve count, provenance, opt-in user scatter points",
     "Invalid metric JSON rejected without mutation",
     "JSON array import with pixels and metrics; HTML remains literal text",
+    "Editing preserves imported pixels and filtering respects non-ordered user labels",
     "Custom model removal preserves built-ins",
     "390px responsive layout without horizontal overflow",
     "Zero JavaScript exceptions"
