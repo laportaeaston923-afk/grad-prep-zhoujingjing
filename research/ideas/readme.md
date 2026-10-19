@@ -1,5 +1,21 @@
 # 研究想法 · 扩散模型 × 无线感知
 
+## 想法索引
+
+以下内容均为待验证设想，创新性需要进一步文献检索和实验确认。
+
+| 编号 | 研究想法 | 来源 / 入口 |
+|---|---|---|
+| 01 | 接收机缺失时的条件扩散 DFS 补全 | 本页详细方案 |
+| 02 | 面向任务的信息保持型 CSI 数据增强 | CLAR · [详细方案](02-07-paper-inspired-ideas.md#idea-02面向任务的信息保持型-csi-数据增强) |
+| 03 | 快速生成位置条件信道 | cDDIM + MeanFlow · [详细方案](02-07-paper-inspired-ideas.md#idea-03快速生成位置条件信道从-cddim-到条件-meanflow) |
+| 04 | 根据生成不确定性主动采样 Radio Map | WiFi-Diffusion · [详细方案](02-07-paper-inspired-ideas.md#idea-04根据生成不确定性主动采样-radio-map) |
+| 05 | 检验 CSI-to-Image 对真实 CSI 的依赖 | LatentCSI + LDM · [详细方案](02-07-paper-inspired-ideas.md#idea-05csi-to-image-生成结果到底有多少来自真实-csi) |
+| 06 | 面向波束选择的低成本概率状态预测 | Echo-Conditioned DDPM + MeanFlow · [详细方案](02-07-paper-inspired-ideas.md#idea-06面向波束选择的低成本概率状态预测) |
+| 07 | 用时间约束减少毫米波点云增强抖动 | mmWaveFlow · [详细方案](02-07-paper-inspired-ideas.md#idea-07用时间约束减少毫米波点云增强的帧间抖动) |
+
+[查看 Idea 02–07 的方法、实验及推进顺序](02-07-paper-inspired-ideas.md)
+
 ## Idea 01：面向接收机缺失的条件扩散 DFS 补全
 
 - **记录日期：** 2026-10-19
