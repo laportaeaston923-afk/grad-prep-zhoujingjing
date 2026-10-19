@@ -1,4 +1,4 @@
-import unittest,sys,io,threading,time
+import unittest,sys,io,threading,time,tempfile
 from pathlib import Path
 from unittest.mock import patch
 from PIL import Image
@@ -8,7 +8,15 @@ import server
 def png(size=(80,50),mode='RGB'):
  b=io.BytesIO();Image.new(mode,size,'red' if mode=='RGB' else (255,0,0,128)).save(b,format='PNG');return b.getvalue()
 class AppChecks(unittest.TestCase):
- def setUp(self):self.client=server.app.test_client()
+ def setUp(self):
+  (ROOT/'runtime').mkdir(exist_ok=True)
+  self.temp=tempfile.TemporaryDirectory(dir=ROOT/'runtime')
+  self.old_db=server.app.config['AUTH_DB'];server.app.config['AUTH_DB']=str(Path(self.temp.name)/'accounts.sqlite3')
+  self.client=server.app.test_client()
+  response=self.client.post('/api/auth/register',json={'username':'test_user','password':'Test-password-123'})
+  self.user_id=response.json['user']['id']
+ def tearDown(self):
+  server.app.config['AUTH_DB']=self.old_db;self.temp.cleanup()
  def test_image_resize_and_alpha(self):
   im,size=server.read_image(png((800,400)),192);self.assertEqual(size,(800,400));self.assertEqual(im.size,(192,96))
   im,_=server.read_image(png((80,50),'RGBA'),192);self.assertEqual(im.mode,'RGB');self.assertGreater(im.getpixel((0,0))[1],100)
@@ -29,7 +37,7 @@ class AppChecks(unittest.TestCase):
   with patch.dict(server.jobs,{'a':{'status':'running','updated':time.time()},'b':{'status':'queued','updated':time.time()},'c':{'status':'queued','updated':time.time()}},clear=True):
    response=self.client.post('/api/jobs',data={'image':(io.BytesIO(png()),'test.png')});self.assertEqual(response.status_code,429)
  def test_cancel_request(self):
-  with patch.dict(server.jobs,{'test':{'id':'test','status':'running','cancel':False}},clear=True):
+  with patch.dict(server.jobs,{'test':{'id':'test','status':'running','cancel':False,'user_id':self.user_id}},clear=True):
    response=self.client.delete('/api/jobs/test');self.assertEqual(response.status_code,200);self.assertTrue(server.jobs['test']['cancel'])
  def test_attention_equivalence(self):
   import torch

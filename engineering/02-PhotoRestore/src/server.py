@@ -1,9 +1,9 @@
 """PhotoRestore: loopback-only Flask app with one bounded inference worker."""
 from pathlib import Path
-import sys,io,time,json,uuid,threading,shutil,argparse,warnings
+import sys,io,time,json,uuid,threading,shutil,argparse,warnings,os
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image,ImageOps,UnidentifiedImageError
-from flask import Flask,request,jsonify,send_from_directory,abort
+from flask import Flask,request,jsonify,send_from_directory,abort,g
 from werkzeug.exceptions import HTTPException
 from engine import Restorer,Cancelled,MODEL_NAME
 ROOT=Path(__file__).resolve().parents[1];RUNTIME=ROOT/'runtime'
@@ -12,6 +12,9 @@ app=Flask(__name__,static_folder=str(ROOT/'src/web'),static_url_path='')
 app.config['MAX_CONTENT_LENGTH']=10*1024*1024
 jobs={};lock=threading.RLock();worker=ThreadPoolExecutor(max_workers=1);restorer=Restorer()
 MAX_JOBS=8;TTL=1800
+from auth import init_auth
+if os.environ.get('PHOTORESTORE_AUTH_DB'):app.config['AUTH_DB']=os.environ['PHOTORESTORE_AUTH_DB']
+init_auth(app,ROOT)
 
 def cleanup():
  now=time.time()
@@ -72,7 +75,7 @@ def run_job(key):
   j.update(status='failed',message=message,updated=time.time())
 
 def public(j):
- return {k:v for k,v in j.items() if k not in ('cancel',)}
+ return {k:v for k,v in j.items() if k not in ('cancel','user_id')}
 
 @app.get('/')
 def index():return app.send_static_file('index.html')
@@ -95,25 +98,25 @@ def create():
   if sum(j['status'] in ('queued','running') for j in jobs.values())>=3:return jsonify(error='任务队列已满，请稍后重试'),429
   key=uuid.uuid4().hex;folder=RUNTIME/key;folder.mkdir(parents=True)
   image.save(folder/'input.png')
-  j=dict(id=key,status='queued',progress=0,message='等待处理',seed=seed,strength=strength,original_size=list(original),processing_size=list(image.size),input_sha256=hashlib.sha256(raw).hexdigest(),cancel=False,updated=time.time())
+  j=dict(id=key,user_id=g.user['id'],status='queued',progress=0,message='等待处理',seed=seed,strength=strength,original_size=list(original),processing_size=list(image.size),input_sha256=hashlib.sha256(raw).hexdigest(),cancel=False,updated=time.time())
   jobs[key]=j;worker.submit(run_job,key)
   return jsonify(public(j)),202
 @app.get('/api/jobs/<key>')
 def status(key):
  with lock:
   cleanup()
-  if key not in jobs:abort(404)
+  if key not in jobs or jobs[key].get('user_id')!=g.user['id']:abort(404)
   return jsonify(public(jobs[key]))
 @app.delete('/api/jobs/<key>')
 def cancel(key):
  with lock:
-  if key not in jobs:abort(404)
+  if key not in jobs or jobs[key].get('user_id')!=g.user['id']:abort(404)
   j=jobs[key]
   if j['status'] in ('queued','running'):j['cancel']=True
   return jsonify(public(j))
 @app.get('/api/jobs/<key>/<asset>')
 def asset(key,asset):
- if key not in jobs or jobs[key]['status']!='done':abort(404)
+ if key not in jobs or jobs[key].get('user_id')!=g.user['id'] or jobs[key]['status']!='done':abort(404)
  if asset not in ('input.png','baseline.png','output.png','report.json'):abort(404)
  return send_from_directory(RUNTIME/key,asset,as_attachment=request.args.get('download')=='1',download_name='photo-restore-'+asset)
 @app.get('/examples/<path:name>')

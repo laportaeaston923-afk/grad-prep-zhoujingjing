@@ -4,3 +4,4 @@ __pycache__/
 runtime/
 weights/*.pth
 weights/*.part
+appdata/
