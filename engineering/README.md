@@ -1,6 +1,6 @@
 # 工程项目
 
-当前保留 [02 · DigitRepair：条件扩散手写数字修复工作台](02-DigitRepair/)。
+当前保留 [01 · DigitRepair：条件扩散手写数字修复工作台](01-DigitRepair/)。
 
 支持上传数字、画掩码、DDPM/DDIM 实时修复、多候选差异展示、去噪回放、实验导入导出。
 
