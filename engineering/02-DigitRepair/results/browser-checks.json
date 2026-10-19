@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "browser": "Microsoft Edge headless / CDP",
+  "checks": [
+    "20 official MNIST test examples and real local model connection",
+    "Real pointer mask drawing, undo, presets and empty-mask guard",
+    "Real DDIM inference, two seeded candidates, reference metrics, exact visible pixels",
+    "Candidate selection, split comparison and actual trajectory playback",
+    "PNG/mask/report export and masked input redaction",
+    "PNG upload preprocessing, default no-reference mode, no invented scores",
+    "DDPM 100-step constraint, busy-state controls and cancel request",
+    "390px layout without horizontal overflow",
+    "Static preview explicitly labeled, live generation disabled offline",
+    "Zero browser JavaScript exceptions"
+  ]
+}
