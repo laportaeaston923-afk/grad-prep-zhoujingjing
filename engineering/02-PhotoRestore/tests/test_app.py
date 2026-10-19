@@ -20,6 +20,10 @@ class AppChecks(unittest.TestCase):
  def test_image_resize_and_alpha(self):
   im,size=server.read_image(png((800,400)),192);self.assertEqual(size,(800,400));self.assertEqual(im.size,(192,96))
   im,_=server.read_image(png((80,50),'RGBA'),192);self.assertEqual(im.mode,'RGB');self.assertGreater(im.getpixel((0,0))[1],100)
+ def test_preserve_original_size_and_pixels(self):
+  raw=png((1254,1254));im,size=server.read_image(raw,0)
+  self.assertEqual(size,(1254,1254));self.assertEqual(im.size,(1254,1254));self.assertEqual(im.getpixel((600,600)),(255,0,0))
+  with self.assertRaises(ValueError):server.read_image(png((1281,100)),0)
  def test_exif_orientation(self):
   b=io.BytesIO();im=Image.new('RGB',(80,40));exif=Image.Exif();exif[274]=6;im.save(b,format='JPEG',exif=exif)
   out,size=server.read_image(b.getvalue(),192);self.assertEqual(size,(40,80));self.assertEqual(out.size,(40,80));self.assertFalse(out.getexif())

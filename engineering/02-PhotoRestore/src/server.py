@@ -37,7 +37,9 @@ def read_image(raw,max_edge):
     if im.mode in ('RGBA','LA') or 'transparency' in im.info:
      rgba=im.convert('RGBA');bg=Image.new('RGBA',rgba.size,'white');bg.alpha_composite(rgba);im=bg.convert('RGB')
     else:im=im.convert('RGB')
-    im.thumbnail((max_edge,max_edge),Image.Resampling.LANCZOS)
+    if max_edge==0:
+     if max(original)>1280:raise ValueError('保留原图模式支持长边不超过 1280 像素；请先裁剪图片，或明确选择缩小预览模式')
+    else:im.thumbnail((max_edge,max_edge),Image.Resampling.LANCZOS)
     im.info.clear()
     return im.copy(),original
  except (UnidentifiedImageError,OSError,Image.DecompressionBombError,Image.DecompressionBombWarning) as exc:
@@ -89,7 +91,7 @@ def create():
  import hashlib
  try:
   if 'image' not in request.files:raise ValueError('请上传一张图片')
-  seed=integer('seed',2026,0,2147483640);strength=integer('strength',100,0,100);edge=integer('max_edge',384,192,512,[192,384,512])
+  seed=integer('seed',2026,0,2147483640);strength=integer('strength',100,0,100);edge=integer('max_edge',0,0,512,[0,192,384,512])
   raw=request.files['image'].read()
   image,original=read_image(raw,edge)
  except ValueError as exc:return jsonify(error=str(exc)),400
