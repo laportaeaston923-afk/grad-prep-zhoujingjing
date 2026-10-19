@@ -12,8 +12,8 @@
 python -m venv .venv
 # Windows PowerShell；macOS/Linux 使用 source .venv/bin/activate
 .venv/Scripts/Activate.ps1
-pip install -r engineering/02-DigitRepair/requirements.txt
-python engineering/02-DigitRepair/src/server.py
+pip install -r engineering/01-DigitRepair/requirements.txt
+python engineering/01-DigitRepair/src/server.py
 ```
 
 浏览器访问 **http://127.0.0.1:8082/**。已训练权重位于 `results/repair.pt`，运行推理无需下载训练数据。自动选择 CUDA 或 CPU；可用 `--device cpu` 强制 CPU，也可用 `--port 8083` 更改端口。CUDA 需要与驱动匹配的 PyTorch，CPU 耗时取决于硬件。
@@ -57,11 +57,11 @@ python engineering/02-DigitRepair/src/server.py
 首次准备数据需联网下载官方分割的 IDX 文件；也可从已有本地原始缓存准备：
 
 ```bash
-python engineering/02-DigitRepair/src/ml/prepare_data.py
-# 或：python engineering/02-DigitRepair/src/ml/prepare_data.py --source /path/to/MNIST/raw
-python engineering/02-DigitRepair/src/ml/train.py --iterations 8000
-python engineering/02-DigitRepair/src/ml/evaluate.py
-python engineering/02-DigitRepair/src/ml/figures.py
+python engineering/01-DigitRepair/src/ml/prepare_data.py
+# 或：python engineering/01-DigitRepair/src/ml/prepare_data.py --source /path/to/MNIST/raw
+python engineering/01-DigitRepair/src/ml/train.py --iterations 8000
+python engineering/01-DigitRepair/src/ml/evaluate.py
+python engineering/01-DigitRepair/src/ml/figures.py
 ```
 
 训练数据写入忽略版本控制的 `data/`。训练每 2000 次更新保存 EMA 检查点。`--resume` 从已有 EMA 权重继续新的训练段，但重新创建优化器、EMA 和随机状态，不是逐位复现的断点续训。重新训练/评估会覆盖默认权重、结果与网页示例；模型服务需重启才能加载新权重。
@@ -107,7 +107,7 @@ python engineering/02-DigitRepair/src/ml/figures.py
 原生 HTML/CSS/JavaScript + Canvas；Flask 本地 JSON API；PyTorch 推理；NumPy 数据与指标；Pillow/Matplotlib 实验绘图。图片不发送给外部模型 API。任务与结果保存在服务进程内存中，最多保留 24 个任务，完成任务会在后续请求时按 30 分钟期限清理；停止进程即丢失。
 
 ```text
-02-DigitRepair/
+01-DigitRepair/
 ├── README.md / requirements.txt
 ├── src/
 │   ├── server.py / engine.py
@@ -122,8 +122,8 @@ python engineering/02-DigitRepair/src/ml/figures.py
 ## 验证
 
 ```bash
-python -m unittest discover -s engineering/02-DigitRepair/tests -v
-node --check engineering/02-DigitRepair/src/web/app.js
+python -m unittest discover -s engineering/01-DigitRepair/tests -v
+node --check engineering/01-DigitRepair/src/web/app.js
 ```
 
 验证覆盖：请求约束、真实采样已知像素保留、隐藏参考不泄漏、掩码内指标、异步任务和取消。浏览器检查记录见 `results/browser-checks.json`，覆盖画笔、撤销、预设、真实推理、多候选、过程播放、无参考不显示指标和移动布局。
