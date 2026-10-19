@@ -39,6 +39,16 @@ class AppChecks(unittest.TestCase):
  def test_cancel_request(self):
   with patch.dict(server.jobs,{'test':{'id':'test','status':'running','cancel':False,'user_id':self.user_id}},clear=True):
    response=self.client.delete('/api/jobs/test');self.assertEqual(response.status_code,200);self.assertTrue(server.jobs['test']['cancel'])
+ def test_v3_uses_matching_noise_schedule(self):
+  from omegaconf import OmegaConf
+  from engine import instantiate
+  cfg=OmegaConf.load(ROOT/'vendor/resshift/configs/realsr_swinunet_realesrgan256_journal.yaml')
+  diffusion=instantiate(cfg.diffusion)
+  self.assertEqual(diffusion.num_timesteps,4)
+  self.assertAlmostEqual(float(diffusion.sqrt_etas[0]),.1,places=7)
+  import json
+  names=[r['name'] for r in json.loads((ROOT/'weights/manifest.json').read_text())]
+  self.assertIn('resshift_realsrx4_s4_v3.pth',names)
  def test_attention_equivalence(self):
   import torch
   from engine import efficient_attention

@@ -1,0 +1,26 @@
+{
+  "scope": "Three demo inputs, seed 2026. V1 uses previous adapter with replicate padding; V3 uses official journal code with reflect-padding fallback. Not a large benchmark.",
+  "previous_engine_commit": "4e01f9a9d7905e9bbef1d218b00fcdd127124d12",
+  "previous_revision": "92ca23cf82d7ffeba5c5d900e7e2e0fa4e9d1c67",
+  "new_revision": "bb03b7d21614cace01787e097c8a6ab6b945227d",
+  "cases": [
+    {
+      "name": "cat",
+      "v1_psnr": 26.32232013562942,
+      "v3_psnr": 26.081033064725897,
+      "v3_ms": 1109
+    },
+    {
+      "name": "coffee",
+      "v1_psnr": 23.33086900919035,
+      "v3_psnr": 23.786093757097426,
+      "v3_ms": 424
+    },
+    {
+      "name": "astronaut",
+      "v1_psnr": 20.762759109398097,
+      "v3_psnr": 21.5951440847902,
+      "v3_ms": 1187
+    }
+  ]
+}

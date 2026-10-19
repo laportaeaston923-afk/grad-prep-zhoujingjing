@@ -8,7 +8,7 @@ import torch.nn.functional as F
 from omegaconf import OmegaConf
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'vendor/resshift'))
-MODEL_NAME='ResShift realSR x4 · 15 steps · v1'
+MODEL_NAME='ResShift realSR x4 · 4 steps · v3'
 class Cancelled(Exception): pass
 
 def instantiate(c):
@@ -30,13 +30,14 @@ class Restorer:
   from ldm.modules.diffusionmodules.model import AttnBlock,MemoryEfficientAttnBlock
   # Equivalent single-head attention with PyTorch SDPA; avoids the full HW x HW matrix.
   AttnBlock.forward=efficient_attention;MemoryEfficientAttnBlock.forward=efficient_attention
-  cfg=OmegaConf.load(ROOT/'vendor/resshift/configs/realsr_swinunet_realesrgan256.yaml')
-  cfg.diffusion.params.steps=15
+  cfg=OmegaConf.load(ROOT/'vendor/resshift/configs/realsr_swinunet_realesrgan256_journal.yaml')
+  self.steps=int(cfg.diffusion.params.steps)
   model=instantiate(cfg.model);ae=instantiate(cfg.autoencoder)
-  for net,name in [(model,'resshift_realsrx4_s15_v1.pth'),(ae,'autoencoder_vq_f4.pth')]:
+  for net,name in [(model,'resshift_realsrx4_s4_v3.pth'),(ae,'autoencoder_vq_f4.pth')]:
    state=torch.load(ROOT/'weights'/name,map_location='cpu',weights_only=True)
    if 'state_dict' in state:state=state['state_dict']
-   if all(k.startswith('module.') for k in state):state={k[7:]:v for k,v in state.items()}
+   for prefix in ('module.','_orig_mod.'):
+    if all(k.startswith(prefix) for k in state):state={k[len(prefix):]:v for k,v in state.items()}
    net.load_state_dict(state,strict=True)
   self.diffusion=instantiate(cfg.diffusion)
   self.ae=ae.eval().to(self.device)
@@ -59,11 +60,11 @@ class Restorer:
     patch=arr[y:y+tile,x:x+tile];ph,pw=patch.shape[:2]
     t=torch.from_numpy(patch.copy()).permute(2,0,1).unsqueeze(0).to(self.device)
     pad_h=math.ceil(ph/64)*64-ph;pad_w=math.ceil(pw/64)*64-pw
-    t=F.pad(t,(0,pad_w,0,pad_h),mode='replicate')
+    t=F.pad(t,(0,pad_w,0,pad_h),mode='reflect' if ph>pad_h and pw>pad_w else 'replicate')
     final=None
     for step,out in enumerate(self.diffusion.p_sample_loop_progressive(y=t,model=self.model,first_stage_model=self.ae,clip_denoised=False,model_kwargs={'lq':t},progress=False)):
      if cancel():raise Cancelled()
-     final=out['sample'];progress(index*15+step+1,len(positions)*15+1)
+     final=out['sample'];progress(index*self.steps+step+1,len(positions)*self.steps+1)
     restored=self.diffusion.decode_first_stage(final,self.ae).clamp(-1,1)[0,:,:ph*4,:pw*4]
     a=restored.float().cpu().permute(1,2,0).numpy()*.5+.5
     # Positive separable feather weights, also at external image edges.
@@ -72,4 +73,4 @@ class Restorer:
     accum[y*4:(y+ph)*4,x*4:(x+pw)*4]+=a*blend;weight[y*4:(y+ph)*4,x*4:(x+pw)*4]+=blend
   output=np.rint(np.clip(accum/weight,0,1)*255).astype(np.uint8)
   progress(1,1)
-  return Image.fromarray(output),{'model':MODEL_NAME,'seed':seed,'steps':15,'tiles':len(positions),'tile_size':tile,'device':str(self.device),'inference_ms':round((time.perf_counter()-start)*1000),'input_size':[w,h],'output_size':[w*4,h*4]}
+  return Image.fromarray(output),{'model':MODEL_NAME,'seed':seed,'steps':self.steps,'tiles':len(positions),'tile_size':tile,'device':str(self.device),'inference_ms':round((time.perf_counter()-start)*1000),'input_size':[w,h],'output_size':[w*4,h*4]}

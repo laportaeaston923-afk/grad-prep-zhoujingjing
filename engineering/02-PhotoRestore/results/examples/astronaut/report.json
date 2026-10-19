@@ -1,11 +1,11 @@
 {
-  "model": "ResShift realSR x4 · 15 steps · v1",
+  "model": "ResShift realSR x4 · 4 steps · v3",
   "seed": 2026,
-  "steps": 15,
+  "steps": 4,
   "tiles": 1,
   "tile_size": 128,
   "device": "cuda",
-  "inference_ms": 2160,
+  "inference_ms": 1024,
   "input_size": [
     96,
     96
@@ -23,8 +23,8 @@
       "psnr_db": 21.441381150866007
     },
     "model": {
-      "rmse": 0.09159294950477508,
-      "psnr_db": 20.762759109398097
+      "rmse": 0.0832228905215132,
+      "psnr_db": 21.5951440847902
     }
   },
   "degradation": {
@@ -37,10 +37,10 @@
   "input_sha256": "97d30050b077872a134a02cfd66a6be60aff86a5c3a79cc8b02e8c6cbdbf5ca3",
   "weights": [
     {
-      "name": "resshift_realsrx4_s15_v1.pth",
-      "bytes": 477905305,
-      "sha256": "97eca0d415b2faa90dfe93ee44bd8cf3ee60ee1e560f95b3b3f544d0aabb948b",
-      "url": "https://github.com/zsyOAOA/ResShift/releases/download/v2.0/resshift_realsrx4_s15_v1.pth"
+      "name": "resshift_realsrx4_s4_v3.pth",
+      "bytes": 477917058,
+      "sha256": "878da888bbbe10b8b0d4ff179c2de3059fd8a4cf2c705942a77a7f3b23ea1efd",
+      "url": "https://github.com/zsyOAOA/ResShift/releases/download/v2.0/resshift_realsrx4_s4_v3.pth"
     },
     {
       "name": "autoencoder_vq_f4.pth",

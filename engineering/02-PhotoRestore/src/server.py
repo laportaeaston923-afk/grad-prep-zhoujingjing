@@ -82,7 +82,7 @@ def index():return app.send_static_file('index.html')
 @app.get('/api/health')
 def health():
  import torch
- ready=all((ROOT/'weights'/n).exists() for n in ['resshift_realsrx4_s15_v1.pth','autoencoder_vq_f4.pth'])
+ ready=all((ROOT/'weights'/n).exists() for n in ['resshift_realsrx4_s4_v3.pth','autoencoder_vq_f4.pth'])
  return jsonify(ready=ready,model=MODEL_NAME,device=str(restorer.device),gpu=torch.cuda.get_device_name(0) if torch.cuda.is_available() else None)
 @app.post('/api/jobs')
 def create():
