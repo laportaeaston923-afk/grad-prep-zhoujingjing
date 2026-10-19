@@ -1,12 +1,20 @@
 # 工程项目
 
-当前保留 [01 · DigitRepair：条件扩散手写数字修复工作台](01-DigitRepair/)。
+| 工程 | 内容 | 启动地址 |
+|---|---|---|
+| [01 · DigitRepair](01-DigitRepair/) | 条件扩散手写数字修复：掩码、多候选、回放与评估 | http://127.0.0.1:8082/ |
+| [02 · PhotoRestore](02-PhotoRestore/) | 真实照片清晰化：预训练扩散超分辨率、上传、对比与下载 | http://127.0.0.1:8083/ |
 
-支持上传数字、画掩码、DDPM/DDIM 实时修复、多候选差异展示、去噪回放、实验导入导出。
+两个项目独立运行。代码、实验结果与截图分别保存在对应目录，运行方式、模型来源与限制见各自 README。
 
-```bash
-pip install -r engineering/01-DigitRepair/requirements.txt
-python engineering/01-DigitRepair/src/server.py
+## 照片清晰化项目快速开始
+
+在仓库根目录执行：
+
+```powershell
+pip install -r engineering/02-PhotoRestore/requirements.txt
+python engineering/02-PhotoRestore/scripts/setup_models.py
+python engineering/02-PhotoRestore/src/server.py
 ```
 
-浏览器访问 http://127.0.0.1:8082/ 。权重、实验结果和截图见项目目录；静态页面只能查看预计算示例。
+打开 http://127.0.0.1:8083/ 。GitHub 仅托管代码，网页推理需要启动本地 Python 服务。已有 E 盘工程的权重已下载，可直接启动。
