@@ -1,7 +1,10 @@
 /data/
 /runs/
 /runs_dit/
+/runs_dit_stable/
+/work/
 **/__pycache__/
 *.pyc
 *.pt
 *.pth
+*.npz

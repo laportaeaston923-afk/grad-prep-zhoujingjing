@@ -97,7 +97,7 @@ def main():
                   generator=torch.Generator().manual_seed(a.seed))
     model_config=dict(input_size=32,patch_size=a.patch_size,in_channels=1,
                       dim=a.dim,depth=a.depth,num_heads=a.heads,
-                      num_classes=10,max_cfg=4.0)
+                      num_classes=10,max_cfg=8.0 if a.mode=="imf_cfg" else 4.0)
     model=MFDiT(**model_config).to(device)
     ema=copy.deepcopy(model).to(device).eval()
     ema.requires_grad_(False)

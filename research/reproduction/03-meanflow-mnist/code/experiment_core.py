@@ -7,14 +7,15 @@ Fig.3 modes: mf, imf
   - iMF: JVP(u; tangent=u(z,t,t)) [paper Eq.12, boundary condition]
   - both use plain v-loss; log ONLY samples with t != r for Fig.3.
 CFG mode: imf_cfg
-  - iMF JVP tangent = v_c predicted by the upstream auxiliary v-head
+  - iMF JVP tangent = boundary v_c = u(z,t,t,w,c)
   - v target follows paper Algorithm 2
-  - auxiliary flow-matching v-head regression, as in the source repository
+  - no auxiliary loss; both class branches use the same omega
+  - paper beta=1 power-law omega distribution on [1,8]
   - omega is an explicit DiT conditioning input.
 Source: https://github.com/haidog-yaqub/MeanFlow (MIT).
 """
+import math
 import torch
-import torch.nn.functional as F
 from functools import partial
 
 
@@ -28,14 +29,14 @@ def sample_times(batch_size, device, diagonal_probability=0.5):
     return t,r,~diagonal
 
 
-def sample_cfg(batch_size, device, max_cfg=4.0, cls_drop=0.1):
-    # Draw a continuous, explicit omega scale (paper Sec.4.2).
-    w=torch.empty(batch_size,device=device).uniform_(1.,max_cfg)
+def sample_cfg(batch_size, device, max_cfg=8.0, cls_drop=0.1):
+    # p(omega) proportional to 1/omega (paper appendix, beta=1).
+    w=torch.empty(batch_size,device=device).uniform_(0.,1.).mul_(math.log(max_cfg)).exp_()
     dropped=torch.rand(batch_size,device=device)<cls_drop
     return torch.where(dropped,torch.ones_like(w),w),dropped
 
 
-def training_loss(model,x,labels,mode,diagonal_probability=0.5,max_cfg=4.0,cls_drop=0.1):
+def training_loss(model,x,labels,mode,diagonal_probability=0.5,max_cfg=8.0,cls_drop=0.1):
     """Returns differentiable loss + detached statistics.
 
     All image inputs are [0,1]. Time convention z_t=(1-t)*x+t*noise.
@@ -68,11 +69,10 @@ def training_loss(model,x,labels,mode,diagonal_probability=0.5,max_cfg=4.0,cls_d
             tangent=model(z,t,t,y=c,w=w,return_v=False)
             target=vc
         else:
-            # Upstream dual-head DiT: auxiliary v-head for CFG.
-            # Boundary is evaluated at r=t to avoid r leaking into v(t).
-            _,v_c=model(z,t,t,y=c,w=w,return_v=True)
-            _,v_u=model(z,t,t,y=torch.full_like(c,10),
-                        w=torch.ones_like(w),return_v=True)
+            # Algorithm 2, boundary variant (no auxiliary head loss).
+            # Both class branches use the SAME omega, as in the paper.
+            v_c=model(z,t,t,y=c,w=w,return_v=False)
+            v_u=model(z,t,t,y=torch.full_like(c,10),w=w,return_v=False)
             tangent=v_c
             # Paper Algorithm 2: v_tgt = (e-x)+(1-1/omega)*(v_c-v_u)
             target=vc+(1-1/w)[:,None,None,None]*(v_c-v_u)
@@ -88,9 +88,6 @@ def training_loss(model,x,labels,mode,diagonal_probability=0.5,max_cfg=4.0,cls_d
     per_example=(V-target.detach()).square().flatten(1).mean(1)
     meanflow_loss=per_example.mean()
     aux_loss=torch.zeros((),device=device)
-    if mode=="imf_cfg":
-        # Auxiliary instantaneous velocity head (NOT part of Fig.3).
-        aux_loss=F.mse_loss(v_aux,target.detach())
     full=meanflow_loss+aux_loss
     with torch.no_grad():
         # Recording both groups distinguishes u-regression from JVP instability.

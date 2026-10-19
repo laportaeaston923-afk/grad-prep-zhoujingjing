@@ -92,12 +92,13 @@ def main():
               "iMF: one DiT forward (1-NFE); *velocity display is normalized",
               out/"one_step_process_dit.png")
     z_mf,_=sample_one_step(mf,noise,label,1.)
-    plot_rows([to_images(z_mf),to_images(z_imf)],["MF","iMF"],
-              "Same DiT size, training budget, noise and class; 1-NFE",
+    plot_rows([to_images(z_mf),to_images(z_imf)],
+              [f"MF ({checkpoints['mf'][1]['step']:,})",f"iMF ({checkpoints['imf'][1]['step']:,})"],
+              "Matched DiT, noise and class; 1-NFE (training steps in row labels)",
               out/"mf_vs_imf_dit.png")
     if not a.fig3_only:
         cfg=checkpoints["imf_cfg"][0]
-        scales=[1.,1.5,2.,3.,4.]
+        scales=[1.,1.5,2.,3.,4.,6.,8.]
         z_cfg=[to_images(sample_one_step(cfg,noise,label,scale)[0])
                for scale in scales]
         plot_rows(z_cfg,[f"CFG = {scale:g}" for scale in scales],

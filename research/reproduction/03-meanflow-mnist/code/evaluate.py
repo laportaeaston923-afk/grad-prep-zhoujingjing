@@ -4,7 +4,8 @@ This is NOT standard Inception FID, and is NOT comparable to ImageNet FID.
 Classifier is fitted on MNIST train split; real moments and classifier test
 accuracy measured on held-out MNIST test images. Equal noise for all generators.
 """
-import argparse,csv
+import argparse,csv,os
+os.environ['OPENBLAS_NUM_THREADS']='8'
 from pathlib import Path
 import numpy as np
 import torch
@@ -12,7 +13,7 @@ from torch import nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets,transforms
-from scipy.linalg import sqrtm
+from scipy.linalg import eigh,eigvalsh
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -57,12 +58,12 @@ def moments(chunks):
     return x.mean(axis=0),np.cov(x,rowvar=False)
 
 def frechet(mu1,cov1,mu2,cov2):
-    covmean=sqrtm(cov1@cov2)
-    if np.iscomplexobj(covmean):
-        if np.max(np.abs(covmean.imag))>1e-4:
-            raise ValueError("Unstable matrix square root")
-        covmean=covmean.real
-    return float(max(0.,sum((mu1-mu2)**2)+np.trace(cov1+cov2-2*covmean)))
+    values,vectors=eigh((cov1+cov1.T)*.5)
+    root=(vectors*np.sqrt(np.maximum(values,0)))@vectors.T
+    product=root@cov2@root
+    eigenvalues=eigvalsh((product+product.T)*.5)
+    return float(max(0.,sum((mu1-mu2)**2)+np.trace(cov1)+np.trace(cov2)
+                     -2*np.sqrt(np.maximum(eigenvalues,0)).sum()))
 
 def main():
     p=argparse.ArgumentParser()

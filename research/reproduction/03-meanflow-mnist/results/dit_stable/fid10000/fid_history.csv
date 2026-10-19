@@ -1,0 +1,12 @@
+mode,step,cfg_scale,samples,fid,seed,weights,feature,reference,nfe
+mf,20000,1.0,10000,237.38275248059387,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf,20000,1.0,10000,211.80330603393057,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf_cfg,20000,1.0,10000,223.0112924858001,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf_cfg,20000,1.5,10000,224.15955080001154,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf_cfg,20000,2.0,10000,225.18815671395427,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf_cfg,20000,2.5,10000,224.87805474482195,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf_cfg,20000,3.0,10000,225.41817767384498,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf_cfg,20000,4.0,10000,222.72549147758926,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf_cfg,20000,5.0,10000,225.75962240003022,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf_cfg,20000,6.0,10000,227.02061165281313,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1
+imf_cfg,20000,8.0,10000,230.91334386686555,2026,ema,pytorch-fid_pool3_2048,MNIST_test_fixed_random_subset,1

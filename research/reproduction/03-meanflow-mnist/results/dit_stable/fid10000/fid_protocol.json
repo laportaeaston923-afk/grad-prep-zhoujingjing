@@ -1,0 +1,11 @@
+{
+  "samples": 10000,
+  "seed": 2026,
+  "feature": "FID-specific Inception-v3 pool3 2048",
+  "grayscale": "repeat RGB",
+  "resize": "pytorch-fid bilinear 299",
+  "input": "MNIST 32x32, clipped [0,1]",
+  "reference": "fixed random held-out test subset",
+  "inference": "EMA, 1 NFE",
+  "paper_comparable": false
+}
