@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "checks": {
+    "wigesture_rnn": {
+      "checkpoint_finite": true,
+      "recorded_test_metrics_reproduced": true,
+      "epochs": 30
+    },
+    "wigesture_lstm": {
+      "checkpoint_finite": true,
+      "recorded_test_metrics_reproduced": true,
+      "epochs": 30
+    },
+    "wigesture_gru": {
+      "checkpoint_finite": true,
+      "recorded_test_metrics_reproduced": true,
+      "epochs": 30
+    },
+    "wifall_rnn": {
+      "checkpoint_finite": true,
+      "recorded_test_metrics_reproduced": true,
+      "epochs": 30
+    },
+    "wifall_lstm": {
+      "checkpoint_finite": true,
+      "recorded_test_metrics_reproduced": true,
+      "epochs": 30
+    },
+    "wifall_gru": {
+      "checkpoint_finite": true,
+      "recorded_test_metrics_reproduced": true,
+      "epochs": 30
+    },
+    "wicount_rnn": {
+      "checkpoint_finite": true,
+      "recorded_test_metrics_reproduced": true,
+      "epochs": 30
+    },
+    "wicount_lstm": {
+      "checkpoint_finite": true,
+      "recorded_test_metrics_reproduced": true,
+      "epochs": 30
+    },
+    "wicount_gru": {
+      "checkpoint_finite": true,
+      "recorded_test_metrics_reproduced": true,
+      "epochs": 30
+    }
+  }
+}

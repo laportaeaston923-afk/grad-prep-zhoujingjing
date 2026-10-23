@@ -1,0 +1,20 @@
+{
+  "model": "LSTM",
+  "hidden_size": 128,
+  "layers": 1,
+  "input_dim": 52,
+  "input_length": 80,
+  "output_length": 20,
+  "decoder": "linear hidden state to all 20 future packets",
+  "learning_rate": 0.0005,
+  "optimizer": "AdamW",
+  "loss": "masked original-scale forecast MSE",
+  "batch_size": 64,
+  "seed": 42,
+  "split_window_counts": [
+    738,
+    75,
+    90
+  ],
+  "note": "Independently specified baselines; paper did not publish these exact baseline architectures"
+}

@@ -1,0 +1,125 @@
+{
+  "passed": true,
+  "experiments": {
+    "wicount_paper_v2": {
+      "stages": [
+        "pretrain",
+        "prediction",
+        "people"
+      ],
+      "epoch_records": 90,
+      "verification_passed": true
+    },
+    "wifall_paper_v2": {
+      "stages": [
+        "pretrain",
+        "prediction",
+        "action",
+        "fall",
+        "people"
+      ],
+      "epoch_records": 150,
+      "verification_passed": true
+    },
+    "wigesture_paper_v2": {
+      "stages": [
+        "pretrain",
+        "prediction",
+        "action",
+        "people"
+      ],
+      "epoch_records": 120,
+      "verification_passed": true
+    },
+    "wigesture_no_gan": {
+      "stages": [
+        "pretrain",
+        "prediction",
+        "action",
+        "people"
+      ],
+      "epoch_records": 120,
+      "verification_passed": true
+    },
+    "wigesture_no_arl": {
+      "stages": [
+        "pretrain",
+        "prediction",
+        "action",
+        "people"
+      ],
+      "epoch_records": 120,
+      "verification_passed": true
+    },
+    "wigesture_no_time": {
+      "stages": [
+        "pretrain",
+        "prediction",
+        "action",
+        "people"
+      ],
+      "epoch_records": 120,
+      "verification_passed": true
+    },
+    "wigesture_scratch": {
+      "stages": [
+        "action"
+      ],
+      "epoch_records": 30,
+      "verification_passed": true
+    }
+  },
+  "core_and_ablation_epoch_records": 750,
+  "baseline_epoch_records": 270,
+  "trained_task_models": 34,
+  "environment": {
+    "python": "3.14.6",
+    "torch": "2.11.0+cu128",
+    "numpy": "2.4.6",
+    "transformers": "4.57.6",
+    "matplotlib": "3.11.0",
+    "cuda": "12.8"
+  },
+  "checkpoint_sha256": {
+    "runs\\wicount_paper_v2\\pretrain.pth": "bcc6df5ff5b2afa6cfdbedd6d1de513f4478f6f19c70ec8b67ba937dc3abee0b",
+    "runs\\wicount_paper_v2\\prediction.pth": "a15e0c4342b6242e18448f18f1422e5f473d200ca4bd7af6a66cce38151aa7cd",
+    "runs\\wicount_paper_v2\\people.pth": "3e0ef50eb613baf9b3fda72a5f714a13b0ad5dfe33d742bffdfdf59a011c988d",
+    "runs\\wifall_paper_v2\\pretrain.pth": "4dc052f5a8aeba8c8c529bf715518bf30c0e2a923535454e022c431c9eed1ddf",
+    "runs\\wifall_paper_v2\\prediction.pth": "117db4753b9fb6a389bd4a6aaf1cbbb21bf376dec1ea270e7bcf3092b3413ac1",
+    "runs\\wifall_paper_v2\\action.pth": "e116b6f23a20548f078a0104ae55d9b34ab9cdffd17f6edfa7644f3f2c76db5c",
+    "runs\\wifall_paper_v2\\fall.pth": "5123c061197bed3bbc71b2dc1008e7e0a97aa4ede30e34641d9ddbc3c6719187",
+    "runs\\wifall_paper_v2\\people.pth": "e2418c585358ee8cbae1f84fe685284f227668b06f94975af2a8f19e34b34ed0",
+    "runs\\wigesture_paper_v2\\pretrain.pth": "9ae158b416c35fd104f8adfd6551c374e87af0dcfc1c3699703cd8476af34f0d",
+    "runs\\wigesture_paper_v2\\prediction.pth": "b5813c4c7f6a9e7949444b6b11ee38cc379ca2a5774dc708548edc109324ea25",
+    "runs\\wigesture_paper_v2\\action.pth": "b2970ff23e4e3047f04729105cf33a01edbe6ff1d1be67b170d72c2a5c2986eb",
+    "runs\\wigesture_paper_v2\\people.pth": "2320f5ee111aedfc14ccad07faeba706f7e84380fbb5524f4b1202e30c17c2e1",
+    "runs\\wigesture_no_gan\\pretrain.pth": "0680401d6c0a822629a902ab174a38bd6e4c6cf53935fa04b99d9e7456b1e668",
+    "runs\\wigesture_no_gan\\prediction.pth": "66387853eb2ccfad7ca0e56c8dbb2a7f50a88826d9cc60492712da40919efc95",
+    "runs\\wigesture_no_gan\\action.pth": "9038c4d6ad90cb4850f3a6c1e9a017c57511f0b0cf88292bd6feca1a8c616332",
+    "runs\\wigesture_no_gan\\people.pth": "0b488355fada696f3f8b8e5ee9bc6d94e0b7b5729ebc5c019b35b5a301874bff",
+    "runs\\wigesture_no_arl\\pretrain.pth": "df321d6c0e93da88a7ea19c3aefe82b43021229f195296a38e42b7bc0b4642d4",
+    "runs\\wigesture_no_arl\\prediction.pth": "441310a77f9b705fe8b5f726e08b5f4ccc4ef27cd9d19081dbd6fafc86b07e96",
+    "runs\\wigesture_no_arl\\action.pth": "54ed55e58de76cba620679b3dfe29abf959af425147064240c8cfd006c7cca19",
+    "runs\\wigesture_no_arl\\people.pth": "2421821a1c7662925680ecda28c6bbc35299c8cacb3f2cd828182dfeae1b0461",
+    "runs\\wigesture_no_time\\pretrain.pth": "53bb79b6b490072d90d46a8dedf3ff22e71027767f4d1ed8c9cc851b2a8a7bcf",
+    "runs\\wigesture_no_time\\prediction.pth": "8aaa52a2c33905ea86acf4df20d4de40ffe54433f5740457da1a998bbd3df3ce",
+    "runs\\wigesture_no_time\\action.pth": "595c0e62dc4acaa2618f05be3268843d32f921b503c9969218a70c2e8912d990",
+    "runs\\wigesture_no_time\\people.pth": "03b5370b15a8e7adff32126a6316584cc259930f995a9897bbe2872f5a9fbd14",
+    "runs\\wigesture_scratch\\action.pth": "a76830570fed1e58eb229570a3f10060ea383242009692749436655cd0e310fc",
+    "runs\\wigesture_rnn\\model.pth": "043c15ad8eddefe5e1dc2f7be719ff3888a5628868ef729c68d46b35c86d2e3f",
+    "runs\\wigesture_lstm\\model.pth": "286b83d9c1d7b3f78d091a10e179eae3f106b77c7830e52cd52ef614dee608dd",
+    "runs\\wigesture_gru\\model.pth": "768ad6c7676b0907a51f5eeb90dd4032fce19cbf88ac44f1282fe5e0ab2c3997",
+    "runs\\wifall_rnn\\model.pth": "bd924b2478c1a69044f97c775280004f82934cd909bd238384edf6787d37ce3b",
+    "runs\\wifall_lstm\\model.pth": "82b19d77b4f1f5e470a5e7ca8fe020ca770ee8970605118682b3b97cd60b47c3",
+    "runs\\wifall_gru\\model.pth": "9e5c5064db7e7e0b8d71d4db19361fc47d58559f56f0c2e1156bb7f0602e59a3",
+    "runs\\wicount_rnn\\model.pth": "e13d04fc5c258e33b4908ae384accdf72949100d9839281fe6d773c07b2b1b91",
+    "runs\\wicount_lstm\\model.pth": "f6444a57b810d88edcbf66e3b02ec62aa875328c3c5c2f1a255ec7fac16fcc45",
+    "runs\\wicount_gru\\model.pth": "5551e54baee243599cb548a87f698e25a5b43b95533253c388fe082f9e83360e"
+  },
+  "limitations": [
+    "Original CommPre scenes/data not located",
+    "Not all paper baselines reproduced",
+    "No multi-seed statistics",
+    "Split/cropping/budget differences are documented"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "run": "wig_paper_config",
+  "checks": {
+    "pretrain": {
+      "epochs": 30,
+      "checkpoint_finite": true
+    },
+    "prediction": {
+      "epochs": 30,
+      "checkpoint_finite": true,
+      "inference_passed": true
+    },
+    "action": {
+      "epochs": 30,
+      "checkpoint_finite": true,
+      "inference_passed": true
+    },
+    "people": {
+      "epochs": 30,
+      "checkpoint_finite": true,
+      "inference_passed": true
+    },
+    "recovery": {
+      "inference_passed": true
+    }
+  }
+}

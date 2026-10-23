@@ -1,0 +1,62 @@
+{
+  "WiGesture": {
+    "run": "wigesture_paper_v2",
+    "samples": [
+      {
+        "test_index": 0,
+        "recovery_mse": 1.4078269004821777,
+        "prediction_mse": 1.8593062162399292
+      },
+      {
+        "test_index": 1,
+        "recovery_mse": 1.6749628782272339,
+        "prediction_mse": 2.0884039402008057
+      },
+      {
+        "test_index": 2,
+        "recovery_mse": 2.002842426300049,
+        "prediction_mse": 2.053525447845459
+      }
+    ]
+  },
+  "WiFall": {
+    "run": "wifall_paper_v2",
+    "samples": [
+      {
+        "test_index": 0,
+        "recovery_mse": 4.748898029327393,
+        "prediction_mse": 4.830538272857666
+      },
+      {
+        "test_index": 1,
+        "recovery_mse": 2.563566207885742,
+        "prediction_mse": 2.8895068168640137
+      },
+      {
+        "test_index": 2,
+        "recovery_mse": 2.485132932662964,
+        "prediction_mse": 2.3162918090820312
+      }
+    ]
+  },
+  "WiCount": {
+    "run": "wicount_paper_v2",
+    "samples": [
+      {
+        "test_index": 0,
+        "recovery_mse": 1.1647534370422363,
+        "prediction_mse": 2.2539286613464355
+      },
+      {
+        "test_index": 1,
+        "recovery_mse": 2.5036380290985107,
+        "prediction_mse": 2.213742733001709
+      },
+      {
+        "test_index": 2,
+        "recovery_mse": 2.0471293926239014,
+        "prediction_mse": 2.3172433376312256
+      }
+    ]
+  }
+}

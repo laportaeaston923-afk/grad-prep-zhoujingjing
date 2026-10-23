@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "run": "wigesture_no_gan",
+  "checks": {
+    "pretrain": {
+      "epochs": 30,
+      "checkpoint_finite": true
+    },
+    "prediction": {
+      "epochs": 30,
+      "checkpoint_finite": true,
+      "inference_passed": true,
+      "forecast_target_leakage_check": true
+    },
+    "action": {
+      "epochs": 30,
+      "checkpoint_finite": true,
+      "inference_passed": true
+    },
+    "people": {
+      "epochs": 30,
+      "checkpoint_finite": true,
+      "inference_passed": true
+    },
+    "recovery": {
+      "inference_passed": true
+    }
+  }
+}

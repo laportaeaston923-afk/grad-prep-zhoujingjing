@@ -1,0 +1,14 @@
+{
+  "mse": 5.056721543760698,
+  "nmse": 0.02049810753067776,
+  "mape": 0.15178382201382712,
+  "smape": 0.13802186397227217,
+  "values": 299104,
+  "dataset": "WiFall",
+  "model": "RNN",
+  "epochs": 30,
+  "parameters": 157456,
+  "seconds": 28.756355047225952,
+  "forecast_ratio": 0.2,
+  "device": "cpu"
+}

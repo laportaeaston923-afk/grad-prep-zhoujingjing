@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "run": "wigesture_scratch",
+  "checks": {
+    "action": {
+      "epochs": 30,
+      "checkpoint_finite": true,
+      "inference_passed": true
+    }
+  }
+}

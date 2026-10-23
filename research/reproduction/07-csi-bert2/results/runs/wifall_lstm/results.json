@@ -1,0 +1,14 @@
+{
+  "mse": 5.047097121736921,
+  "nmse": 0.020459093628912208,
+  "mape": 0.15184946539906893,
+  "smape": 0.1381067292529835,
+  "values": 299104,
+  "dataset": "WiFall",
+  "model": "LSTM",
+  "epochs": 30,
+  "parameters": 227344,
+  "seconds": 46.06558799743652,
+  "forecast_ratio": 0.2,
+  "device": "cpu"
+}

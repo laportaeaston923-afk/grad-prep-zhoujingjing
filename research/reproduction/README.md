@@ -11,6 +11,8 @@
 | [05 · Widar3.0](05-widar3-csi-dfs-bvp/) | 官方 CSI 示例 | CSI → DFS → BVP，代码、实验结果与学习笔记 |
 | [06 · GRWM 世界模型](06-cloning-deterministic-worlds/) | Maze9 | CVPR 2026；官方 VAE/GRWM + DFOT 扩散预测；单卡运行脚本与笔记已提交，真实训练待完成 |
 
+| [07 · CSI-BERT2](07-csi-bert2/) | WiGesture / WiFall / WiCount | CSI 恢复、预测、分类，基线与消融；核心实验已跑通，未完整达到论文指标 |
+
 各项目的 `results/` 放结果图，`code/` 放对应代码。大体积训练数据和模型权重按各项目 README 说明自行准备。
 
 [← 返回科研记录](../README.md)

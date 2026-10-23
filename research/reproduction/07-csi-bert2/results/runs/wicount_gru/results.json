@@ -1,0 +1,14 @@
+{
+  "mse": 6.084197628827483,
+  "nmse": 0.026812797876893293,
+  "mape": 0.18690614902660874,
+  "smape": 0.1578856844494881,
+  "values": 80340,
+  "dataset": "WiCount",
+  "model": "GRU",
+  "epochs": 30,
+  "parameters": 204048,
+  "seconds": 26.06396245956421,
+  "forecast_ratio": 0.2,
+  "device": "cpu"
+}

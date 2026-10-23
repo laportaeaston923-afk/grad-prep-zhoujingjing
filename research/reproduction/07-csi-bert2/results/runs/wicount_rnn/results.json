@@ -1,0 +1,14 @@
+{
+  "mse": 5.950648027134678,
+  "nmse": 0.02622425051285593,
+  "mape": 0.18412351983514294,
+  "smape": 0.15659206733200304,
+  "values": 80340,
+  "dataset": "WiCount",
+  "model": "RNN",
+  "epochs": 30,
+  "parameters": 157456,
+  "seconds": 10.685082197189331,
+  "forecast_ratio": 0.2,
+  "device": "cpu"
+}

@@ -1,0 +1,14 @@
+{
+  "mse": 4.46740776130191,
+  "nmse": 0.020338673132092724,
+  "mape": 0.17818535529843377,
+  "smape": 0.1535379125497047,
+  "values": 251108,
+  "dataset": "WiGesture",
+  "model": "RNN",
+  "epochs": 30,
+  "parameters": 157456,
+  "seconds": 22.650530576705933,
+  "forecast_ratio": 0.2,
+  "device": "cpu"
+}

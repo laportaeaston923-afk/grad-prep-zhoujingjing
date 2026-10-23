@@ -1,0 +1,14 @@
+{
+  "mse": 4.280270466293388,
+  "nmse": 0.01948669711437341,
+  "mape": 0.17525310075496534,
+  "smape": 0.15158046296625854,
+  "values": 251108,
+  "dataset": "WiGesture",
+  "model": "LSTM",
+  "epochs": 30,
+  "parameters": 227344,
+  "seconds": 38.66504216194153,
+  "forecast_ratio": 0.2,
+  "device": "cpu"
+}

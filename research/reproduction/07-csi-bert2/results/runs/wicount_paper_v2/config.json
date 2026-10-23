@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "stage": "all",
+    "dataset": "WiCount",
+    "paper_mask": true,
+    "ablation": "none",
+    "no_pretrain": false,
+    "epochs": 30,
+    "batch_size": 64,
+    "train_samples": 2000,
+    "seed": 42,
+    "run_name": "wicount_paper_v2",
+    "cpu": false,
+    "no_gan": false
+  },
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "device": "cuda:0",
+  "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+  "split": "WiFall: recording-disjoint 81/9/10 within person/action groups; other datasets: within each recording 81/9/10",
+  "note": "Test set is never used for checkpoint selection",
+  "prediction_ratio": 0.2,
+  "window_counts": {
+    "train": 738,
+    "valid": 75,
+    "test": 90
+  }
+}

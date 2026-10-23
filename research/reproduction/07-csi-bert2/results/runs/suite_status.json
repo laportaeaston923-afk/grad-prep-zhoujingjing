@@ -1,0 +1,127 @@
+{
+  "wicount_paper_v2": {
+    "exit_code": 0,
+    "seconds": 170.25634264945984,
+    "command": [
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\work\\venv\\Scripts\\python.exe",
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\outputs\\CSI-BERT2-reproduction\\run.py",
+      "--epochs",
+      "30",
+      "--paper-mask",
+      "--run-name",
+      "wicount_paper_v2",
+      "--dataset",
+      "WiCount",
+      "--stage",
+      "all"
+    ]
+  },
+  "wifall_paper_v2": {
+    "exit_code": 0,
+    "seconds": 451.69384145736694,
+    "command": [
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\work\\venv\\Scripts\\python.exe",
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\outputs\\CSI-BERT2-reproduction\\run.py",
+      "--epochs",
+      "30",
+      "--paper-mask",
+      "--run-name",
+      "wifall_paper_v2",
+      "--dataset",
+      "WiFall",
+      "--stage",
+      "all"
+    ]
+  },
+  "wigesture_paper_v2": {
+    "exit_code": 0,
+    "seconds": 448.0159559249878,
+    "command": [
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\work\\venv\\Scripts\\python.exe",
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\outputs\\CSI-BERT2-reproduction\\run.py",
+      "--epochs",
+      "30",
+      "--paper-mask",
+      "--run-name",
+      "wigesture_paper_v2",
+      "--dataset",
+      "WiGesture",
+      "--stage",
+      "all"
+    ]
+  },
+  "wigesture_no_gan": {
+    "exit_code": 0,
+    "seconds": 212.83674216270447,
+    "command": [
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\work\\venv\\Scripts\\python.exe",
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\outputs\\CSI-BERT2-reproduction\\run.py",
+      "--epochs",
+      "30",
+      "--paper-mask",
+      "--run-name",
+      "wigesture_no_gan",
+      "--dataset",
+      "WiGesture",
+      "--stage",
+      "all",
+      "--no-gan"
+    ]
+  },
+  "wigesture_no_arl": {
+    "exit_code": 0,
+    "seconds": 455.894140958786,
+    "command": [
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\work\\venv\\Scripts\\python.exe",
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\outputs\\CSI-BERT2-reproduction\\run.py",
+      "--epochs",
+      "30",
+      "--paper-mask",
+      "--run-name",
+      "wigesture_no_arl",
+      "--dataset",
+      "WiGesture",
+      "--stage",
+      "all",
+      "--ablation",
+      "no_arl"
+    ]
+  },
+  "wigesture_no_time": {
+    "exit_code": 0,
+    "seconds": 447.8085343837738,
+    "command": [
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\work\\venv\\Scripts\\python.exe",
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\outputs\\CSI-BERT2-reproduction\\run.py",
+      "--epochs",
+      "30",
+      "--paper-mask",
+      "--run-name",
+      "wigesture_no_time",
+      "--dataset",
+      "WiGesture",
+      "--stage",
+      "all",
+      "--ablation",
+      "no_time"
+    ]
+  },
+  "wigesture_scratch": {
+    "exit_code": 0,
+    "seconds": 67.57192659378052,
+    "command": [
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\work\\venv\\Scripts\\python.exe",
+      "C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-19\\fu\\outputs\\CSI-BERT2-reproduction\\run.py",
+      "--epochs",
+      "30",
+      "--paper-mask",
+      "--run-name",
+      "wigesture_scratch",
+      "--dataset",
+      "WiGesture",
+      "--stage",
+      "action",
+      "--no-pretrain"
+    ]
+  }
+}

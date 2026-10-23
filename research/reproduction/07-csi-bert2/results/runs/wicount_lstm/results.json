@@ -1,0 +1,14 @@
+{
+  "mse": 6.102282097958676,
+  "nmse": 0.026892495356348613,
+  "mape": 0.18656974737002255,
+  "smape": 0.1582535667504901,
+  "values": 80340,
+  "dataset": "WiCount",
+  "model": "LSTM",
+  "epochs": 30,
+  "parameters": 227344,
+  "seconds": 16.659389972686768,
+  "forecast_ratio": 0.2,
+  "device": "cpu"
+}

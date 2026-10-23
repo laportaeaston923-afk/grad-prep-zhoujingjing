@@ -1,0 +1,14 @@
+{
+  "mse": 4.231893280232012,
+  "nmse": 0.019266451319289325,
+  "mape": 0.173905288107988,
+  "smape": 0.1508152907330337,
+  "values": 251108,
+  "dataset": "WiGesture",
+  "model": "GRU",
+  "epochs": 30,
+  "parameters": 204048,
+  "seconds": 54.71424221992493,
+  "forecast_ratio": 0.2,
+  "device": "cpu"
+}

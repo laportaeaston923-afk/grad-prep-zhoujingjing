@@ -1,0 +1,6 @@
+code/.venv/
+code/data/
+code/runs/
+code/reports/
+__pycache__/
+*.pth

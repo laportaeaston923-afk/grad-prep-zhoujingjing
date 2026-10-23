@@ -1,0 +1,13 @@
+{
+  "checked_date_client": "2026-10-19",
+  "author_public_dataset_list_endpoint": "https://huggingface.co/api/datasets?author=RS2002&limit=100",
+  "listed_dataset_ids": ["RS2002/WiGesture", "RS2002/WiFall", "RS2002/WiCount", "RS2002/LoFi", "RS2002/RPMC-L2"],
+  "downloaded_for_reproduction": ["RS2002/WiGesture", "RS2002/WiFall", "RS2002/WiCount"],
+  "CommPre": {
+    "status": "original dataset and scene generation configuration not found in currently accessible author repositories and dataset list",
+    "attempted_endpoint": "https://huggingface.co/api/datasets/RS2002/CommPre/tree/main?recursive=true",
+    "endpoint_response": "HTTP 401",
+    "interpretation": "This response alone does not establish whether the dataset exists or is private. No accessible original was located.",
+    "substitute_generated": false
+  }
+}

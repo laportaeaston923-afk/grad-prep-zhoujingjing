@@ -1,0 +1,14 @@
+{
+  "mse": 5.020271951812747,
+  "nmse": 0.020350354159499883,
+  "mape": 0.15139561484423067,
+  "smape": 0.13766512876400225,
+  "values": 299104,
+  "dataset": "WiFall",
+  "model": "GRU",
+  "epochs": 30,
+  "parameters": 204048,
+  "seconds": 64.94377160072327,
+  "forecast_ratio": 0.2,
+  "device": "cpu"
+}
