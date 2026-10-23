@@ -20,9 +20,6 @@ ELF： 初始输入是随机数字向量，模型逐步调整这些向量，最�
 
 Flow Matching（流匹配）理解成一种“教模型如何从起点走到终点”的生成方法。
 
-<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image1.png" />
-
-<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image2.png" />
 
 ### Fig1:ELF用更少的生成步骤获得更好的文本生成质量
 
