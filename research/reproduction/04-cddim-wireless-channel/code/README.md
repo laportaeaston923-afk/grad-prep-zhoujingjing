@@ -1,6 +1,6 @@
-# cDDIM · Code
+# cDDIM 对照代码
 
-本目录是为现有 cDDIM 复现项目新增的 **One-shot U-Net 对照代码**。
+One-shot U-Net 的训练与 ID / OOD 对照。
 
 | 文件 | 用途 |
 |---|---|

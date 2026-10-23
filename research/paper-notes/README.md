@@ -1,7 +1,7 @@
 # Paper Notes · 论文阅读笔记
 
 
-## 01 · 论文列表
+## 论文列表
 
 | 编号 | 论文 / 方法 | 正式出处 | 主要问题 | 论文原文 | 阅读笔记 |
 |---|---|---|---|---|---|
@@ -17,20 +17,5 @@
 | 10 | **CSI-BERT2** · A BERT-inspired Framework for Efficient CSI Prediction and Classification in Wireless Communication and Sensing | IEEE Transactions on Mobile Computing（2025 online） | CSI 恢复、未来预测与感知分类 | [IEEE / DOI](https://doi.org/10.1109/TMC.2025.3640420) · [arXiv](https://arxiv.org/abs/2412.06861) | [10-CSI-BERT2](10-CSI-BERT2.md) |
 | 11 | **SRLoc** · WiFi Fingerprint Localization Method Against Adversarial Attacks Based on Diffusion-Inspired Model | IEEE Transactions on Mobile Computing，Early Access，2026 | 对抗 RSSI 修复与鲁棒 WiFi 指纹定位 | [IEEE Xplore](https://ieeexplore.ieee.org/document/11676842/) · [DOI](https://doi.org/10.1109/TMC.2026.3730625) | [11-SRLoc](11-SRLoc.md) |
 
-## 02 · 核心内容
 
-| 论文 / 方法 | 生成或预测对象 | 生成模型的作用 | 最终要验证什么 |
-|---|---|---|---|
-| CLAR | WiFi CSI 样本 | 数据增强，辅助对比学习 | 活动识别性能是否提升 |
-| WiFi-Diffusion | Radio Map | 从稀疏采样恢复细粒度无线环境地图 | 地图估计质量与物理合理性 |
-| Echo-Conditioned DDPM | 下一时间块的目标状态 | 概率预测未来角度与距离 | 跟踪误差与波束选择效果 |
-| cDDIM | 位置条件下的 MIMO 信道 | 扩充信道训练数据 | 信道结构、样本多样性与下游通信性能 |
-| mmWaveFlow | 稀疏或稠密人体点云 | Flow Matching 学习双向传输 | 点云几何质量与下游人体感知效果 |
-| MeanFlow | 数据样本 | 减少生成所需的网络调用次数 | 生成质量与推理效率的权衡 |
-| ELF | 连续语言嵌入与文本 Token | Flow Matching 生成语言向量，最后解码 | 文本质量、多样性与采样效率 |
-| CSI-BERT2 | 缺失或未来 CSI、感知类别 | BERT 掩码恢复与预测、分类 | 恢复与预测误差、分类性能 |
-| SRLoc | 受攻击的 RSSI 指纹 | 受扩散启发的单步条件重建 | 修复效果与最终定位误差 |
-
-共 11 篇阅读笔记。新增三篇保留上传笔记的图片、表格与讲解；作者、出处、原文链接及方法和总结见各篇笔记。
-
-[返回科研主页](../README.md) · [返回仓库首页](../../README.md)
+[科研记录](../README.md) · [首页](../../README.md)

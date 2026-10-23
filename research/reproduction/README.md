@@ -1,16 +1,14 @@
 # 代码复现
 
-每个实验按 `README.md`、`code/`、`results/` 整理。
-
-| 实验 | 数据集 | 主要内容 |
+| 项目 | 数据 | 当前记录 |
 |---|---|---|
-| [01 · DDPM](01-ddpm-cifar10/) | CIFAR-10 | 训练、生成图像与去噪过程 |
-| [02 · DDIM](02-ddim-cifar10/) | CIFAR-10 | 复用 DDPM 权重，进行 50 步采样 |
-| [03 · MF vs iMF（原项目 DiT）](03-meanflow-mnist/) | MNIST | 原项目 MFDiT；已新增 Fig.3 数值稳定性排查、LR 预热、JVP 诊断；四图待 GPU 真实训练 |
-| [04 · cDDIM](04-cddim-wireless-channel/) | QuaDRiGa | 无线信道生成，Fig. 5/6/7，ID/OOD 与 One-shot U-Net 对照 |
-| [05 · Widar3.0](05-widar3-csi-dfs-bvp/) | 官方 CSI 示例 | CSI → DFS → BVP，代码、实验结果与学习笔记 |
-| [06 · CSI-BERT2](06-csi-bert2/) | WiGesture / WiFall / WiCount | CSI 恢复、预测、分类，基线与消融；核心实验已跑通，未完整达到论文指标 |
+| [01 · DDPM](01-ddpm-cifar10/) | CIFAR-10 | 120 Epoch AMP 训练、生成图与去噪过程 |
+| [02 · DDIM](02-ddim-cifar10/) | CIFAR-10 | 复用 DDPM 权重，50 步采样 |
+| [03 · MeanFlow / iMF](03-meanflow-mnist/) | MNIST | MF、iMF、CFG 各 20,000 步；Loss、FID 与生成结果 |
+| [04 · cDDIM](04-cddim-wireless-channel/) | QuaDRiGa | 与 One-shot U-Net 的 ID / OOD 对照 |
+| [05 · Widar3.0](05-widar3-csi-dfs-bvp/) | 官方 CSI 示例 | 单样本 CSI → DFS → BVP |
+| [06 · CSI-BERT2](06-csi-bert2/) | WiGesture / WiFall / WiCount | 恢复、预测、分类、基线与消融；未完整达到论文指标 |
 
-各项目的 `results/` 放结果图，`code/` 放对应代码。大体积训练数据和模型权重按各项目 README 说明自行准备。
+各项目的 `code/` 保存代码，`results/` 保存结果；数据和权重按项目说明准备。
 
-[← 返回科研记录](../README.md)
+[科研记录](../README.md) · [首页](../../README.md)

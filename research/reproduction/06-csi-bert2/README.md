@@ -1,10 +1,10 @@
-# 06 · CSI-BERT2 复现
+# CSI-BERT2
 
-已完成三个真实数据集核心实验、9 组循环网络基线及选定消融；共 34 个任务模型、1020 个训练轮次记录。**尚未完整复现全部论文指标。**
+三个实测数据集的恢复、预测、分类、9 组循环网络基线及选定消融已完成。共 34 个任务模型、1020 个训练轮次记录，未完整达到论文指标。
 
-- [完整结果及与论文的差距](results/REPORT.md)
-- [全部指标 CSV](results/runs/comparison.csv)
-- [模型实现](code/src/model.py)、[训练入口](code/run.py)、[推理](code/infer.py)
+[实验报告](results/REPORT.md) · [指标 CSV](results/runs/comparison.csv) · [模型](code/src/model.py) · [训练](code/run.py) · [推理](code/infer.py)
+
+## 结果
 
 | 数据集 | 恢复 MSE | 末尾20%预测 MSE |
 |---|---:|---:|
@@ -12,17 +12,14 @@
 | WiFall | 4.8549 | 5.1946 |
 | WiCount | 4.2776 | 6.1009 |
 
+
 ![预测对照](results/figures/forecast_comparison.png)
 ![消融](results/figures/ablations_complete.png)
 ![重建](results/figures/full_reconstruction/WiGesture_reconstruction.png)
 
-## 复现范围和限制
+每项 30 轮、seed=42。数据划分、裁窗和训练预算与论文不同；CommPre、混合采样率训练、全部基线与多种子实验尚未完成。预训练分类冻结主干，无预训练对照训练全网络，不能把差异仅归因于初始化。
 
-模型包含 ARL、时间嵌入、BERT 主干和任务头，完成 MLM、MPM、分类及 GAN 训练。分类涵盖手势、人员、动作、跌倒、人数估计。基线包括独立配置的 RNN/LSTM/GRU、线性插值和 IDW，并非作者全部基线原实现。
-
-每项30轮、单随机种子42；WiGesture/WiCount按录制时间81/9/10划分，WiFall按人员/动作组内文件划分，验证集选择权重。论文为90/10，裁窗和预算也存在差异。无预训练对照训练全网络，而预训练分类冻结主干，不能将差异只归因于初始化。CommPre原始场景未找到，混合采样率训练、全部基线和多种子统计未完成。
-
-图中 fill missing only 保留观测值，仅补缺失；reconstruct all 全部采用同一模型输出，两者不是两个模型。真实缺失位置无真值，不能从连续热图证明恢复准确；误差测试使用人为遮挡的有效位置。
+恢复图中 `fill missing only` 仅补缺失，`reconstruct all` 全部使用模型输出。真实缺失处没有真值，误差由人为遮挡的有效位置计算。详细设置见实验报告。
 
 ## 运行与文件
 
@@ -39,6 +36,6 @@ python train_baselines.py --epochs 30
 
 训练产生 code/runs 和 code/reports；本仓库 results 是已完成实验的静态快照。大型原始数据、环境和 .pth 权重未放入 Git，仍保存在本机 E:\all\CSI-BERT2-reproduction；已记录权重 SHA256 于 results/runs/completion_audit.json。推理/重新绘图需先把对应 runs 权重与处理数据放入 code 下，或重新训练。已有 PNG、JSON、CSV 无需训练即可查看。
 
-## 来源
+来源：[作者代码](https://github.com/RS2002/CSI-BERT2) · [版本记录](code/source_revisions.json) · [论文](https://doi.org/10.1109/TMC.2025.3640420)
 
-基于作者代码 https://github.com/RS2002/CSI-BERT2 ，参考版本见 code/source_revisions.json，保留代码中的作者实现。论文 DOI: 10.1109/TMC.2025.3640420。本文档与图表如实报告本机结果，不声明达到论文全部指标。
+[返回复现目录](../README.md)

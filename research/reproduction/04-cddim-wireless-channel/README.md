@@ -4,7 +4,7 @@
 
 论文：[arXiv](https://arxiv.org/abs/2409.03924) · 官方代码：[taekyunl/cDDIM](https://github.com/taekyunl/cDDIM)
 
-## Results
+## 结果
 
 | 实验结果 | 图片 |
 |---|---|
@@ -15,9 +15,9 @@
 | cDDIM 的 ID / OOD CDF 对比 | [fig6_id_vs_fig7_ood.png](results/fig6_id_vs_fig7_ood.png) |
 | 训练 / OOD 用户位置分布 | [fig7_train_vs_ood_positions.png](results/fig7_train_vs_ood_positions.png) |
 
-[查看全部 Results](results/)
+[全部结果](results/)
 
-## Code
+## 代码
 
 [查看代码](code/)：One-shot U-Net 模型、训练、CDF 评估和 Windows 运行脚本。
 
@@ -35,6 +35,6 @@ QuaDRiGa BERLIN_UMa_LOS，28 GHz，4×32 复数 MIMO 信道；以用户三维位
 | ID（0–100 m） | 约 79% | 约 75% |
 | OOD（100–200 m） | **约 69%** | 约 57% |
 
-**观察：** ID 区域两模型表现接近；OOD 区域 cDDIM 的主波束索引匹配率更高，表现出更好的分布外泛化趋势。
+观察： ID 区域两模型表现接近；OOD 区域 cDDIM 的主波束索引匹配率更高，表现出更好的分布外泛化趋势。
 
 [返回复现总览](../README.md)

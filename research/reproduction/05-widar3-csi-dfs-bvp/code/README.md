@@ -1,6 +1,6 @@
 # 代码与学习资料
 
-## 先读什么
+## 学习资料
 
 - `NOTES.md`：14步图解、日常解释、数学公式、文件名和准确行号，包含85个术语说明。
 - `QUESTIONS.md`：本次学习中提出的24组问题，重点解释CSI与数据包、RSSI校正、参考天线、窗口与时间、频谱快照、100快照平均、几何关系、反推和人体坐标。
@@ -19,7 +19,7 @@ step2_dfs_to_bvp
 compare_bvp
 ```
 
-结果在项目同级 `results/userA-1-1-1-1/`。仓库版只改了新增入口的输出路径，原核心算法保持原样；笔记对应的行号也保留。
+结果在项目同级 `results/userA-1-1-1-1/`。原核心算法与学习笔记行号保持不变。
 
 | 工具箱 | 用到的函数 |
 |---|---|
@@ -28,7 +28,7 @@ compare_bvp
 | Optimization Toolbox | `fmincon`、`optimoptions` |
 | Image Processing Toolbox | `imrotate` |
 
-可用 `ver` 检查已安装工具箱。本次用户在Windows MATLAB成功运行，但未提供具体MATLAB版本。新版MEX兼容性不能一概保证。
+可用 `ver` 检查已安装工具箱。已在 Windows MATLAB 运行，具体版本未记录。
 
 作者附带的Windows 64位、Linux 64位与Intel macOS旧MEX一并保留。若 `read_bfee` 报 Invalid MEX-file，先配置MATLAB支持的C编译器，再在本目录执行：
 
@@ -51,4 +51,4 @@ python verify_and_plot.py --dfs ../results/userA-1-1-1-1/DFS.mat
 
 仓库保存27KB的BVP结果，7.8MB的原始 `DFS.mat` 留在本机或由第一步重新生成。可把本机DFS复制到上述路径，或用 `--dfs` 指定其完整路径。核验脚本限定本示例的−90°朝向，验证原/旋转BVP的对应关系、数组尺寸、频率顺序与保存目标值。
 
-核验使用Python 3环境：NumPy 2.3.5、SciPy 1.17.0、Matplotlib 3.10.8。本次核验通过；源代码中没有把候选参考当成人体速度真值。
+核验使用Python 3环境：NumPy 2.3.5、SciPy 1.17.0、Matplotlib 3.10.8。核验通过；候选参考未作为速度真值。
