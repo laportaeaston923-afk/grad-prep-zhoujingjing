@@ -57,10 +57,6 @@
 | [DDIM · CIFAR-10](research/reproduction/02-ddim-cifar10/) | 复用 DDPM 权重，改变采样方法 | 已展示 50 步采样代码和结果；与 DDPM 的统一设备耗时、FID 对照仍待补齐 |
 | [MF / iMF · MNIST](research/reproduction/03-meanflow-mnist/) | 基于原项目 DiT，对比 JVP 方向、CFG 和一步生成 | 原项目 MFDiT 代码已更新稳定性设置与 JVP 诊断；新版实际训练结果待执行 |
 
-| [06 · CSI-BERT2](research/reproduction/06-csi-bert2/) | 掩码预训练、CSI 恢复、末尾预测与感知分类 | WiGesture / WiFall / WiCount；实测指标、消融、基线和效果图已保存，未完整达到论文指标 |
-
-DDPM 基础实现参考 [Bilibili 教学视频](https://www.bilibili.com/video/BV1vZi6BaEgF/)。MeanFlow 使用 [haidog-yaqub/MeanFlow](https://github.com/haidog-yaqub/MeanFlow) 的第三方实现，固定版本与许可记录在项目目录；当前结果属于 MNIST 实验，不声明达到原论文 ImageNet 成绩。
-
 ## 04 · 仓库目录与快速导航
 
 | 路径 | 内容 |
