@@ -13,9 +13,9 @@
 | 06 | **Echo-Conditioned DDPM** · Echo-Conditioned Denoising Diffusion Probabilistic Models for Multi-Target Tracking in RF Sensing | arXiv preprint, 2025 | 从 RF 回波预测未来目标状态并选择感知波束 | [arXiv](https://arxiv.org/abs/2510.25464) | [06-Echo-Conditioned DDPM](06-Echo-Conditioned%20Denoising%20Diffusion.md) |
 | 07 | **mmWaveFlow** · Unified Enhancement and Generation of mmWave Human Point Clouds | CVPR 2026 | 用 Flow Matching 统一稀疏 / 稠密点云的双向转换 | [CVF Open Access](https://openaccess.thecvf.com/content/CVPR2026/html/Su_mmWaveFlow_Unified_Enhancement_and_Generation_of_mmWave_Human_Point_Clouds_CVPR_2026_paper.html) | [07-mmWaveFlow](07-mmWaveFlow.md) |
 | 08 | **cDDIM** · Generating High Dimensional User-Specific Wireless Channels using Diffusion Models | IEEE Transactions on Wireless Communications, 2026（online 2025） | 根据用户位置生成 MIMO 信道样本 | [IEEE Xplore](https://ieeexplore.ieee.org/document/11142589/) · [arXiv](https://arxiv.org/abs/2409.03924) | [08-cDDIM](08-cDDIM.md) |
-| 09 | **ELF** | 上传笔记未记录完整出处 | 连续语言向量生成与最终 Token 解码 | — | [09-ELF](09-ELF.md) |
-| 10 | **CSI-BERT2** | 上传笔记未记录完整出处 | CSI 恢复、未来预测与感知分类 | — | [10-CSI-BERT2](10-CSI-BERT2.md) |
-| 11 | **SRLoc** | 上传笔记未记录完整出处 | 对抗 RSSI 修复与鲁棒 WiFi 指纹定位 | — | [11-SRLoc](11-SRLoc.md) |
+| 09 | **ELF** · Embedded Language Flows | arXiv 技术报告，2026 | 连续语言向量生成与最终 Token 解码 | [arXiv](https://arxiv.org/abs/2605.10938) | [09-ELF](09-ELF.md) |
+| 10 | **CSI-BERT2** · A BERT-inspired Framework for Efficient CSI Prediction and Classification in Wireless Communication and Sensing | IEEE Transactions on Mobile Computing（2025 online） | CSI 恢复、未来预测与感知分类 | [IEEE / DOI](https://doi.org/10.1109/TMC.2025.3640420) · [arXiv](https://arxiv.org/abs/2412.06861) | [10-CSI-BERT2](10-CSI-BERT2.md) |
+| 11 | **SRLoc** · WiFi Fingerprint Localization Method Against Adversarial Attacks Based on Diffusion-Inspired Model | IEEE Transactions on Mobile Computing，Early Access，2026 | 对抗 RSSI 修复与鲁棒 WiFi 指纹定位 | [IEEE Xplore](https://ieeexplore.ieee.org/document/11676842/) · [DOI](https://doi.org/10.1109/TMC.2026.3730625) | [11-SRLoc](11-SRLoc.md) |
 
 ## 02 · 核心内容
 
@@ -31,6 +31,6 @@
 | CSI-BERT2 | 缺失或未来 CSI、感知类别 | BERT 掩码恢复与预测、分类 | 恢复与预测误差、分类性能 |
 | SRLoc | 受攻击的 RSSI 指纹 | 受扩散启发的单步条件重建 | 修复效果与最终定位误差 |
 
-共 11 篇阅读笔记。新增三篇保留上传笔记的图片、表格与讲解；完整出版信息待核对补充。
+共 11 篇阅读笔记。新增三篇保留上传笔记的图片、表格与讲解；作者、出处、原文链接及方法和总结见各篇笔记。
 
 [返回科研主页](../README.md) · [返回仓库首页](../../README.md)
