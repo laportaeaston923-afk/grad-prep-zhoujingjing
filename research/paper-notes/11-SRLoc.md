@@ -24,8 +24,6 @@ Wifi定位模型如果收到被恶意篡改信号可能会把人定位错误的�
 
 为什么要研究wifi指纹定位还要研究对抗防御方法。
 
-<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/11-SRLoc/media/image1.png" />
-
 对抗攻击不一定是直接干扰 WiFi 无线信号，也可以是针对模型输入数据设计的恶意扰动。原来的定位模型虽然精度高，但是面对恶意攻击时不够可靠。
 
 这就引出了 SRLoc 这篇论文的研究目标：能不能在定位之前，先把受到攻击的 RSSI 信号修复好，再交给原有的定位模型
@@ -33,8 +31,6 @@ Wifi定位模型如果收到被恶意篡改信号可能会把人定位错误的�
 Wifi指纹定位：通过手机收到wifi信号特征，判断手机处于哪个位置。这里的“指纹”不是手指的指纹，也不是 WiFi 密
 
 码，而是指某个位置具有的一组具有辨识度的 WiFi 信号数据。
-
-<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/11-SRLoc/media/image2.png" />
 
 SRLoc 主要解决的是：当前收到的 RSSI 指纹受到对抗攻击后，如何将它修复得更接近干净的信号。
 
