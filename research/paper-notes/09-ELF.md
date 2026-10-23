@@ -20,13 +20,13 @@ ELF： 初始输入是随机数字向量，模型逐步调整这些向量，最�
 
 Flow Matching（流匹配）理解成一种“教模型如何从起点走到终点”的生成方法。
 
-![笔记配图](assets/09-ELF/media/image1.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image1.png" />
 
-![笔记配图](assets/09-ELF/media/image2.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image2.png" />
 
 ### Fig1:ELF用更少的生成步骤获得更好的文本生成质量
 
-![笔记配图](assets/09-ELF/media/image3.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image3.png" />
 
 蒸馏：让一个大模型把自己学到的知识教给一个小模型，让小模型尽可能达到大模型的效果，同时运行得更快、消耗更少的计算资源。蒸馏并不一定让模型效果变差，但它的主要价值通常是用更低的计算成本，尽可能保留原模型的效果。
 
@@ -42,9 +42,9 @@ Flow Matching（流匹配）理解成一种“教模型如何从起点走到终�
 
 ### Fig2：如何把噪声变成文字
 
-![笔记配图](assets/09-ELF/media/image4.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image4.png" />
 
-![笔记配图](assets/09-ELF/media/image5.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image5.png" />
 
 不需要每生成一步就判断当前应该是哪一个词，而是先在连续向量空间里完成生成，再一次性转换成文字。
 
@@ -52,7 +52,7 @@ Flow Matching（流匹配）理解成一种“教模型如何从起点走到终�
 
 ### Fig3：
 
-![笔记配图](assets/09-ELF/media/image6.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image6.png" />
 
 ### Training（训练阶段）
 
@@ -68,7 +68,7 @@ Flow Matching（流匹配）理解成一种“教模型如何从起点走到终�
 
 从随机高斯噪声 z_0开始，模型不断预测干净嵌入，并转换成速度来更新：
 
-![笔记配图](assets/09-ELF/media/image7.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image7.png" />
 
 在最后t=1时，网络切换到 Decode 模式，通过 unembedding 层输出离散 Token。
 
@@ -82,11 +82,11 @@ Transformer
 
 作用：告诉模型每个 Token 在句子中的位置。
 
-![笔记配图](assets/09-ELF/media/image10.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image10.png" />
 
 Encoder（编码器）和 Decoder（解码器）
 
-![笔记配图](assets/09-ELF/media/image201.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image201.png" />
 
 Flow Matching 的作用，就是根据每个阶段的预测计算速度，通过数值求解器逐步更新状态，而不是把某一次预测直接当成最终结果。
 
@@ -96,7 +96,7 @@ Dit神经网络，负责预测干净的向量
 
 flow matching让模型学到预测用于一套完整连续生成过程。
 
-![笔记配图](assets/09-ELF/media/image202.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image202.png" />
 
 CFG 引导强度对生成效果的影响
 
@@ -114,7 +114,7 @@ CFG 引导强度对生成效果的影响
 
 这张图要证明： CFG 在 ELF 中有效，但需要在生成质量与多样性之间权衡。
 
-![笔记配图](assets/09-ELF/media/image203.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image203.png" />
 
 ### Fig. 5(a)：用什么方式把文字变成连续向量？
 

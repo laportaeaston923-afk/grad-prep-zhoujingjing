@@ -24,7 +24,7 @@ Wifi定位模型如果收到被恶意篡改信号可能会把人定位错误的�
 
 为什么要研究wifi指纹定位还要研究对抗防御方法。
 
-![笔记配图](assets/11-SRLoc/media/image1.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/11-SRLoc/media/image1.png" />
 
 对抗攻击不一定是直接干扰 WiFi 无线信号，也可以是针对模型输入数据设计的恶意扰动。原来的定位模型虽然精度高，但是面对恶意攻击时不够可靠。
 
@@ -34,7 +34,7 @@ Wifi指纹定位：通过手机收到wifi信号特征，判断手机处于哪个
 
 码，而是指某个位置具有的一组具有辨识度的 WiFi 信号数据。
 
-![笔记配图](assets/11-SRLoc/media/image2.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/11-SRLoc/media/image2.png" />
 
 SRLoc 主要解决的是：当前收到的 RSSI 指纹受到对抗攻击后，如何将它修复得更接近干净的信号。
 
@@ -54,15 +54,15 @@ SRLoc 的核心思想是：不直接重新训练整个定位模型，而是在�
 >
 > 标签：这个位置真实的坐标。
 
-![笔记配图](assets/11-SRLoc/media/image3.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/11-SRLoc/media/image3.png" />
 
 定位模型就是一个能够根据 WiFi 指纹，预测你所在位置的神经网络。
 
 在 Fig. 1 上半部分，作者分别使用 FGSM、PGD 和 MIM 对原始 RSSI 数据施加攻击，生成对应的对抗数据，再将这些数据用于训练 SR 模型。
 
-![笔记配图](assets/11-SRLoc/media/image4.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/11-SRLoc/media/image4.png" />
 
-![笔记配图](assets/11-SRLoc/media/image5.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/11-SRLoc/media/image5.png" />
 
 Fig. 2 展示了 SR Model 的内部网络结构。该模型采用改进的 U-Net，主要由编码器、瓶颈层和解码器组成。编码器利用一维卷积和最大池化提取 RSSI 特征，瓶颈层进一步整合特征，解码器则利用一维转置卷积恢复序列长度，并通过跳跃连接融合编码器的特征，从而保留更多有用信息。最后，模型输出重建后的 RSSI，并在训练阶段利用 Huber 损失、物理约束损失和参考点一致性损失进行优化。
 

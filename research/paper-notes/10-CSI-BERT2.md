@@ -10,7 +10,7 @@
 
 相对于之前发出的CSI-BERT改进的地方：
 
-![笔记配图](assets/10-CSI-BERT2/media/image1.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/10-CSI-BERT2/media/image1.png" />
 
 **MPM 是“怎么训练模型预测未来”，DANN 是一种“对抗学习方法”。两者负责的事情不同。**
 
@@ -64,7 +64,7 @@ Csi：包含信息 幅度，相位
 
 不同子载波的数值大小可能差别很大
 
-![笔记配图](assets/10-CSI-BERT2/media/image2.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/10-CSI-BERT2/media/image2.png" />
 
 通俗来说：
 
@@ -108,7 +108,7 @@ Token：
 
 例如，第1个 Token：
 
-![笔记配图](assets/10-CSI-BERT2/media/image3.png)第2个 Token 同样加入自己的时间和位置向量，以此类推。
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/10-CSI-BERT2/media/image3.png" />第2个 Token 同样加入自己的时间和位置向量，以此类推。
 
 **所以，右侧两路编码最终加到左侧 Linear Layer 输出的每一个 Token 上，再一起送入 BERT。图中没有把每个 Token 的相加过程逐一画出来。**
 
@@ -122,7 +122,7 @@ Token：
 
 这样，顺序和时间才明确地进入模型计算。
 
-![笔记配图](assets/10-CSI-BERT2/media/image4.png)
+<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/10-CSI-BERT2/media/image4.png" />
 
 **Fig2讲的是：同一个 CSI-BERT2 框架，如何用于“恢复信号、预测信号、感知分类”这三件事。** 图1讲内部结构，图2讲使用方式。
 
