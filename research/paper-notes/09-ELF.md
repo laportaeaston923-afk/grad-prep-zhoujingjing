@@ -77,8 +77,6 @@ Transformer
 
 作用：告诉模型每个 Token 在句子中的位置。
 
-<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image10.png" />
-
 Encoder（编码器）和 Decoder（解码器）
 
 <img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image201.png" />
