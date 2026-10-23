@@ -13,6 +13,8 @@
 CSI-BERT2 将 BERT 的掩码学习思路用于无线 CSI 序列，统一支持缺失数据恢复、未来信道预测和感知分类。它处理的是数值信号，不是把 CSI 翻译成文字。
 
 **整体流程：** CSI 序列 → 标准化 → ARL 与线性映射 → 加入位置和时间嵌入 → BERT 主干 → 按任务选择数值输出头或分类输出头。
+<img width="196" height="439" alt="image" src="https://github.com/user-attachments/assets/8e392a8f-2718-4f99-a793-326c1a9f2223" />
+
 
 ## 2. 已有方法有什么问题？
 
@@ -36,7 +38,7 @@ CSI-BERT2 将 BERT 的掩码学习思路用于无线 CSI 序列，统一支持�
 
 ### 与前作 CSI-BERT 的区别
 
-<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/10-CSI-BERT2/media/image1.png" />
+<img width="203" height="251" alt="image" src="https://github.com/user-attachments/assets/302cab01-05aa-407f-a71f-fd3be8a20e7c" />
 
 **MPM 是“怎么训练模型预测未来”，DANN 是一种“对抗学习方法”。两者负责的事情不同。**
 
