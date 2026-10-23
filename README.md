@@ -25,89 +25,59 @@
 
 ## 目录结构
 
-| 路径 | 内容 |
-|---|---|
-| [research/paper-notes/](research/paper-notes/) | 论文阅读笔记 |
-| [research/papers/](research/papers/) | 原文链接与 PDF |
-| [research/reproduction/](research/reproduction/) | 复现代码与结果 |
-| [research/ideas/](research/ideas/) | 研究想法 |
-| [engineering/](engineering/) | 工程项目 |
-
-
-<details open>
-<summary>详细目录分布</summary>
-
-- [engineering/](engineering/)：工程项目
-  - [01-DigitRepair/](engineering/01-DigitRepair/)：手写数字修复
-    - [results/](engineering/01-DigitRepair/results/)：权重、指标与结果图
-    - [screenshots/](engineering/01-DigitRepair/screenshots/)：界面截图
-    - [src/](engineering/01-DigitRepair/src/)：前后端与模型代码
-      - [ml/](engineering/01-DigitRepair/src/ml/)：模型、训练与评估
-      - [web/](engineering/01-DigitRepair/src/web/)：网页界面
-    - [tests/](engineering/01-DigitRepair/tests/)：测试
-- [research/](research/)：科研资料
-  - [ideas/](research/ideas/)：研究想法
-  - [paper-notes/](research/paper-notes/)：11 篇论文笔记
-  - [papers/](research/papers/)：论文原文、PDF 与来源索引
-  - [reproduction/](research/reproduction/)：六个复现项目
-    - [01-ddpm-cifar10/](research/reproduction/01-ddpm-cifar10/)：DDPM · CIFAR-10
-      - [code/](research/reproduction/01-ddpm-cifar10/code/)：代码
-      - [results/](research/reproduction/01-ddpm-cifar10/results/)：结果图与实验记录
-    - [02-ddim-cifar10/](research/reproduction/02-ddim-cifar10/)：DDIM · CIFAR-10
-      - [code/](research/reproduction/02-ddim-cifar10/code/)：代码
-      - [results/](research/reproduction/02-ddim-cifar10/results/)：结果图与实验记录
-    - [03-meanflow-mnist/](research/reproduction/03-meanflow-mnist/)：MF / iMF / CFG · MNIST
-      - [code/](research/reproduction/03-meanflow-mnist/code/)：代码
-        - [models/](research/reproduction/03-meanflow-mnist/code/models/)：DiT 模型
-      - [legacy_unet/](research/reproduction/03-meanflow-mnist/legacy_unet/)：旧 U-Net 实现
-      - [results/](research/reproduction/03-meanflow-mnist/results/)：结果图与实验记录
-        - [dit_stable/](research/reproduction/03-meanflow-mnist/results/dit_stable/)：DiT 实验图表、日志与指标
-          - [fid10000/](research/reproduction/03-meanflow-mnist/results/dit_stable/fid10000/)：FID-10000 评估
-    - [04-cddim-wireless-channel/](research/reproduction/04-cddim-wireless-channel/)：cDDIM 无线信道对照
-      - [code/](research/reproduction/04-cddim-wireless-channel/code/)：代码
-        - [src/](research/reproduction/04-cddim-wireless-channel/code/src/)：One-shot U-Net 对照代码
-      - [results/](research/reproduction/04-cddim-wireless-channel/results/)：结果图与实验记录
-    - [05-widar3-csi-dfs-bvp/](research/reproduction/05-widar3-csi-dfs-bvp/)：CSI → DFS → BVP
-      - [code/](research/reproduction/05-widar3-csi-dfs-bvp/code/)：代码
-        - [BVP/](research/reproduction/05-widar3-csi-dfs-bvp/code/BVP/)：BVP 算法
-        - [Data/](research/reproduction/05-widar3-csi-dfs-bvp/code/Data/)：CSI 输入数据说明
-        - [Doppler2VelocityMapping/](research/reproduction/05-widar3-csi-dfs-bvp/code/Doppler2VelocityMapping/)：多普勒与速度映射
-        - [csi_tool_box/](research/reproduction/05-widar3-csi-dfs-bvp/code/csi_tool_box/)：CSI 读取与校正
-        - [tftb/](research/reproduction/05-widar3-csi-dfs-bvp/code/tftb/)：时频分析依赖
-          - [mfiles/](research/reproduction/05-widar3-csi-dfs-bvp/code/tftb/mfiles/)：MATLAB 函数
-      - [results/](research/reproduction/05-widar3-csi-dfs-bvp/results/)：结果图与实验记录
-        - [userA-1-1-1-1/](research/reproduction/05-widar3-csi-dfs-bvp/results/userA-1-1-1-1/)：单样本结果
-    - [06-csi-bert2/](research/reproduction/06-csi-bert2/)：CSI-BERT2
-      - [code/](research/reproduction/06-csi-bert2/code/)：代码
-        - [src/](research/reproduction/06-csi-bert2/code/src/)：作者代码
-          - [WiCount/](research/reproduction/06-csi-bert2/code/src/WiCount/)：WiCount 数据与说明
-            - [data_process_example/](research/reproduction/06-csi-bert2/code/src/WiCount/data_process_example/)：数据处理示例
-          - [img/](research/reproduction/06-csi-bert2/code/src/img/)：作者文档配图
-      - [results/](research/reproduction/06-csi-bert2/results/)：结果图与实验记录
-        - [figures/](research/reproduction/06-csi-bert2/results/figures/)：结果图
-          - [full_reconstruction/](research/reproduction/06-csi-bert2/results/figures/full_reconstruction/)：完整重建图
-          - [generated_examples/](research/reproduction/06-csi-bert2/results/figures/generated_examples/)：生成示例
-        - [runs/](research/reproduction/06-csi-bert2/results/runs/)：各组实验日志与指标
-          - [verified_run/](research/reproduction/06-csi-bert2/results/runs/verified_run/)
-          - [wicount_gru/](research/reproduction/06-csi-bert2/results/runs/wicount_gru/)
-          - [wicount_lstm/](research/reproduction/06-csi-bert2/results/runs/wicount_lstm/)
-          - [wicount_paper_v2/](research/reproduction/06-csi-bert2/results/runs/wicount_paper_v2/)
-          - [wicount_rnn/](research/reproduction/06-csi-bert2/results/runs/wicount_rnn/)
-          - [wifall_gru/](research/reproduction/06-csi-bert2/results/runs/wifall_gru/)
-          - [wifall_lstm/](research/reproduction/06-csi-bert2/results/runs/wifall_lstm/)
-          - [wifall_paper_v2/](research/reproduction/06-csi-bert2/results/runs/wifall_paper_v2/)
-          - [wifall_rnn/](research/reproduction/06-csi-bert2/results/runs/wifall_rnn/)
-          - [wig_paper_config/](research/reproduction/06-csi-bert2/results/runs/wig_paper_config/)
-          - [wigesture_gru/](research/reproduction/06-csi-bert2/results/runs/wigesture_gru/)
-          - [wigesture_lstm/](research/reproduction/06-csi-bert2/results/runs/wigesture_lstm/)
-          - [wigesture_no_arl/](research/reproduction/06-csi-bert2/results/runs/wigesture_no_arl/)
-          - [wigesture_no_gan/](research/reproduction/06-csi-bert2/results/runs/wigesture_no_gan/)
-          - [wigesture_no_time/](research/reproduction/06-csi-bert2/results/runs/wigesture_no_time/)
-          - [wigesture_paper_v2/](research/reproduction/06-csi-bert2/results/runs/wigesture_paper_v2/)
-          - [wigesture_rnn/](research/reproduction/06-csi-bert2/results/runs/wigesture_rnn/)
-          - [wigesture_scratch/](research/reproduction/06-csi-bert2/results/runs/wigesture_scratch/)
-
-</details>
+```text
+grad-prep-zhoujingjing/
+├── README.md                          个人简介、任务进度与内容导航
+├── research/                          科研记录
+│   ├── README.md                      科研资料入口
+│   ├── paper-notes/                   11 篇论文阅读笔记
+│   ├── papers/                        论文原文、PDF 与出处索引
+│   ├── reproduction/                  代码复现
+│   │   ├── README.md                  复现项目与进度
+│   │   ├── 01-ddpm-cifar10/            DDPM · CIFAR-10
+│   │   │   ├── code/                  模型、训练与采样
+│   │   │   └── results/               Loss、生成图与去噪过程
+│   │   ├── 02-ddim-cifar10/            DDIM · CIFAR-10
+│   │   │   ├── code/                  50 步采样
+│   │   │   └── results/               生成图与实验说明
+│   │   ├── 03-meanflow-mnist/          MF / iMF / CFG · MNIST
+│   │   │   ├── code/models/           DiT 模型
+│   │   │   ├── legacy_unet/           旧 U-Net 实现
+│   │   │   └── results/dit_stable/    训练日志、指标与结果图
+│   │   │       └── fid10000/          最终 FID-10000 评估
+│   │   ├── 04-cddim-wireless-channel/ cDDIM 与 One-shot U-Net 对照
+│   │   │   ├── code/src/              One-shot 模型、训练与评估
+│   │   │   └── results/               ID / OOD 热力图与 CDF
+│   │   ├── 05-widar3-csi-dfs-bvp/      CSI → DFS → BVP
+│   │   │   ├── code/
+│   │   │   │   ├── Data/              官方 CSI 输入数据说明
+│   │   │   │   ├── BVP/               BVP 算法
+│   │   │   │   ├── Doppler2VelocityMapping/  多普勒与速度映射
+│   │   │   │   ├── csi_tool_box/      CSI 读取与校正
+│   │   │   │   ├── tftb/              时频分析依赖
+│   │   │   │   ├── NOTES.md           学习笔记
+│   │   │   │   └── QUESTIONS.md       疑问整理
+│   │   │   └── results/userA-1-1-1-1/ 单样本结果、日志与核验指标
+│   │   └── 06-csi-bert2/              CSI 恢复、预测与分类
+│   │       ├── code/                  数据准备、训练与评估入口
+│   │       │   └── src/               作者代码与 WiCount 数据
+│   │       └── results/
+│   │           ├── REPORT.md          实验报告
+│   │           ├── figures/           预测、重建与消融图
+│   │           └── runs/              各组实验日志与指标
+│   └── ideas/                         待验证的研究想法
+└── engineering/                       工程实践
+    ├── README.md                      工程项目入口
+    └── 01-DigitRepair/                 条件扩散手写数字修复
+        ├── README.md                  运行方法与主要结果
+        ├── DETAILS.md                 模型、实验与功能说明
+        ├── src/
+        │   ├── web/                   网页界面
+        │   └── ml/                    模型、训练与评估
+        ├── tests/                     测试代码
+        ├── results/                   权重、指标与结果图
+        └── screenshots/               界面截图
+```
 
 ## 已完成内容速览
 
