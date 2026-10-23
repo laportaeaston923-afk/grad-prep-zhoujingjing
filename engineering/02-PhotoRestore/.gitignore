@@ -1,7 +1,0 @@
-__pycache__/
-*.pyc
-.venv/
-runtime/
-weights/*.pth
-weights/*.part
-appdata/
