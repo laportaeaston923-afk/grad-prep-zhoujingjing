@@ -46,6 +46,9 @@ Flow Matching（流匹配）理解成一种“教模型如何从起点走到终�
 不需要每生成一步就判断当前应该是哪一个词，而是先在连续向量空间里完成生成，再一次性转换成文字。
 
 图里的橙色点表示连续嵌入空间中的数据，紫色曲线表示从噪声走向真实数据的生成轨迹
+<img width="448" height="131" alt="image" src="https://github.com/user-attachments/assets/bcf4552b-6508-49a9-b766-d1f5a14be0f4" />
+
+<img width="319" height="141" alt="image" src="https://github.com/user-attachments/assets/451d2dc1-8bab-45e0-a16e-350221e5f147" />
 
 ### Training（训练阶段）
 
@@ -61,7 +64,6 @@ Flow Matching（流匹配）理解成一种“教模型如何从起点走到终�
 
 从随机高斯噪声 z_0开始，模型不断预测干净嵌入，并转换成速度来更新：
 
-<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image7.png" />
 
 在最后t=1时，网络切换到 Decode 模式，通过 unembedding 层输出离散 Token。
 
