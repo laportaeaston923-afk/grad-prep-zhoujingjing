@@ -27,56 +27,22 @@
 
 ```text
 grad-prep-zhoujingjing/
-├── README.md                          个人简介、任务进度与内容导航
+├── README.md                          个人简介与任务进度
 ├── research/                          科研记录
 │   ├── README.md                      科研资料入口
-│   ├── paper-notes/                   11 篇论文阅读笔记
-│   ├── papers/                        论文原文、PDF 与出处索引
+│   ├── paper-notes/                   论文阅读笔记
+│   ├── papers/                        论文原文与出处索引
 │   ├── reproduction/                  代码复现
-│   │   ├── README.md                  复现项目与进度
 │   │   ├── 01-ddpm-cifar10/            DDPM · CIFAR-10
-│   │   │   ├── code/                  模型、训练与采样
-│   │   │   └── results/               Loss、生成图与去噪过程
 │   │   ├── 02-ddim-cifar10/            DDIM · CIFAR-10
-│   │   │   ├── code/                  50 步采样
-│   │   │   └── results/               生成图与实验说明
-│   │   ├── 03-meanflow-mnist/          MF / iMF / CFG · MNIST
-│   │   │   ├── code/models/           DiT 模型
-│   │   │   ├── legacy_unet/           旧 U-Net 实现
-│   │   │   └── results/dit_stable/    训练日志、指标与结果图
-│   │   │       └── fid10000/          最终 FID-10000 评估
-│   │   ├── 04-cddim-wireless-channel/ cDDIM 与 One-shot U-Net 对照
-│   │   │   ├── code/src/              One-shot 模型、训练与评估
-│   │   │   └── results/               ID / OOD 热力图与 CDF
+│   │   ├── 03-meanflow-mnist/          MeanFlow / iMF · MNIST
+│   │   ├── 04-cddim-wireless-channel/ cDDIM 无线信道生成
 │   │   ├── 05-widar3-csi-dfs-bvp/      CSI → DFS → BVP
-│   │   │   ├── code/
-│   │   │   │   ├── Data/              官方 CSI 输入数据说明
-│   │   │   │   ├── BVP/               BVP 算法
-│   │   │   │   ├── Doppler2VelocityMapping/  多普勒与速度映射
-│   │   │   │   ├── csi_tool_box/      CSI 读取与校正
-│   │   │   │   ├── tftb/              时频分析依赖
-│   │   │   │   ├── NOTES.md           学习笔记
-│   │   │   │   └── QUESTIONS.md       疑问整理
-│   │   │   └── results/userA-1-1-1-1/ 单样本结果、日志与核验指标
 │   │   └── 06-csi-bert2/              CSI 恢复、预测与分类
-│   │       ├── code/                  数据准备、训练与评估入口
-│   │       │   └── src/               作者代码与 WiCount 数据
-│   │       └── results/
-│   │           ├── REPORT.md          实验报告
-│   │           ├── figures/           预测、重建与消融图
-│   │           └── runs/              各组实验日志与指标
-│   └── ideas/                         待验证的研究想法
+│   └── ideas/                         研究想法
 └── engineering/                       工程实践
     ├── README.md                      工程项目入口
     └── 01-DigitRepair/                 条件扩散手写数字修复
-        ├── README.md                  运行方法与主要结果
-        ├── DETAILS.md                 模型、实验与功能说明
-        ├── src/
-        │   ├── web/                   网页界面
-        │   └── ml/                    模型、训练与评估
-        ├── tests/                     测试代码
-        ├── results/                   权重、指标与结果图
-        └── screenshots/               界面截图
 ```
 
 ## 已完成内容速览
