@@ -33,6 +33,82 @@
 | [research/ideas/](research/ideas/) | 研究想法 |
 | [engineering/](engineering/) | 工程项目 |
 
+
+<details open>
+<summary>详细目录分布</summary>
+
+- [engineering/](engineering/)：工程项目
+  - [01-DigitRepair/](engineering/01-DigitRepair/)：手写数字修复
+    - [results/](engineering/01-DigitRepair/results/)：权重、指标与结果图
+    - [screenshots/](engineering/01-DigitRepair/screenshots/)：界面截图
+    - [src/](engineering/01-DigitRepair/src/)：前后端与模型代码
+      - [ml/](engineering/01-DigitRepair/src/ml/)：模型、训练与评估
+      - [web/](engineering/01-DigitRepair/src/web/)：网页界面
+    - [tests/](engineering/01-DigitRepair/tests/)：测试
+- [research/](research/)：科研资料
+  - [ideas/](research/ideas/)：研究想法
+  - [paper-notes/](research/paper-notes/)：11 篇论文笔记
+  - [papers/](research/papers/)：论文原文、PDF 与来源索引
+  - [reproduction/](research/reproduction/)：六个复现项目
+    - [01-ddpm-cifar10/](research/reproduction/01-ddpm-cifar10/)：DDPM · CIFAR-10
+      - [code/](research/reproduction/01-ddpm-cifar10/code/)：代码
+      - [results/](research/reproduction/01-ddpm-cifar10/results/)：结果图与实验记录
+    - [02-ddim-cifar10/](research/reproduction/02-ddim-cifar10/)：DDIM · CIFAR-10
+      - [code/](research/reproduction/02-ddim-cifar10/code/)：代码
+      - [results/](research/reproduction/02-ddim-cifar10/results/)：结果图与实验记录
+    - [03-meanflow-mnist/](research/reproduction/03-meanflow-mnist/)：MF / iMF / CFG · MNIST
+      - [code/](research/reproduction/03-meanflow-mnist/code/)：代码
+        - [models/](research/reproduction/03-meanflow-mnist/code/models/)：DiT 模型
+      - [legacy_unet/](research/reproduction/03-meanflow-mnist/legacy_unet/)：旧 U-Net 实现
+      - [results/](research/reproduction/03-meanflow-mnist/results/)：结果图与实验记录
+        - [dit_stable/](research/reproduction/03-meanflow-mnist/results/dit_stable/)：DiT 实验图表、日志与指标
+          - [fid10000/](research/reproduction/03-meanflow-mnist/results/dit_stable/fid10000/)：FID-10000 评估
+    - [04-cddim-wireless-channel/](research/reproduction/04-cddim-wireless-channel/)：cDDIM 无线信道对照
+      - [code/](research/reproduction/04-cddim-wireless-channel/code/)：代码
+        - [src/](research/reproduction/04-cddim-wireless-channel/code/src/)：One-shot U-Net 对照代码
+      - [results/](research/reproduction/04-cddim-wireless-channel/results/)：结果图与实验记录
+    - [05-widar3-csi-dfs-bvp/](research/reproduction/05-widar3-csi-dfs-bvp/)：CSI → DFS → BVP
+      - [code/](research/reproduction/05-widar3-csi-dfs-bvp/code/)：代码
+        - [BVP/](research/reproduction/05-widar3-csi-dfs-bvp/code/BVP/)：BVP 算法
+        - [Data/](research/reproduction/05-widar3-csi-dfs-bvp/code/Data/)：CSI 输入数据说明
+        - [Doppler2VelocityMapping/](research/reproduction/05-widar3-csi-dfs-bvp/code/Doppler2VelocityMapping/)：多普勒与速度映射
+        - [csi_tool_box/](research/reproduction/05-widar3-csi-dfs-bvp/code/csi_tool_box/)：CSI 读取与校正
+        - [tftb/](research/reproduction/05-widar3-csi-dfs-bvp/code/tftb/)：时频分析依赖
+          - [mfiles/](research/reproduction/05-widar3-csi-dfs-bvp/code/tftb/mfiles/)：MATLAB 函数
+      - [results/](research/reproduction/05-widar3-csi-dfs-bvp/results/)：结果图与实验记录
+        - [userA-1-1-1-1/](research/reproduction/05-widar3-csi-dfs-bvp/results/userA-1-1-1-1/)：单样本结果
+    - [06-csi-bert2/](research/reproduction/06-csi-bert2/)：CSI-BERT2
+      - [code/](research/reproduction/06-csi-bert2/code/)：代码
+        - [src/](research/reproduction/06-csi-bert2/code/src/)：作者代码
+          - [WiCount/](research/reproduction/06-csi-bert2/code/src/WiCount/)：WiCount 数据与说明
+            - [data_process_example/](research/reproduction/06-csi-bert2/code/src/WiCount/data_process_example/)：数据处理示例
+          - [img/](research/reproduction/06-csi-bert2/code/src/img/)：作者文档配图
+      - [results/](research/reproduction/06-csi-bert2/results/)：结果图与实验记录
+        - [figures/](research/reproduction/06-csi-bert2/results/figures/)：结果图
+          - [full_reconstruction/](research/reproduction/06-csi-bert2/results/figures/full_reconstruction/)：完整重建图
+          - [generated_examples/](research/reproduction/06-csi-bert2/results/figures/generated_examples/)：生成示例
+        - [runs/](research/reproduction/06-csi-bert2/results/runs/)：各组实验日志与指标
+          - [verified_run/](research/reproduction/06-csi-bert2/results/runs/verified_run/)
+          - [wicount_gru/](research/reproduction/06-csi-bert2/results/runs/wicount_gru/)
+          - [wicount_lstm/](research/reproduction/06-csi-bert2/results/runs/wicount_lstm/)
+          - [wicount_paper_v2/](research/reproduction/06-csi-bert2/results/runs/wicount_paper_v2/)
+          - [wicount_rnn/](research/reproduction/06-csi-bert2/results/runs/wicount_rnn/)
+          - [wifall_gru/](research/reproduction/06-csi-bert2/results/runs/wifall_gru/)
+          - [wifall_lstm/](research/reproduction/06-csi-bert2/results/runs/wifall_lstm/)
+          - [wifall_paper_v2/](research/reproduction/06-csi-bert2/results/runs/wifall_paper_v2/)
+          - [wifall_rnn/](research/reproduction/06-csi-bert2/results/runs/wifall_rnn/)
+          - [wig_paper_config/](research/reproduction/06-csi-bert2/results/runs/wig_paper_config/)
+          - [wigesture_gru/](research/reproduction/06-csi-bert2/results/runs/wigesture_gru/)
+          - [wigesture_lstm/](research/reproduction/06-csi-bert2/results/runs/wigesture_lstm/)
+          - [wigesture_no_arl/](research/reproduction/06-csi-bert2/results/runs/wigesture_no_arl/)
+          - [wigesture_no_gan/](research/reproduction/06-csi-bert2/results/runs/wigesture_no_gan/)
+          - [wigesture_no_time/](research/reproduction/06-csi-bert2/results/runs/wigesture_no_time/)
+          - [wigesture_paper_v2/](research/reproduction/06-csi-bert2/results/runs/wigesture_paper_v2/)
+          - [wigesture_rnn/](research/reproduction/06-csi-bert2/results/runs/wigesture_rnn/)
+          - [wigesture_scratch/](research/reproduction/06-csi-bert2/results/runs/wigesture_scratch/)
+
+</details>
+
 ## 已完成内容速览
 
 ### 论文笔记
