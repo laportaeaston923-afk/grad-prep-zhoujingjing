@@ -47,10 +47,6 @@ Flow Matching（流匹配）理解成一种“教模型如何从起点走到终�
 
 图里的橙色点表示连续嵌入空间中的数据，紫色曲线表示从噪声走向真实数据的生成轨迹
 
-### Fig3：
-
-<img width="600" alt="笔记配图" src="https://raw.githubusercontent.com/laportaeaston923-afk/grad-prep-zhoujingjing/49b47038efaecef76844ea666f59e390ff363ac1/research/paper-notes/assets/09-ELF/media/image6.png" />
-
 ### Training（训练阶段）
 
 把真实文字变成 Token，然后通过编码器转换成连续向量x，再添加噪声得到 z_t。
