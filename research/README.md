@@ -49,6 +49,10 @@
 | DDIM | CIFAR-10 | 复用 DDPM 网络权重的 50 步采样代码与生成结果图 | [DDIM 记录](reproduction/02-ddim-cifar10/) |
 | MF vs iMF | MNIST | 相同条件下对比 JVP 方向、训练 Loss 与一步 FID（待正式训练）；历史日志保留 | [对比复现](reproduction/03-meanflow-mnist/) |
 
+| cDDIM | QuaDRiGa | 无线信道生成与对照实验 | [cDDIM 记录](reproduction/04-cddim-wireless-channel/) |
+| Widar3.0 | 官方 CSI 示例 | CSI → DFS → BVP 及结果图 | [Widar3.0 记录](reproduction/05-widar3-csi-dfs-bvp/) |
+| CSI-BERT2 | WiGesture / WiFall / WiCount | 恢复、预测、分类、基线及消融；核心实验已跑通，未完整达到论文指标 | [06 · CSI-BERT2](reproduction/06-csi-bert2/) |
+
 DDPM 最终实验采用 `train_full_120_amp.py` 对应的完整 120 Epoch AMP 训练，Loss 以该次 `train_results_120_amp/` 记录为准。DDIM 复用噪声预测网络，不另行训练；当前 checkpoint 与统一速度对照的细节见项目说明。
 
 ### MF vs iMF：新的对照实验
@@ -63,4 +67,4 @@ DDPM 最终实验采用 `train_full_120_amp.py` 对应的完整 120 Epoch AMP �
 - MF vs iMF：按新对照配置分别训练两组网络，分析 Loss 稳定性、一步 FID 和生成效果。
 - 无线感知：结合论文的数据、任务与评估方式，选择具体的复现问题，并记录在 [Ideas](ideas/)。
 
-[查看三个实验的统一总结](reproduction/README.md) · [返回仓库首页](../README.md)
+[查看全部复现实验的统一总结](reproduction/README.md) · [返回仓库首页](../README.md)
