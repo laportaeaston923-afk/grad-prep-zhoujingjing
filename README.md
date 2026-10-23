@@ -11,7 +11,7 @@
 
 | 模块 | 已完成的内容 | 入口 |
 |---|---|---|
-| 论文阅读 | 已整理 8 篇笔记，覆盖生成模型基础、无线感知与无线通信应用 | [科研总览](research/README.md) |
+| 论文阅读 | 已整理 11 篇笔记，覆盖生成模型基础、无线感知与无线通信应用 | [科研总览](research/README.md) |
 | 论文资料 | 已建立论文索引，保存 4 份 PDF | [论文出处](research/papers/README.md) |
 | DDPM | CIFAR-10；120 Epoch AMP 训练代码、Loss 曲线图、生成样本和反向去噪过程图 | [DDPM 记录](research/reproduction/01-ddpm-cifar10/) |
 | DDIM | 复用 DDPM 网络权重的 50 步采样代码与生成结果图 | [DDIM 记录](research/reproduction/02-ddim-cifar10/) |
@@ -27,6 +27,7 @@
 | **Latent Diffusion Models（LDM）** | 为什么将扩散过程从像素空间转移到潜在空间？ | [阅读笔记](research/paper-notes/02-latent%20diffusion%20model.md) |
 | **MeanFlow** | 如何通过学习平均速度实现一步生成？ | [阅读笔记](research/paper-notes/05-meanflow.md) · [代码与实测](research/reproduction/03-meanflow-mnist/) |
 | **DDPM / DDIM** | 如何训练噪声预测网络，以及如何替换采样方式？ | [复现总览](research/reproduction/README.md) |
+| **ELF** | 如何在连续语言嵌入空间生成文本，并在最后解码？ | [阅读笔记](research/paper-notes/09-ELF.md) |
 
 ### B. 生成模型在无线感知与无线通信中的应用
 
@@ -38,6 +39,8 @@
 | **Echo-Conditioned DDPM** | RF 回波 → 下一时间块目标状态 | 条件生成未来目标状态，指导感知波束选择 | [06 · Echo-Conditioned DDPM](research/paper-notes/06-Echo-Conditioned%20Denoising%20Diffusion.md) |
 | **mmWaveFlow** | 稀疏毫米波点云 ↔ 稠密人体点云 | Flow Matching 统一点云增强与毫米波点云生成 | [07 · mmWaveFlow](research/paper-notes/07-mmWaveFlow.md) |
 | **cDDIM** | 用户位置 + 随机噪声 → MIMO 信道 | 条件 DDIM 学习位置相关信道分布，扩充通信训练数据 | [08 · cDDIM](research/paper-notes/08-cDDIM.md) |
+| **CSI-BERT2** | CSI 序列 → 恢复、预测与分类 | BERT 掩码学习无线信号规律 | [10 · CSI-BERT2](research/paper-notes/10-CSI-BERT2.md) |
+| **SRLoc** | 受攻击的 RSSI → 修复指纹 → 位置 | 受扩散模型启发的单步条件重建 | [11 · SRLoc](research/paper-notes/11-SRLoc.md) |
 
 **目前关注的问题：** 在不同无线任务里，生成模型究竟生成了什么？生成的数据或状态又怎样帮助最终任务？
 
@@ -62,7 +65,7 @@ DDPM 基础实现参考 [Bilibili 教学视频](https://www.bilibili.com/video/B
 | 路径 | 内容 |
 |---|---|
 | [research/](research/README.md) | 论文学习、代码复现与研究任务总览 |
-| [research/paper-notes/](research/paper-notes/) | 8 篇论文笔记与阅读索引 |
+| [research/paper-notes/](research/paper-notes/) | 11 篇论文笔记与阅读索引 |
 | [research/papers/](research/papers/README.md) | 论文索引、官方出处与 4 份 PDF |
 | [research/reproduction/](research/reproduction/README.md) | DDPM、DDIM、MeanFlow/iMF 等独立实验的统一总结 |
 | [01-ddpm-cifar10/](research/reproduction/01-ddpm-cifar10/) | DDPM 训练代码与结果展示 |

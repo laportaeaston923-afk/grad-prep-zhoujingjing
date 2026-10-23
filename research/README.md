@@ -6,7 +6,7 @@
 
 ## 01 · 论文阅读
 
-目前已整理 8 篇论文阅读笔记。原文与官方出处见 [论文索引](papers/README.md)。
+目前已整理 11 篇论文阅读笔记。原文与官方出处见 [论文索引](papers/README.md)。
 
 | 编号 | 论文 / 方法 | 主要内容 | 阅读笔记 |
 |---|---|---|---|
@@ -18,6 +18,9 @@
 | 06 | Echo-Conditioned DDPM | RF 多目标跟踪与波束选择 | [查看笔记](paper-notes/06-Echo-Conditioned%20Denoising%20Diffusion.md) |
 | 07 | mmWaveFlow | Flow Matching 统一稀疏 / 稠密人体点云的双向转换 | [查看笔记](paper-notes/07-mmWaveFlow.md) |
 | 08 | cDDIM | 位置条件 MIMO 信道生成与数据增强 | [查看笔记](paper-notes/08-cDDIM.md) |
+| 09 | ELF | 连续语言向量生成与最终 Token 解码 | [查看笔记](paper-notes/09-ELF.md) |
+| 10 | CSI-BERT2 | CSI 恢复、未来预测与感知分类 | [查看笔记](paper-notes/10-CSI-BERT2.md) |
+| 11 | SRLoc | 对抗 RSSI 修复与鲁棒 WiFi 指纹定位 | [查看笔记](paper-notes/11-SRLoc.md) |
 
 ## 02 · 研究任务对比
 
@@ -32,6 +35,9 @@
 | cDDIM | 用户位置条件下的 MIMO 信道 | 数据增强，辅助下游通信任务 |
 | mmWaveFlow | 稀疏 / 稠密人体点云 | 点云增强与毫米波点云生成 |
 | MeanFlow | 数据样本 | 研究一步生成与采样效率 |
+| ELF | 连续语言嵌入与文本 | 连续空间语言生成与最终解码 |
+| CSI-BERT2 | CSI 数值与感知类别 | 掩码恢复、未来预测与分类 |
+| SRLoc | 修复后的 RSSI 指纹 | 定位前防御，提升对抗鲁棒性 |
 
 阅读时重点记录：输入是什么、生成什么、如何训练、怎样评估，以及生成结果如何帮助最终任务。
 
