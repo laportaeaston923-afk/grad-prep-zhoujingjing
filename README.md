@@ -14,7 +14,7 @@
 | 项目 | 状态 | 进度 |
 |---|---|---|
 | 论文阅读 | 持续更新 | 已整理 11 篇笔记 |
-| 代码复现 | 持续更新 | 已整理 6 个项目，完成范围见下表 |
+| 代码复现 | 持续更新 | 已整理 5 个项目，完成范围见下表 |
 | 研究想法 | 待验证 | [查看研究问题](research/ideas/) |
 
 ### 工程实践
@@ -37,7 +37,6 @@ grad-prep-zhoujingjing/
 │   │   ├── 02-ddim-cifar10/            DDIM · CIFAR-10
 │   │   ├── 03-meanflow-mnist/          MeanFlow / iMF · MNIST
 │   │   ├── 04-cddim-wireless-channel/ cDDIM 无线信道生成
-│   │   ├── 05-widar3-csi-dfs-bvp/      CSI → DFS → BVP
 │   │   └── 06-csi-bert2/              CSI 恢复、预测与分类
 │   └── ideas/                         研究想法
 └── engineering/                       工程实践
@@ -73,7 +72,6 @@ grad-prep-zhoujingjing/
 | [DDIM · CIFAR-10](research/reproduction/02-ddim-cifar10/) | 复用 DDPM 权重，50 步采样 |
 | [MeanFlow / iMF · MNIST](research/reproduction/03-meanflow-mnist/) | MF、iMF、CFG 各 20,000 步；Loss、FID 与生成图 |
 | [cDDIM · 无线信道](research/reproduction/04-cddim-wireless-channel/) | ID / OOD 与 One-shot U-Net 对照 |
-| [Widar3.0](research/reproduction/05-widar3-csi-dfs-bvp/) | 单样本 CSI → DFS → BVP |
 | [CSI-BERT2](research/reproduction/06-csi-bert2/) | 三个数据集的核心实验、基线与消融；未完整达到论文指标 |
 
 ## 提交记录

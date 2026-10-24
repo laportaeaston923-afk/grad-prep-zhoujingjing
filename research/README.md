@@ -43,7 +43,6 @@ DDPM（NeurIPS 2020）的噪声预测与 DDIM（ICLR 2021）的加速采样结�
 | [DDPM / DDIM · CIFAR-10](reproduction/) | DDPM 120 Epoch AMP 训练；DDIM 复用权重进行 50 步采样 |
 | [MeanFlow / iMF · MNIST](reproduction/03-meanflow-mnist/) | MF、iMF、CFG 各 20,000 步，已记录 Loss、FID 和生成图 |
 | [cDDIM · 无线信道](reproduction/04-cddim-wireless-channel/) | 与 One-shot U-Net 比较 ID / OOD 主波束匹配 |
-| [Widar3.0 · 信号处理](reproduction/05-widar3-csi-dfs-bvp/) | 跑通单样本 CSI → DFS → BVP，保存结果与学习笔记 |
 | [CSI-BERT2](reproduction/06-csi-bert2/) | 三个实测数据集的恢复、预测、分类、基线与消融；未完整达到论文指标 |
 
 具体配置、运行命令与结果见各项目。

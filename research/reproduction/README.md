@@ -6,7 +6,6 @@
 | [02 · DDIM](02-ddim-cifar10/) | CIFAR-10 | 复用 DDPM 权重，50 步采样 |
 | [03 · MeanFlow / iMF](03-meanflow-mnist/) | MNIST | MF、iMF、CFG 各 20,000 步；Loss、FID 与生成结果 |
 | [04 · cDDIM](04-cddim-wireless-channel/) | QuaDRiGa | 与 One-shot U-Net 的 ID / OOD 对照 |
-| [05 · Widar3.0](05-widar3-csi-dfs-bvp/) | 官方 CSI 示例 | 单样本 CSI → DFS → BVP |
 | [06 · CSI-BERT2](06-csi-bert2/) | WiGesture / WiFall / WiCount | 恢复、预测、分类、基线与消融；未完整达到论文指标 |
 
 各项目的 `code/` 保存代码，`results/` 保存结果；数据和权重按项目说明准备。
