@@ -1,14 +1,16 @@
-# 研究想法 · 扩散模型 × 无线感知
+# 研究想法 · 扩散模型与无线感知
 
-以下为待验证的研究想法。
+围绕已读论文，考虑扩散模型如何参与无线感知中的数据增强、信号补全、人体重建和室内定位。以下四个方向均为待验证设想，尚无实验结论。
 
-| 编号 | 研究想法 | 关联阅读 |
-|---|---|---|
-| 01 | [面向任务的信息保持型 CSI 数据增强](01-task-aware-csi-augmentation.md) | CLAR |
-| 02 | [快速生成位置条件信道](02-fast-position-conditioned-channel.md) | cDDIM + MeanFlow |
-| 03 | [根据生成不确定性主动采样 Radio Map](03-active-radio-map-sampling.md) | WiFi-Diffusion |
-| 04 | [CSI-to-Image 对真实观测的依赖](04-csi-image-faithfulness.md) | LatentCSI + LDM |
-| 05 | [面向波束选择的低成本概率状态预测](05-efficient-beam-state-prediction.md) | Echo-Conditioned DDPM + MeanFlow |
-| 06 | [利用时间约束改善毫米波点云增强](06-temporal-point-cloud-enhancement.md) | mmWaveFlow |
+| 编号 | 研究想法 | 扩散模型的作用 | 关联阅读 |
+|---|---|---|---|
+| 01 | [保留动作信息的 CSI 数据增强](01-diffusion-csi-augmentation.md) | 生成训练样本，改善少样本活动识别 | CLAR |
+| 02 | [缺失 CSI 补全与稳定感知](02-diffusion-csi-recovery.md) | 根据可见信号与掩码恢复缺失部分 | CSI-BERT2、SRLoc |
+| 03 | [CSI 条件人体重建](03-diffusion-csi-human-reconstruction.md) | 在潜在空间生成受位置与动作约束的人体图像 | LatentCSI、LDM |
+| 04 | [稀疏无线电地图补全与定位](04-diffusion-radio-map-localization.md) | 生成未测位置的 RSSI 指纹，减少定位采集成本 | WiFi-Diffusion、SRLoc |
+
+四个方向分别把扩散接在感知训练前、信号输入前、跨模态重建过程中，以及定位指纹库构建过程中。共同评价标准是最终感知效果，而不仅是生成数据是否平滑、图像是否自然。
+
+CSI-BERT2 是掩码学习方法，SRLoc 是受扩散启发的单步重建方法；这里借鉴它们的任务与设计思路，提出条件扩散扩展，不将原方法归为完整扩散模型。各设想的创新性仍需进一步文献检索与实验确认。
 
 [论文笔记](../paper-notes/README.md) · [科研总览](../README.md) · [仓库首页](../../README.md)

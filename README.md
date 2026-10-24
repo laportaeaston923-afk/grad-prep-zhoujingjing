@@ -15,7 +15,7 @@
 |---|---|---|
 | 论文阅读 | 持续更新 | 已整理 11 篇笔记 |
 | 代码复现 | 持续更新 | 已整理 5 个项目，完成范围见下表 |
-| 研究想法 | 待验证 | [查看研究问题](research/ideas/) |
+| 研究想法 | 待验证 | [4 个扩散模型与无线感知方向](research/ideas/readme.md) |
 
 ### 工程实践
 
@@ -38,7 +38,7 @@ grad-prep-zhoujingjing/
 │   │   ├── 03-meanflow-mnist/          MeanFlow / iMF · MNIST
 │   │   ├── 04-cddim-wireless-channel/ cDDIM 无线信道生成
 │   │   └── 05-csi-bert2/              CSI 恢复、预测与分类
-│   └── ideas/                         研究想法
+│   └── ideas/                         4 个扩散模型与无线感知想法
 └── engineering/                       工程实践
     ├── README.md                      工程项目入口
     └── 01-DigitRepair/                 条件扩散手写数字修复

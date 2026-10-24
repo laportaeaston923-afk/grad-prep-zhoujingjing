@@ -47,14 +47,17 @@ DDPM（NeurIPS 2020）的噪声预测与 DDIM（ICLR 2021）的加速采样结�
 
 具体配置、运行命令与结果见各项目。
 
-## 待验证的问题
+## 研究想法：扩散模型与无线感知
 
-| 问题 | 对应想法 |
-|---|---|
-| 增强的数据能否保留感知任务需要的信息？ | [CSI 数据增强](ideas/01-task-aware-csi-augmentation.md) |
-| 能否减少位置条件信道生成的采样开销？ | [快速信道生成](ideas/02-fast-position-conditioned-channel.md) |
-| 能否用生成不确定性减少无线电地图的采样量？ | [主动采样](ideas/03-active-radio-map-sampling.md) |
+根据已读论文整理四个待验证方向：
 
-其余想法涉及 [CSI 图像生成](ideas/04-csi-image-faithfulness.md)、[波束状态预测](ideas/05-efficient-beam-state-prediction.md) 和 [时序点云增强](ideas/06-temporal-point-cloud-enhancement.md)，均待实验验证。
+| 编号 | 扩散怎么与无线感知结合？ | 对应想法 | 关联阅读 |
+|---|---|---|---|
+| 01 | 生成保留动作信息的 CSI，补充少标注训练数据 | [CSI 数据增强](ideas/01-diffusion-csi-augmentation.md) | CLAR |
+| 02 | 补全丢包后的 CSI，再进行动作识别或人数估计 | [CSI 补全与感知](ideas/02-diffusion-csi-recovery.md) | CSI-BERT2、SRLoc |
+| 03 | 以 CSI 为条件生成位置和动作一致的人体图像 | [CSI 条件人体重建](ideas/03-diffusion-csi-human-reconstruction.md) | LatentCSI、LDM |
+| 04 | 补全未测位置的 RSSI 指纹，减少室内定位采集成本 | [无线电地图与定位](ideas/04-diffusion-radio-map-localization.md) | WiFi-Diffusion、SRLoc |
+
+各方向的输入、扩散输出、改进设想与验证方法见 [研究想法目录](ideas/readme.md)，尚无实验结论。
 
 [返回首页](../README.md)
