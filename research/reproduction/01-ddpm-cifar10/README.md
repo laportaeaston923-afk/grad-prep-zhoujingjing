@@ -2,7 +2,7 @@
 
 120 Epoch AMP 训练，记录 Loss、生成样本和反向去噪过程。
 
-[论文笔记](../../paper-notes/12-DDPM.md) · [代码](code/) · [结果](results/) · [实验配置](results/EXPERIMENT_GUIDE.md)
+[论文笔记](../../paper-notes/01-DDPM.md) · [代码](code/) · [结果](results/) · [实验配置](results/EXPERIMENT_GUIDE.md)
 
 ## 运行
 

@@ -2,7 +2,7 @@
 
 ## 从已读论文想到什么？
 
-[WiFi-Diffusion](../paper-notes/04-wifi%20diffusion.md) 根据少量测量和传播先验生成完整无线电地图；[SRLoc](../paper-notes/11-SRLoc.md) 说明 RSSI 指纹质量会影响定位效果。
+[WiFi-Diffusion](../paper-notes/05-wifi%20diffusion.md) 根据少量测量和传播先验生成完整无线电地图；[SRLoc](../paper-notes/12-SRLoc.md) 说明 RSSI 指纹质量会影响定位效果。
 
 由此想到：能否利用扩散生成未测位置的 RSSI 指纹，减少密集采集工作，同时保持室内定位精度？这里关注的是地图构建与定位，不涉及通信信道生成。
 

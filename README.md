@@ -42,18 +42,18 @@ grad-prep-zhoujingjing/
 
 | 论文 | 内容 |
 |---|---|
-| [DDPM](research/paper-notes/12-DDPM.md) | 前向加噪、噪声预测与反向生成 |
-| [CLAR](research/paper-notes/01-CLAR.md) | CSI 数据增强与活动识别 |
-| [Latent Diffusion Models](research/paper-notes/02-latent%20diffusion%20model.md) | 潜在空间扩散 |
-| [LatentCSI](research/paper-notes/03-LatentCSI.md) | CSI 到图像生成 |
-| [WiFi-Diffusion](research/paper-notes/04-wifi%20diffusion.md) | 无线电地图估计 |
-| [MeanFlow](research/paper-notes/05-meanflow.md) | 平均速度与一步生成 |
-| [Echo-Conditioned DDPM](research/paper-notes/06-Echo-Conditioned%20Denoising%20Diffusion.md) | RF 多目标跟踪 |
-| [mmWaveFlow](research/paper-notes/07-mmWaveFlow.md) | 毫米波点云增强与生成 |
-| [cDDIM](research/paper-notes/08-cDDIM.md) | 位置条件无线信道生成 |
-| [ELF](research/paper-notes/09-ELF.md) | 连续语言嵌入生成 |
-| [CSI-BERT2](research/paper-notes/10-CSI-BERT2.md) | CSI 恢复、预测与分类 |
-| [SRLoc](research/paper-notes/11-SRLoc.md) | 对抗 RSSI 修复与定位防御 |
+| [DDPM](research/paper-notes/01-DDPM.md) | 前向加噪、噪声预测与反向生成 |
+| [CLAR](research/paper-notes/02-CLAR.md) | CSI 数据增强与活动识别 |
+| [Latent Diffusion Models](research/paper-notes/03-latent%20diffusion%20model.md) | 潜在空间扩散 |
+| [LatentCSI](research/paper-notes/04-LatentCSI.md) | CSI 到图像生成 |
+| [WiFi-Diffusion](research/paper-notes/05-wifi%20diffusion.md) | 无线电地图估计 |
+| [MeanFlow](research/paper-notes/06-meanflow.md) | 平均速度与一步生成 |
+| [Echo-Conditioned DDPM](research/paper-notes/07-Echo-Conditioned%20Denoising%20Diffusion.md) | RF 多目标跟踪 |
+| [mmWaveFlow](research/paper-notes/08-mmWaveFlow.md) | 毫米波点云增强与生成 |
+| [cDDIM](research/paper-notes/09-cDDIM.md) | 位置条件无线信道生成 |
+| [ELF](research/paper-notes/10-ELF.md) | 连续语言嵌入生成 |
+| [CSI-BERT2](research/paper-notes/11-CSI-BERT2.md) | CSI 恢复、预测与分类 |
+| [SRLoc](research/paper-notes/12-SRLoc.md) | 对抗 RSSI 修复与定位防御 |
 
 [论文出处与原文](research/papers/)
 

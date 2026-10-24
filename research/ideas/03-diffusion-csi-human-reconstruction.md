@@ -2,7 +2,7 @@
 
 ## 从已读论文想到什么？
 
-[LatentCSI](../paper-notes/03-LatentCSI.md) 将 CSI 映射到预训练潜在扩散模型的空间，再生成图像；[LDM](../paper-notes/02-latent%20diffusion%20model.md) 提供潜在空间生成的基础。
+[LatentCSI](../paper-notes/04-LatentCSI.md) 将 CSI 映射到预训练潜在扩散模型的空间，再生成图像；[LDM](../paper-notes/03-latent%20diffusion%20model.md) 提供潜在空间生成的基础。
 
 我想进一步研究：能否让生成结果更忠于 CSI 中的人体位置和动作信息，而不只是得到外观自然的人体图像？
 
