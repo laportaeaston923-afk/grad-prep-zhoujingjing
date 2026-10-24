@@ -37,7 +37,7 @@ grad-prep-zhoujingjing/
 │   │   ├── 02-ddim-cifar10/            DDIM · CIFAR-10
 │   │   ├── 03-meanflow-mnist/          MeanFlow / iMF · MNIST
 │   │   ├── 04-cddim-wireless-channel/ cDDIM 无线信道生成
-│   │   └── 06-csi-bert2/              CSI 恢复、预测与分类
+│   │   └── 05-csi-bert2/              CSI 恢复、预测与分类
 │   └── ideas/                         研究想法
 └── engineering/                       工程实践
     ├── README.md                      工程项目入口
@@ -72,7 +72,7 @@ grad-prep-zhoujingjing/
 | [DDIM · CIFAR-10](research/reproduction/02-ddim-cifar10/) | 复用 DDPM 权重，50 步采样 |
 | [MeanFlow / iMF · MNIST](research/reproduction/03-meanflow-mnist/) | MF、iMF、CFG 各 20,000 步；Loss、FID 与生成图 |
 | [cDDIM · 无线信道](research/reproduction/04-cddim-wireless-channel/) | ID / OOD 与 One-shot U-Net 对照 |
-| [CSI-BERT2](research/reproduction/06-csi-bert2/) | 三个数据集的核心实验、基线与消融；未完整达到论文指标 |
+| [CSI-BERT2](research/reproduction/05-csi-bert2/) | 三个数据集的核心实验、基线与消融；未完整达到论文指标 |
 
 ## 提交记录
 

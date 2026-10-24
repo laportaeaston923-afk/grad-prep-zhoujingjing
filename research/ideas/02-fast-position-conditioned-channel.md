@@ -1,4 +1,4 @@
-# Idea 03：快速生成位置条件信道——从 cDDIM 到条件 MeanFlow
+# Idea 02：快速生成位置条件信道——从 cDDIM 到条件 MeanFlow
 
 ### 从哪几篇论文想到的？
 

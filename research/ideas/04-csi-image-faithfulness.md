@@ -1,4 +1,4 @@
-# Idea 05：CSI-to-Image 生成结果到底有多少来自真实 CSI？
+# Idea 04：CSI-to-Image 生成结果到底有多少来自真实 CSI？
 
 ### 从哪几篇论文想到的？
 

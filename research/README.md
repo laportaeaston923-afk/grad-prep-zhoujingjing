@@ -43,7 +43,7 @@ DDPM（NeurIPS 2020）的噪声预测与 DDIM（ICLR 2021）的加速采样结�
 | [DDPM / DDIM · CIFAR-10](reproduction/) | DDPM 120 Epoch AMP 训练；DDIM 复用权重进行 50 步采样 |
 | [MeanFlow / iMF · MNIST](reproduction/03-meanflow-mnist/) | MF、iMF、CFG 各 20,000 步，已记录 Loss、FID 和生成图 |
 | [cDDIM · 无线信道](reproduction/04-cddim-wireless-channel/) | 与 One-shot U-Net 比较 ID / OOD 主波束匹配 |
-| [CSI-BERT2](reproduction/06-csi-bert2/) | 三个实测数据集的恢复、预测、分类、基线与消融；未完整达到论文指标 |
+| [CSI-BERT2](reproduction/05-csi-bert2/) | 三个实测数据集的恢复、预测、分类、基线与消融；未完整达到论文指标 |
 
 具体配置、运行命令与结果见各项目。
 
@@ -51,10 +51,10 @@ DDPM（NeurIPS 2020）的噪声预测与 DDIM（ICLR 2021）的加速采样结�
 
 | 问题 | 对应想法 |
 |---|---|
-| 增强的数据能否保留感知任务需要的信息？ | [CSI 数据增强](ideas/02-task-aware-csi-augmentation.md) |
-| 能否减少位置条件信道生成的采样开销？ | [快速信道生成](ideas/03-fast-position-conditioned-channel.md) |
-| 能否用生成不确定性减少无线电地图的采样量？ | [主动采样](ideas/04-active-radio-map-sampling.md) |
+| 增强的数据能否保留感知任务需要的信息？ | [CSI 数据增强](ideas/01-task-aware-csi-augmentation.md) |
+| 能否减少位置条件信道生成的采样开销？ | [快速信道生成](ideas/02-fast-position-conditioned-channel.md) |
+| 能否用生成不确定性减少无线电地图的采样量？ | [主动采样](ideas/03-active-radio-map-sampling.md) |
 
-其余想法涉及 [CSI 图像生成](ideas/05-csi-image-faithfulness.md)、[波束状态预测](ideas/06-efficient-beam-state-prediction.md) 和 [时序点云增强](ideas/07-temporal-point-cloud-enhancement.md)，均待实验验证。
+其余想法涉及 [CSI 图像生成](ideas/04-csi-image-faithfulness.md)、[波束状态预测](ideas/05-efficient-beam-state-prediction.md) 和 [时序点云增强](ideas/06-temporal-point-cloud-enhancement.md)，均待实验验证。
 
 [返回首页](../README.md)
