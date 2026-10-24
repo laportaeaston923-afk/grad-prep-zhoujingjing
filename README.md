@@ -27,71 +27,13 @@
 
 ```text
 grad-prep-zhoujingjing/
-├── README.md                         个人简介 + 科研与工程两项任务的进度总览
-│
-├── research/                         科研任务
-│   ├── README.md                     论文列表 + 复现进度 + 研究想法总览
-│   ├── paper-notes/                  每篇论文的阅读笔记
-│   │   ├── README.md                 论文笔记目录
-│   │   ├── 01-CLAR.md
-│   │   ├── 02-latent diffusion model.md
-│   │   ├── 03-LatentCSI.md
-│   │   ├── 04-wifi diffusion.md
-│   │   ├── 05-meanflow.md
-│   │   ├── 06-Echo-Conditioned Denoising Diffusion.md
-│   │   ├── 07-mmWaveFlow.md
-│   │   ├── 08-cDDIM.md
-│   │   ├── 09-ELF.md
-│   │   ├── 10-CSI-BERT2.md
-│   │   └── 11-SRLoc.md
-│   ├── papers/                       论文 PDF 与原文链接
-│   │   ├── README.md                 论文出处与原文索引
-│   │   └── *.pdf                     已收录的论文原文
-│   ├── reproduction/                 论文复现，每个项目一个子目录
-│   │   ├── README.md                 复现项目与进度总览
-│   │   ├── 01-ddpm-cifar10/
-│   │   │   ├── README.md             环境配置 + 运行说明
-│   │   │   ├── code/                 DDPM 训练与采样代码
-│   │   │   └── results/              权重、Loss 曲线、生成图与去噪过程
-│   │   ├── 02-ddim-cifar10/
-│   │   │   ├── README.md             环境配置 + 运行说明
-│   │   │   ├── code/                 DDIM 采样代码
-│   │   │   └── results/              采样结果与实验说明
-│   │   ├── 03-meanflow-mnist/
-│   │   │   ├── README.md             环境配置 + 运行说明
-│   │   │   ├── requirements.txt      依赖配置
-│   │   │   ├── code/                 MeanFlow / iMF 训练与评估代码
-│   │   │   ├── legacy_unet/          旧版 U-Net 实现
-│   │   │   └── results/              Loss、FID、生成图与实验记录
-│   │   ├── 04-cddim-wireless-channel/
-│   │   │   ├── README.md             环境配置 + 运行说明
-│   │   │   ├── code/                 信道生成对照实验代码
-│   │   │   └── results/              信道热力图、CDF 与训练曲线
-│   │   └── 05-csi-bert2/
-│   │       ├── README.md             环境配置 + 运行说明
-│   │       ├── code/                 CSI 恢复、预测、分类与评估代码
-│   │       └── results/              实验报告、指标与结果图
-│   └── ideas/                        自己的研究想法与创新
-│       ├── readme.md                 四个研究想法总览
-│       ├── 01-diffusion-csi-augmentation.md
-│       ├── 02-diffusion-csi-recovery.md
-│       ├── 03-diffusion-csi-human-reconstruction.md
-│       └── 04-diffusion-radio-map-localization.md
-│
-└── engineering/                      工程实践
-    ├── README.md                     工程项目介绍与入口
-    └── 01-DigitRepair/                条件扩散手写数字修复项目
-        ├── README.md                 项目介绍 + 功能说明 + 运行入口
-        ├── DETAILS.md                配置、功能、实验结果与运行截图
-        ├── requirements.txt          依赖配置
-        ├── src/                      项目源代码
-        │   ├── server.py             本地模型服务
-        │   ├── engine.py             推理引擎
-        │   ├── ml/                   模型、训练与评估
-        │   └── web/                  网页界面
-        ├── results/                  模型权重与实验结果
-        ├── screenshots/              运行截图
-        └── tests/                    功能与接口检查
+├── research/              科研任务
+│   ├── paper-notes/       论文阅读笔记
+│   ├── papers/            论文原文与链接
+│   ├── reproduction/      论文复现与实验结果
+│   └── ideas/             研究想法
+└── engineering/           工程实践
+    └── 01-DigitRepair/    条件扩散手写数字修复
 ```
 
 ## 已完成内容速览
