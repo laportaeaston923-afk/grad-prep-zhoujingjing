@@ -13,7 +13,7 @@
 
 | 项目 | 状态 | 进度 |
 |---|---|---|
-| 论文阅读 | 持续更新 | 已整理 11 篇笔记 |
+| 论文阅读 | 持续更新 | 已整理 12 篇笔记 |
 | 代码复现 | 持续更新 | 已整理 5 个项目，完成范围见下表 |
 | 研究想法 | 待验证 | [4 个扩散模型与无线感知方向](research/ideas/readme.md) |
 
@@ -42,6 +42,7 @@ grad-prep-zhoujingjing/
 
 | 论文 | 内容 |
 |---|---|
+| [DDPM](research/paper-notes/12-DDPM.md) | 前向加噪、噪声预测与反向生成 |
 | [CLAR](research/paper-notes/01-CLAR.md) | CSI 数据增强与活动识别 |
 | [Latent Diffusion Models](research/paper-notes/02-latent%20diffusion%20model.md) | 潜在空间扩散 |
 | [LatentCSI](research/paper-notes/03-LatentCSI.md) | CSI 到图像生成 |

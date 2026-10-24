@@ -12,11 +12,12 @@
 
 | 论文 / 方法 | 发表出处 | 解决什么问题 |
 |---|---|---|
+| [DDPM](paper-notes/12-DDPM.md) | NeurIPS 2020 | 学习噪声预测，通过逐步反向采样生成数据。 |
 | [LDM](paper-notes/02-latent%20diffusion%20model.md) | CVPR 2022 | 像素空间扩散计算量大，将生成过程移到潜在空间，降低高分辨率图像生成的开销。 |
 | [MeanFlow](paper-notes/05-meanflow.md) | NeurIPS 2025（Oral） | 多步采样推理成本高，通过学习平均速度实现一步生成。 |
 | [ELF](paper-notes/09-ELF.md) | arXiv 技术报告，2026 | 连续语言生成需要衔接向量与离散 Token，在连续嵌入空间生成，最后使用共享网络解码成文字。 |
 
-DDPM（NeurIPS 2020）的噪声预测与 DDIM（ICLR 2021）的加速采样结合 [CIFAR-10 复现](reproduction/) 学习。
+[DDPM 阅读笔记](paper-notes/12-DDPM.md)中的噪声预测与 DDIM（ICLR 2021）的加速采样结合 [CIFAR-10 复现](reproduction/) 学习。
 
 ### 2. 扩散模型与无线感知的交叉论文
 

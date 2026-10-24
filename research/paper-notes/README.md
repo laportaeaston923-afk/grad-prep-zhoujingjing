@@ -1,6 +1,8 @@
 # Paper Notes · 论文阅读笔记
 
 
+已整理 12 篇阅读笔记，编号按入库顺序保留。
+
 ## 论文列表
 
 | 编号 | 论文 / 方法 | 正式出处 | 主要问题 | 论文原文 | 阅读笔记 |
@@ -16,6 +18,6 @@
 | 09 | **ELF** · Embedded Language Flows | arXiv 技术报告，2026 | 连续语言向量生成与最终 Token 解码 | [arXiv](https://arxiv.org/abs/2605.10938) | [09-ELF](09-ELF.md) |
 | 10 | **CSI-BERT2** · A BERT-inspired Framework for Efficient CSI Prediction and Classification in Wireless Communication and Sensing | IEEE Transactions on Mobile Computing（2025 online） | CSI 恢复、未来预测与感知分类 | [IEEE / DOI](https://doi.org/10.1109/TMC.2025.3640420) · [arXiv](https://arxiv.org/abs/2412.06861) | [10-CSI-BERT2](10-CSI-BERT2.md) |
 | 11 | **SRLoc** · WiFi Fingerprint Localization Method Against Adversarial Attacks Based on Diffusion-Inspired Model | IEEE Transactions on Mobile Computing，Early Access，2026 | 对抗 RSSI 修复与鲁棒 WiFi 指纹定位 | [IEEE Xplore](https://ieeexplore.ieee.org/document/11676842/) · [DOI](https://doi.org/10.1109/TMC.2026.3730625) | [11-SRLoc](11-SRLoc.md) |
-
+| 12 | **DDPM** · Denoising Diffusion Probabilistic Models | NeurIPS 2020 | 前向加噪、噪声预测与反向生成 | [arXiv](https://arxiv.org/abs/2006.11239) · [作者项目页](https://hojonathanho.github.io/diffusion/) | [12-DDPM](12-DDPM.md) |
 
 [科研记录](../README.md) · [首页](../../README.md)

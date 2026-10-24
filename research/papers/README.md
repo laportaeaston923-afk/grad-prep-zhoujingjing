@@ -6,7 +6,7 @@
 
 | 论文 | 年份 / 出处 | 主要内容 | 论文原文 | 学习记录 |
 |---|---|---|---|---|
-| **DDPM** · Denoising Diffusion Probabilistic Models | NeurIPS 2020 | 前向加噪与反向去噪 | [arXiv](https://arxiv.org/abs/2006.11239) | [CIFAR-10 复现](../reproduction/01-ddpm-cifar10/) |
+| **DDPM** · Denoising Diffusion Probabilistic Models | NeurIPS 2020 | 前向加噪与反向去噪 | [arXiv](https://arxiv.org/abs/2006.11239) | [阅读笔记](../paper-notes/12-DDPM.md) · [CIFAR-10 复现](../reproduction/01-ddpm-cifar10/) |
 | **DDIM** · Denoising Diffusion Implicit Models | ICLR 2021 | 更少步骤的扩散采样 | [arXiv](https://arxiv.org/abs/2010.02502) | [DDIM 复现记录](../reproduction/01-ddpm-cifar10/) |
 | **LDM** · High-Resolution Image Synthesis with Latent Diffusion Models | CVPR 2022 | 潜在空间扩散与高分辨率图像生成 | [CVPR 官方](https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html) | [阅读笔记](../paper-notes/02-latent%20diffusion%20model.md) |
 | **MeanFlow** · Mean Flows for One-step Generative Modeling | 2025 | 单步生成与采样效率 | [仓库 PDF](mean%20flow.pdf) | [阅读笔记](../paper-notes/05-meanflow.md) |
